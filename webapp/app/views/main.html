@@ -1,0 +1,95 @@
+<div class="large-5 columns">
+    <div class="panel">
+        <h3>Filter</h3>
+        <form>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Stadtteil
+                        <div class="row collapse">
+                            <div class="small-10 columns">
+                                <select chosen multiple name="test" id="districts" class="multisel" data-placeholder="Stadtteile auswählen" ng-model="test" ng-options="value for value in districts" > 
+                                    
+                                </select>
+                            </div>
+                            <div class="small-2 columns">
+                                <a class="button postfix radius selectAll" data-multiId="districts">Alle</a>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Schulart
+                        <div class="row collapse">
+                            <div class="small-10 columns">
+                                <select chosen multiple ng-model="selectedSchoolTypes" ng-options="value for value in schoolTypes" name="test" class="multisel" id="types" data-placeholder="Schulart auswählen"> 
+                                </select>
+                            </div>
+                            <div class="small-2 columns">
+                                <a class="button postfix radius selectAll" data-multiId="types">Alle</a>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Unterrichtssprache
+                        <div class="row collapse">
+                            <div class="small-10 columns">
+                                <select chosen multiple ng-model="selectedLangs" ng-options="value for value in languages" name="test" id="languages" class="multisel" data-placeholder="Unterrichtssprache auswählen"> 
+                                </select>
+                            </div>
+                            <div class="small-2 columns">
+                                <a class="button postfix radius selectAll" data-multiId="languages">Alle</a>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Klassenstufen
+                        <div style="width: 90%; margin: 0 auto;">
+                            <div id="grades" style="margin: 10px 0px";></div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Trägerschaft</label>
+                    <input id="checkbox1" type="checkbox" checked /><label for="checkbox1">öffentlich</label>
+                    <input id="checkbox2" type="checkbox" checked/><label for="checkbox2">privat</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Eigenschaften</label>
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <input id="chkBehindertengerecht" type="checkbox"><label for="chkBehindertengerecht">behindertengerecht</label>
+                        </div>
+                        <div class="medium-6 columns">
+                            <input id="chkEssen" type="checkbox"><label for="chkEssen">Mittagessen</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <a href="#" class="button success radius">Aktualisieren</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="large-7 columns">
+
+  <div class="map_wrapper" style="height: 500px">
+      <div id="map" style="width: 100%; height: 100%" ng-controller="MapCtrl"></div>
+  </div>
+</div>
