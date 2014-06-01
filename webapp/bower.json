@@ -16,5 +16,15 @@
   "devDependencies": {
     "angular-mocks": "1.2.15",
     "angular-scenario": "1.2.15"
+  },
+  "overrides": {
+    "chosen": {
+      "main": [
+        "chosen.css",
+        "chosen.jquery.min.js",
+        "chosen-sprite.png",
+        "chosen-sprite@2x.png"
+      ]
+    }
   }
 }
