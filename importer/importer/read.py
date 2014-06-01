@@ -111,8 +111,17 @@ def setup(context):
     }
     if not context.es.indices.exists(context.es_index):
         context.es.indices.create(context.es_index)
-    context.es.indices.put_mapping(index=context.es_index, doc_type='school',
-                           body=body)
+    context.es.indices.put_mapping(index=context.es_index,
+                                   doc_type='school', body=body)
+    body = {
+        'district': {
+            'properties': {
+                'name': {'type': 'string', 'index': 'not_analyzed', 'store': True},
+            }
+        }
+    }
+    context.es.indices.put_mapping(index=context.es_index,
+                                   doc_type='district', body=body)
 
 
 @cli.command()
@@ -141,7 +150,7 @@ def addresses(context, infile):
         click.echo(context.reader.line_num)
         bsn = row.pop('bsn', None)
         row.pop('address_id', None)
-        row.pop('district_id', None)
+        district_id = row.pop('district_id', None)
         lat = row.pop('latitude', None)
         lon = row.pop('longitude', None)
         if lat and lon:
@@ -153,6 +162,8 @@ def addresses(context, infile):
         }
         context.es.update(index=context.es_index, doc_type='school', id=bsn,
                           body=body)
+        context.es.index(index=context.es_index, doc_type='district',
+                         id=district_id, body={'name': row['district']})
 
 
 @cli.command()
