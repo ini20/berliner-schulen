@@ -37,6 +37,17 @@ def setup(context):
                 'remarks': {'type': 'string', 'index': 'analyzed'},
                 'schoolnumber': {'type': 'string', 'index': 'not_analyzed'},
                 'wwwaddress': {'type': 'string', 'index': 'no'},
+                'accessibility': {
+                    'type': 'nested',
+                    'properties': {
+                        'parking-lot': {'type': 'integer', 'ignore_malformed': True},
+                        'elevator': {'type': 'integer', 'ignore_malformed': True},
+                        'toilet': {'type': 'integer', 'ignore_malformed': True},
+                        'open-for-wcu': {'type': 'integer', 'ignore_malformed': True},
+                        'advice-center-hearing': {'type': 'integer', 'ignore_malformed': True},
+                        'advice-center-speaking': {'type': 'integer', 'ignore_malformed': True},
+                    }
+                },
                 'address': {
                     'type': 'nested',
                     'properties': {
@@ -80,6 +91,23 @@ def setup(context):
         context.es.indices.create(context.es_index)
     context.es.indices.put_mapping(index=context.es_index, doc_type='school',
                            body=body)
+
+
+@cli.command()
+@click.argument('infile', type=click.File('r'))
+@pass_context
+def accessibility(context, infile):
+    context.reader = csv.DictReader(infile)
+    for row in context.reader:
+        click.echo(context.reader.line_num)
+        bsn = row.pop('bsn', None)
+        body = {
+            'doc': {
+                'accessibility': row,
+            }
+        }
+        context.es.update(index=context.es_index, doc_type='school', id=bsn,
+                          body=body)
 
 
 @cli.command()
