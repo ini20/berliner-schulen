@@ -1,24 +1,45 @@
 #!/usr/bin/env python3
 
+import click
 import csv
-import sys
 
 from elasticsearch import Elasticsearch
 
-from .config import ES_HOSTS, ES_INDEX
+from .context import pass_context
 
 
-def main(fp, es):
-    reader = csv.DictReader(fp)
-    next(reader)
-    for row in reader:
+@click.group()
+@click.option('--es-hosts')
+@click.argument('infile', type=click.File('r'))
+@pass_context
+def cli(context, es_hosts, infile):
+    if es_hosts:
+        context.es_hosts = es_hosts
+    context.es = Elasticsearch(context.es_hosts)
+    context.reader = csv.DictReader(infile)
+
+
+@cli.command()
+@pass_context
+def address(context):
+    next(context.reader)  # drop header
+    for row in context.reader:
+        click.echo(context.reader.line_num)
+        context.es.index(index=context.es_index, doc_type='address',
+                        id=row['bsn'], body=row)
+
+
+@cli.command()
+@pass_context
+def equipment(context):
+    next(context.reader)  # drop header
+    for row in context.reader:
         row.pop('', None)
         row.pop('#N/A', None)
-        print(reader.line_num)
-        es.index(index=ES_INDEX, doc_type='equipment', id=row['bsn'], body=row)
+        click.echo(context.reader.line_num)
+        context.es.index(index=context.es_index, doc_type='equipment',
+                        id=row['bsn'], body=row)
 
 
 if __name__ == '__main__':
-    with open(sys.argv[1], 'r') as fp:
-        es = Elasticsearch(ES_HOSTS)
-        main(fp, es)
+    cli()
