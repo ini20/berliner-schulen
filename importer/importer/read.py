@@ -83,7 +83,29 @@ def setup(context):
                         'media-library': {'type': 'integer', 'ignore_malformed': True},
                         'cybercafe': {'type': 'integer', 'ignore_malformed': True},
                     }
-                }
+                },
+                'languages': {
+                    'type': 'nested',
+                    'properties': {
+                        'starting-first-class': {'type': 'integer', 'ignore_malformed': True},
+                        'english': {'type': 'integer', 'ignore_malformed': True},
+                        'french': {'type': 'integer', 'ignore_malformed': True},
+                        'spanish': {'type': 'integer', 'ignore_malformed': True},
+                        'turish': {'type': 'integer', 'ignore_malformed': True},
+                        'latin': {'type': 'integer', 'ignore_malformed': True},
+                        'russian': {'type': 'integer', 'ignore_malformed': True},
+                        'ancient-greek': {'type': 'integer', 'ignore_malformed': True},
+                        'chinese': {'type': 'integer', 'ignore_malformed': True},
+                        'polish': {'type': 'integer', 'ignore_malformed': True},
+                        'italian': {'type': 'integer', 'ignore_malformed': True},
+                        'hebrew': {'type': 'integer', 'ignore_malformed': True},
+                        'japanese': {'type': 'integer', 'ignore_malformed': True},
+                        'dutch': {'type': 'integer', 'ignore_malformed': True},
+                        'arabic': {'type': 'integer', 'ignore_malformed': True},
+                        'greek': {'type': 'integer', 'ignore_malformed': True},
+                        'portuguese': {'type': 'integer', 'ignore_malformed': True},
+                    }
+                },
             }
         },
     }
@@ -146,6 +168,24 @@ def equipments(context, infile):
         body = {
             'doc': {
                 'equipments': row,
+            }
+        }
+        context.es.update(index=context.es_index, doc_type='school', id=bsn,
+                          body=body)
+
+
+@cli.command()
+@click.argument('infile', type=click.File('r'))
+@pass_context
+def languages(context, infile):
+    context.reader = csv.DictReader(infile)
+    for row in context.reader:
+        click.echo(context.reader.line_num)
+        bsn = row.pop('bsn', None)
+        row.pop('', None)
+        body = {
+            'doc': {
+                'languages': row,
             }
         }
         context.es.update(index=context.es_index, doc_type='school', id=bsn,
