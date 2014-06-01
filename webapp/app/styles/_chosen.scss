@@ -1,0 +1,38 @@
+.chosen-container-single .chosen-single abbr {
+  background: url('../images/chosen-sprite.png') -42px 1px no-repeat !important;
+}
+
+.chosen-container-single .chosen-single div b {
+  background: url('../images/chosen-sprite.png') no-repeat 0px 2px !important;
+}
+.chosen-container-single .chosen-search input[type="text"] {
+  background: white url('../images/chosen-sprite.png') no-repeat 100% -20px !important;
+  background: url('../images/chosen-sprite.png') no-repeat 100% -20px, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(1%, #eeeeee), color-stop(15%, #ffffff)) !important;
+  background: url('../images/chosen-sprite.png') no-repeat 100% -20px, -webkit-linear-gradient(#eeeeee 1%, #ffffff 15%) !important;
+  background: url('../images/chosen-sprite.png') no-repeat 100% -20px, -moz-linear-gradient(#eeeeee 1%, #ffffff 15%) !important;
+  background: url('../images/chosen-sprite.png') no-repeat 100% -20px, -o-linear-gradient(#eeeeee 1%, #ffffff 15%) !important;
+  background: url('../images/chosen-sprite.png') no-repeat 100% -20px, linear-gradient(#eeeeee 1%, #ffffff 15%) !important;
+}
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+  background: url('../images/chosen-sprite.png') -42px 1px no-repeat !important;
+}
+.chosen-rtl .chosen-search input[type="text"] {
+  background: white url('../images/chosen-sprite.png') no-repeat -30px -20px !important;
+  background: url('../images/chosen-sprite.png') no-repeat -30px -20px, -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(1%, #eeeeee), color-stop(15%, #ffffff)) !important;
+  background: url('../images/chosen-sprite.png') no-repeat -30px -20px, -webkit-linear-gradient(#eeeeee 1%, #ffffff 15%) !important;
+  background: url('../images/chosen-sprite.png') no-repeat -30px -20px, -moz-linear-gradient(#eeeeee 1%, #ffffff 15%) !important;
+  background: url('../images/chosen-sprite.png') no-repeat -30px -20px, -o-linear-gradient(#eeeeee 1%, #ffffff 15%) !important;
+  background: url('../images/chosen-sprite.png') no-repeat -30px -20px, linear-gradient(#eeeeee 1%, #ffffff 15%) !important;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min-resolution: 144dpi) {
+  .chosen-rtl .chosen-search input[type="text"],
+  .chosen-container-single .chosen-single abbr,
+  .chosen-container-single .chosen-single div b,
+  .chosen-container-single .chosen-search input[type="text"],
+  .chosen-container-multi .chosen-choices .search-choice .search-choice-close,
+  .chosen-container .chosen-results-scroll-down span,
+  .chosen-container .chosen-results-scroll-up span {
+    background-image: url('../images/chosen-sprite@2x.png') !important;
+  }
+}
