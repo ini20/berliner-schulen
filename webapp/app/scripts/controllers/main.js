@@ -16,7 +16,7 @@ angular.module('schooldataApp')
     var url = es.host + '/' + es.index + '/district/_search';
 
     $http.post(url, query).success(function(data) {
-      var districts = []
+      var districts = [];
       $.each(data.aggregations.district.buckets, function(i, v){
         districts.push(v.key);
       });

@@ -11,10 +11,8 @@ angular.module('schooldataApp')
     $scope.map.addLayer(markers);
     var b=new OpenLayers.LonLat(13.408056,52.518611).transform(new OpenLayers.Projection('EPSG:4326'), $scope.map.getProjectionObject());
     $scope.map.setCenter(b,12);
-    
     $scope.loadMarkers = function() {
       $http.get().success(function(data) {
-	
       });
     };
   }]);
