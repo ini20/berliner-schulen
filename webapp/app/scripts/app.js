@@ -18,6 +18,10 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
       })
+      .when('/schools/:schoolId', {
+        templateUrl: 'views/school.html',
+        controller: 'SchoolCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
