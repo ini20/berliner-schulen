@@ -31,7 +31,6 @@
     });
 
     app.service('es', function (esFactory) {
-        console.log('es', esFactory);
         return esFactory({
             host: sp.config.elasticsearch.host
         });

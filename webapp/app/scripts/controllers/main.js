@@ -2,7 +2,6 @@
 
 angular.module('schooldataApp')
     .controller('MainCtrl', ['$scope', '$http', 'es', function ($scope, $http, es) {
-        console.log(es);
         es.search({
             index: sp.config.elasticsearch.index,
             type: 'district',
