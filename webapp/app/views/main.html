@@ -1,4 +1,4 @@
-<div class="large-5 columns">
+<div class="large-5 columns" ng-controller="MainCtrl">
     <div class="panel">
         <h3>Filter</h3>
         <form>
@@ -7,7 +7,7 @@
                     <label>Stadtteil
                         <div class="row collapse">
                             <div class="small-10 columns">
-                                <select chosen multiple name="test" id="districts" class="multisel" data-placeholder="Stadtteile auswählen" ng-model="test" ng-options="value for value in districts" > 
+                                <select chosen multiple class="multisel" data-placeholder="Stadtteile auswählen" ng-model="selectedDistricts" ng-options="value for value in districts" > 
                                     
                                 </select>
                             </div>
@@ -23,7 +23,7 @@
                     <label>Schulart
                         <div class="row collapse">
                             <div class="small-10 columns">
-                                <select chosen multiple ng-model="selectedSchoolTypes" ng-options="value for value in schoolTypes" name="test" class="multisel" id="types" data-placeholder="Schulart auswählen"> 
+                                <select chosen multiple ng-model="selectedSchoolTypes" ng-options="value for value in schoolTypes" class="multisel" data-placeholder="Schulart auswählen"> 
                                 </select>
                             </div>
                             <div class="small-2 columns">
@@ -38,7 +38,7 @@
                     <label>Unterrichtssprache
                         <div class="row collapse">
                             <div class="small-10 columns">
-                                <select chosen multiple ng-model="selectedLangs" ng-options="value for value in languages" name="test" id="languages" class="multisel" data-placeholder="Unterrichtssprache auswählen"> 
+                                <select chosen multiple ng-model="selectedLanguages" ng-options="value for value in languages" class="multisel" data-placeholder="Unterrichtssprache auswählen"> 
                                 </select>
                             </div>
                             <div class="small-2 columns">
@@ -80,7 +80,7 @@
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <a href="#" class="button success radius">Aktualisieren</a>
+                    <a href="" class="button success radius" ng-click="updateFilter()">Aktualisieren</a>
                 </div>
             </div>
         </form>
@@ -88,8 +88,10 @@
 </div>
 
 <div class="large-7 columns">
-
-  <div class="map_wrapper" style="height: 500px">
-      <div id="map" style="width: 100%; height: 100%" ng-controller="MapCtrl"></div>
-  </div>
+    <div class="map_wrapper" style="height: 500px">
+        <div id="map" style="width: 100%; height: 100%" ng-controller="MapCtrl">
+            <div ng-model="map"></div>
+            <div>{{ total }}</div>
+        </div>
+    </div>
 </div>

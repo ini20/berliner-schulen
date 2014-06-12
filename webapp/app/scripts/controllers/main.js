@@ -1,7 +1,10 @@
 'use strict';
 
+var sp = sp || {};
+
 angular.module('schooldataApp')
-    .controller('MainCtrl', ['$scope', '$http', 'es', function ($scope, $http, es) {
+    .controller('MainCtrl', ['$scope', '$http', 'es', 'mapService', function ($scope, $http, es, mapService) {
+        console.log('main', $scope);
         es.search({
             index: sp.config.elasticsearch.index,
             type: 'district',
@@ -17,7 +20,7 @@ angular.module('schooldataApp')
             }
         }).then(function (body) {
             var districts = [];
-            $.each(body.aggregations.district.buckets, function(i, v){
+            angular.forEach(body.aggregations.district.buckets, function(v){
                 districts.push(v.key);
             });
             $scope.districts = districts;
@@ -53,5 +56,10 @@ angular.module('schooldataApp')
             'Wirtschafts- u. Verwaltungsschule'
         ];
         $scope.languages = ['Deutsch', 'Englisch', 'Französisch'];
-        $scope.test = ['l'];
+
+        $scope.updateFilter = function() {
+            mapService.updateFilter({
+                districts: this.selectedDistricts
+            });
+        };
     }]);
