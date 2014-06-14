@@ -86,7 +86,7 @@ var sp = sp || {};
                 mapService.total = body.hits.total;
                 $rootScope.$broadcast('updateMapMarkers');
             }, function (error) {
-                console.trace(error.message);
+                console.log(error.message);
             });
         };
 

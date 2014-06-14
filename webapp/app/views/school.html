@@ -1,1 +1,8 @@
-<div class="row">{{schoolId}}</div>
+<div class="row" ng-controller="SchoolCtrl as school">
+	<div class="large-12 columns">
+		<h2>{{schoolData.name}}</h2>
+		<p>URL: <a href="{{schoolData.wwwaddress}}">{{schoolData.wwwaddress}}</a></p>
+		<p>Telefon: (030) {{schoolData.phonenumber}}</p>
+		<p>Adresse: {{schoolData.address.street}}, {{schoolData.address.plz}} Berlin</p>
+	</div>
+</div>
