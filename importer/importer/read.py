@@ -37,9 +37,9 @@ def setup(context):
                 'remarks': {'type': 'string', 'index': 'analyzed'},
                 'schoolnumber': {'type': 'string', 'index': 'not_analyzed'},
                 'wwwaddress': {'type': 'string', 'index': 'no'},
-                'public': {'type' : 'boolean', 'index': 'analyzed'},
-                'type': {'type' : 'string', 'index': 'not_analyzed'},
-                'branches': {'type' : 'string', 'index' : 'not_analyzed'},
+                'public': {'type' : 'boolean', 'index': 'not_analyzed'},
+                'schooltype': {'type' : 'string', 'index': 'not_analyzed'},
+                'branches': {'type' : 'string', 'index' : 'not_analyzed', 'store': True},
                 'accessibility': {
                     'type': 'nested',
                     'properties': {
@@ -241,7 +241,7 @@ def schools_ext(context, infile):
                 'doc' : {
                     'public' : oeffentlich,
                     'branches': [],
-                    'type': row['Schulart']
+                    'schooltype': row['Schulart']
                 }
             }
 
