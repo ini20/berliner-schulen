@@ -37,6 +37,9 @@ def setup(context):
                 'remarks': {'type': 'string', 'index': 'analyzed'},
                 'schoolnumber': {'type': 'string', 'index': 'not_analyzed'},
                 'wwwaddress': {'type': 'string', 'index': 'no'},
+                'public': {'type' : 'boolean', 'index': 'analyzed'},
+                'type': {'type' : 'string', 'index': 'not_analyzed'},
+                'branches': {'type' : 'string', 'index' : 'not_analyzed'},
                 'accessibility': {
                     'type': 'nested',
                     'properties': {
@@ -213,6 +216,43 @@ def schools(context, infile):
         row.pop('address_id', None)
         context.es.index(index=context.es_index, doc_type='school',
                         id=row['bsn'], body=row)
+
+@cli.command()
+@click.argument('infile', type=click.File('r'))
+@pass_context
+def schools_ext(context, infile):
+    context.reader = csv.DictReader(infile)
+    lastBsn = None
+    body = None
+    for row in context.reader:
+        click.echo(context.reader.line_num)
+        bsn = row.pop('BSN', None)
+        oeffentlich = True
+        if row['Schultraeger'] != "öffentlich":
+            oeffentlich = False
+
+        # submit the data for a single school.
+        if lastBsn is None or lastBsn != bsn:
+            if (body != None):
+                context.es.update(index=context.es_index, doc_type='school', id=lastBsn,
+                body=body)
+
+            body = {
+                'doc' : {
+                    'public' : oeffentlich,
+                    'branches': [],
+                    'type': row['Schulart']
+                }
+            }
+
+        lastBsn = bsn
+        body['doc']['branches'].append(row['Schulzweig'])
+
+
+    # submit the data of the last school to the index.
+    context.es.update(index=context.es_index, doc_type='school', id=lastBsn,
+        body=body)
+
 
 
 if __name__ == '__main__':
