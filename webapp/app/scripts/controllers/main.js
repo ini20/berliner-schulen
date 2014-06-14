@@ -28,38 +28,35 @@ angular.module('schooldataApp')
             console.trace(error.message);
         });
 
-        $scope.schoolTypes = [
-            'Schulpraktisches Seminar',
-            'Berlin-Kolleg',
-            'Berufsschule',
-            'Berufsfachschule',
-            'Fachoberschule',
-            'Fachschule',
-            'Berufliches Gymnasium',
-            'Berufsoberschule',
-            'Abend-Gymnasium',
-            'Abend-Hauptschule',
-            'Abend-Realschule',
-            'Ausländische Schule',
-            'Freie Waldorfschule',
-            'Grundschule',
-            'Gymnasium',
-            'Heilpraktikerschule',
-            'Integrierte Sekundarschule',
-            'Kosmetikschule',
-            'Künstlerische Schule',
-            'Sonstige Ergänzungsschule',
-            'Sprachschulen',
-            'Volkshochschul-Kolleg',
-            'Volkshochschule',
-            'Vorbereitungsschule auf Fremdenprüfung',
-            'Wirtschafts- u. Verwaltungsschule'
-        ];
+        es.search({
+            index: sp.config.elasticsearch.index,
+            type: 'school',
+            body: {
+                aggs: {
+                    branches: {
+                        terms: {
+                            field: 'branches',
+                            size: 0
+                        }
+                    }
+                } 
+            }
+        }).then(function (body) {
+            var types = [];
+            angular.forEach(body.aggregations.branches.buckets, function(v){
+                types.push(v.key);
+            });
+            $scope.schoolTypes = types;
+        }, function (error) {
+            console.log(error.message);
+        });
+
         $scope.languages = ['Deutsch', 'Englisch', 'Französisch'];
 
         $scope.updateFilter = function() {
             mapService.updateFilter({
-                districts: this.selectedDistricts
+                districts: this.selectedDistricts,
+                schooltypes: this.selectedSchoolTypes
             });
         };
     }]);

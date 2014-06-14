@@ -46,8 +46,8 @@ var sp = sp || {};
 
         mapService.updateFilter = function(args) {
             var body = {size: 1000};
+            body.query = {};
             if (args.districts !== undefined) {
-                body.query = {};
                 if (args.districts.length > 0) {
                     body.query.nested = {
                         path: 'address',
@@ -61,6 +61,22 @@ var sp = sp || {};
                     };
                 }
             }
+
+            if (args.schooltypes !== undefined) {
+                if (args.schooltypes.length > 0) {
+                    if (body.query.bool === undefined) {
+                        body.query.bool = {'must' : []};
+                    }
+
+                    body.query.bool.must.push({
+                        'terms' : {
+                            'branches' : args.schooltypes,
+                            'minimum_should_match': 1
+                        }
+                    });
+                }
+            }
+
             es.search({
                 index: sp.config.elasticsearch.index,
                 type: 'school',
