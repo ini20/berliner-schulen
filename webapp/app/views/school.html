@@ -1,8 +1,41 @@
 <div class="row" ng-controller="SchoolCtrl as school">
-	<div class="large-12 columns">
+	<div class="large-12 columns" ng:show="error == null && loading == null">
 		<h2>{{schoolData.name}}</h2>
 		<p>URL: <a href="{{schoolData.wwwaddress}}">{{schoolData.wwwaddress}}</a></p>
 		<p>Telefon: (030) {{schoolData.phonenumber}}</p>
 		<p>Adresse: {{schoolData.address.street}}, {{schoolData.address.plz}} Berlin</p>
+
+		<div class="row">
+			<div class="medium-4 columns">
+				<div class="panel">
+				<h4>Behindertengerechte Austattung</h4>
+				<ul>
+					<li ng-repeat="(name, value) in schoolData.accessibility" ng-show="value == 1">{{name}}</li>
+				</ul>
+				</div>
+			</div>
+			<div class="medium-4 columns">
+				<div class="panel">
+				<h4>Fremdsprachen</h4>
+				<ul>
+					<li ng-repeat="(name, value) in schoolData.languages" ng-show="value == 1">{{name}}</li>
+				</ul>
+				</div>
+			</div>
+			<div class="medium-4 columns">
+				<div class="panel">
+				<h4>Sonstige Austattung</h4>
+				<ul>
+					<li ng-repeat="(name, value) in schoolData.equipments" ng-show="value == 1">{{name}}</li>
+				</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="large-12 columns" ng:show="loading != null">
+		<h1>Suche nach der Schule mit der Nummer {{schoolId}}!</h1>
+	</div>
+	<div class="large-12 columns" ng:show="error != null">
+		<h1>Wir haben leider keine Schule mit der Nummer {{schoolId}} gefunden!</h1>
 	</div>
 </div>
