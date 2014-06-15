@@ -36,3 +36,8 @@ only screen and (min-resolution: 144dpi) {
     background-image: url('../images/chosen-sprite@2x.png') !important;
   }
 }
+
+.chosen-container .chosen-choices .search-field input[type="text"] {
+  height: 2.2125rem !important;
+  margin: 0px 0px !important;
+}
