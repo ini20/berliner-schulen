@@ -20,7 +20,7 @@ var sp = sp || {};
             templateUrl: 'views/main.html',
             controller: 'MainCtrl'
             })
-        .when('/about', {
+        .when('/impressum', {
             templateUrl: 'views/about.html',
             controller: 'AboutCtrl'
         })

@@ -40,4 +40,8 @@
 //   "foundation/components/visibility";
 
 // Chosen's css is not aware of the modified paths. Patch them
-@import "chosen"
+@import "chosen";
+
+.big {
+	line-height: 150%;
+}
