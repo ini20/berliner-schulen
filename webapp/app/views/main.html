@@ -80,7 +80,17 @@
             </div>
             <div class="row">
                 <div class="large-12 columns">
+                    <div class="row">
                     <a href="" class="button success radius" ng-click="updateFilter()">Aktualisieren</a>
+                    <a href="" class="button radius" ng-click="filterAsLink()">Share</a>
+                    </div>
+                    <div class="row collapse" ng-hide="shareLink == null">
+                        <div class="small-10 columns">
+                        <input type="text" name="test" ng-model="shareLink" />
+                        </div>
+                        <div class="small-2 columns">
+                        <button class="button postfix radius selectAll" clip-copy="shareLink">Copy</button></div>
+                    </div>
                 </div>
             </div>
         </form>

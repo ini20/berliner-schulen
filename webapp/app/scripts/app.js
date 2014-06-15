@@ -10,10 +10,11 @@ var sp = sp || {};
         'ngSanitize',
         'ngRoute',
         'localytics.directives',
-        'elasticsearch'
+        'elasticsearch',
+        'ngClipboard'
     ]);
 
-    mod.config(function ($routeProvider) {
+    mod.config(['$routeProvider', 'ngClipProvider', function ($routeProvider, ngClipProvider) {
         $routeProvider
         .when('/', {
             templateUrl: 'views/main.html',
@@ -30,7 +31,7 @@ var sp = sp || {};
         .otherwise({
             redirectTo: '/'
         });
-    });
+    }]);
 
     mod.service('es', function (esFactory) {
         return esFactory({
@@ -118,7 +119,7 @@ var sp = sp || {};
             restrict: 'A',
             link: function(scope, element, attrs, controller) {
                 var clazz = "active";
-                if (attrs.activeLink != "") {
+                if (attrs.activeLink !== "") {
                     clazz = attrs.activeLink;
                 }
                 var path = attrs.href;
