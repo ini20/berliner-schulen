@@ -49,16 +49,20 @@ var sp = sp || {};
             body.query = {};
             if (args.districts !== undefined) {
                 if (args.districts.length > 0) {
-                    body.query.nested = {
-                        path: 'address',
-                        query: {
-                            terms: {
-                                'address.district': args.districts.map(function(value){
-                                    return value.toLowerCase();
-                                }),
+                    if (body.query.bool === undefined) {
+                        body.query.bool = {'must' : []};
+                    }
+                    body.query.bool.must.push({
+                        nested : {
+                            path: 'address',
+                            query: {
+                                terms: {
+                                    'address.district': args.districts,
+                                    'minimum_should_match': 1
+                                }
                             }
                         }
-                    };
+                  });
                 }
             }
 
