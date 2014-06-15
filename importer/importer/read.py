@@ -54,7 +54,7 @@ def setup(context):
                 'address': {
                     'type': 'nested',
                     'properties': {
-                        'district': {'type': 'string', 'index': 'analyzed'},
+                        'district': {'type': 'string', 'index': 'not_analyzed'},
                         'name': {'type': 'string', 'index': 'analyzed'},
                         'location': {'type': 'geo_point', 'lat_lon': True},
                         'street': {'type': 'string', 'index': 'analyzed'},
