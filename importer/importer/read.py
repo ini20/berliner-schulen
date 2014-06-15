@@ -37,9 +37,9 @@ def setup(context):
                 'remarks': {'type': 'string', 'index': 'analyzed'},
                 'schoolnumber': {'type': 'string', 'index': 'not_analyzed'},
                 'wwwaddress': {'type': 'string', 'index': 'no'},
-                'public': {'type' : 'boolean', 'index': 'not_analyzed'},
-                'schooltype': {'type' : 'string', 'index': 'not_analyzed'},
-                'branches': {'type' : 'string', 'index' : 'not_analyzed', 'store': True},
+                'public': {'type': 'boolean', 'index': 'not_analyzed'},
+                'schooltype': {'type': 'string', 'index': 'not_analyzed'},
+                'branches': {'type': 'string', 'index': 'not_analyzed', 'store': True},
                 'accessibility': {
                     'type': 'nested',
                     'properties': {
@@ -215,7 +215,8 @@ def schools(context, infile):
         click.echo(context.reader.line_num)
         row.pop('address_id', None)
         context.es.index(index=context.es_index, doc_type='school',
-                        id=row['bsn'], body=row)
+                         id=row['bsn'], body=row)
+
 
 @cli.command()
 @click.argument('infile', type=click.File('r'))
@@ -227,19 +228,17 @@ def schools_ext(context, infile):
     for row in context.reader:
         click.echo(context.reader.line_num)
         bsn = row.pop('BSN', None)
-        oeffentlich = True
-        if row['Schultraeger'] != "öffentlich":
-            oeffentlich = False
+        oeffentlich = row['Schultraeger'] == "öffentlich"
 
-        # submit the data for a single school.
+        # submit the data for a single school
         if lastBsn is None or lastBsn != bsn:
-            if (body != None):
-                context.es.update(index=context.es_index, doc_type='school', id=lastBsn,
-                body=body)
+            if body is not None:
+                context.es.update(index=context.es_index, doc_type='school',
+                                  id=lastBsn, body=body)
 
             body = {
-                'doc' : {
-                    'public' : oeffentlich,
+                'doc': {
+                    'public': oeffentlich,
                     'branches': [],
                     'schooltype': row['Schulart']
                 }
@@ -248,11 +247,9 @@ def schools_ext(context, infile):
         lastBsn = bsn
         body['doc']['branches'].append(row['Schulzweig'])
 
-
-    # submit the data of the last school to the index.
+    # submit the data of the last school to the index
     context.es.update(index=context.es_index, doc_type='school', id=lastBsn,
-        body=body)
-
+                      body=body)
 
 
 if __name__ == '__main__':
