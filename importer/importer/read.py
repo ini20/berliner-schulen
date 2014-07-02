@@ -4,9 +4,15 @@
 import click
 import csv
 
+from functools import partial
+
 from elasticsearch import Elasticsearch
 
 from .context import pass_context
+
+
+progressbar = partial(click.progressbar, fill_char='=', empty_char=' ')
+PB_LABEL = '%-15s'
 
 
 @click.group()
@@ -129,70 +135,148 @@ def setup(context):
 
 
 @cli.command()
-@click.argument('infile', type=click.File('r'))
+@click.argument('schools', type=click.File('r'))
+@click.argument('accessibility', type=click.File('r'))
+@click.argument('addresses', type=click.File('r'))
+@click.argument('equipments', type=click.File('r'))
+# @click.option('languages', type=click.File('r'))
+@click.argument('schools_ext', type=click.File('r'))
 @pass_context
-def accessibility(context, infile):
-    context.reader = csv.DictReader(infile)
-    for row in context.reader:
-        click.echo(context.reader.line_num)
-        bsn = row.pop('bsn', None)
-        body = {
-            'doc': {
-                'accessibility': row,
-            }
-        }
-        context.es.update(index=context.es_index, doc_type='school', id=bsn,
-                          body=body)
+def load_data(context,
+              schools,
+              accessibility,
+              addresses,
+              equipments,
+              # languages,
+              schools_ext
+              ):
+    click.secho('Loading schools ... ', fg='green')
+    data = SchoolProcessor(schools).process()
+    click.echo('Found %d schools' % len(data.keys()))
+
+    click.secho('\nLoading addition data sets ...', fg='green')
+    tmp = AccessibilityProcessor(accessibility).process()
+    with progressbar(tmp, label=PB_LABEL % 'Accessibility') as bar:
+        for bsn in bar:
+            data[bsn]['accessibility'] = tmp[bsn]
+
+    address_processor = AddressProcessor(addresses)
+    tmp = address_processor.process()
+    with progressbar(tmp, label=PB_LABEL % 'Addresses') as bar:
+        for bsn in bar:
+            data[bsn]['address'] = tmp[bsn]
+    districts = address_processor.districts
+
+    tmp = EquipmentProcessor(equipments).process()
+    with progressbar(tmp, label=PB_LABEL % 'Equipment') as bar:
+        for bsn in bar:
+            data[bsn]['equipments'] = tmp[bsn]
+
+    tmp = SchoolExtProcessor(schools_ext).process()
+    with progressbar(tmp, label=PB_LABEL % 'SchoolExt') as bar:
+        for bsn in bar:
+            data[bsn].update(tmp[bsn])
+
+    click.secho('\nIndexing ...', fg='green')
+
+    with progressbar(data, label=PB_LABEL % 'Schools') as bar:
+        for bsn in bar:
+            context.es.index(index=context.es_index, doc_type='school',
+                             id=bsn, body=data[bsn])
+
+    with progressbar(districts, label=PB_LABEL % 'Districts') as bar:
+        for district_id in bar:
+            context.es.index(index=context.es_index, doc_type='district',
+                             id=district_id, body=districts[district_id])
 
 
-@cli.command()
-@click.argument('infile', type=click.File('r'))
-@pass_context
-def addresses(context, infile):
-    context.reader = csv.DictReader(infile)
-    for row in context.reader:
-        click.echo(context.reader.line_num)
+class Processor(object):
+
+    def __init__(self, infile):
+        self.infile = infile
+
+    def process(self):
+        reader = csv.DictReader(self.infile)
+        data = {}
+        for row in reader:
+            bsn, rowdata = self.cleanup(row)
+            if bsn is None:
+                continue
+            data[bsn] = rowdata
+        return data
+
+    def cleanup(self, row):
         bsn = row.pop('bsn', None)
+        return bsn, row
+
+
+class AccessibilityProcessor(Processor):
+
+    def cleanup(self, row):
+        bsn, row = super(AccessibilityProcessor, self).cleanup(row)
+        return bsn, row
+
+
+class AddressProcessor(Processor):
+
+    def __init__(self, infile):
+        super(AddressProcessor, self).__init__(infile)
+        self.districts = {}
+
+    def cleanup(self, row):
+        bsn, row = super(AddressProcessor, self).cleanup(row)
         row.pop('address_id', None)
         district_id = row.pop('district_id', None)
         lat = row.pop('latitude', None)
         lon = row.pop('longitude', None)
         if lat and lon:
             row['location'] = {'lat': lat, 'lon': lon}
-        body = {
-            'doc': {
-                'address': row,
-            }
-        }
-        context.es.update(index=context.es_index, doc_type='school', id=bsn,
-                          body=body)
-        context.es.index(index=context.es_index, doc_type='district',
-                         id=district_id, body={'name': row['district']})
+        self.districts[district_id] = {'name': row['district']}
+        return bsn, row
 
 
-@cli.command()
-@click.argument('infile', type=click.File('r'))
-@pass_context
-def equipments(context, infile):
-    context.reader = csv.DictReader(infile)
-    for row in context.reader:
-        click.echo(context.reader.line_num)
-        bsn = row.pop('bsn', None)
+class EquipmentProcessor(Processor):
+
+    def cleanup(self, row):
+        bsn, row = super(EquipmentProcessor, self).cleanup(row)
         row.pop('address_id', None)
         row.pop('district_id', None)
-        body = {
-            'doc': {
-                'equipments': row,
-            }
+        return bsn, row
+
+
+class SchoolProcessor(Processor):
+
+    def cleanup(self, row):
+        row.pop('address_id', None)
+        return row['bsn'], row
+
+
+class SchoolExtProcessor(Processor):
+
+    def process(self):
+        reader = csv.DictReader(self.infile)
+        data = {}
+        for row in reader:
+            bsn, newrowdata = self.cleanup(row)
+            if bsn is None:
+                continue
+            rowdata = data.get(bsn, newrowdata)
+            branches = list(set(rowdata['branches']) | newrowdata['branches'])
+            rowdata['branches'] = branches
+            data[bsn] = rowdata
+        return data
+
+    def cleanup(self, row):
+        bsn, row = super(SchoolExtProcessor, self).cleanup(row)
+        data = {
+            'public': row['Schultraeger'] == "öffentlich",
+            'branches': set([row['Schulzweig']]),
+            'schooltype': row['Schulart']
         }
-        context.es.update(index=context.es_index, doc_type='school', id=bsn,
-                          body=body)
+        return bsn, data
 
 
-@cli.command()
-@click.argument('infile', type=click.File('r'))
-@pass_context
-def languages(context, infile):
+def _load_languages(context, infile):
     context.reader = csv.DictReader(infile)
     for row in context.reader:
         click.echo(context.reader.line_num)
@@ -205,52 +289,6 @@ def languages(context, infile):
         }
         context.es.update(index=context.es_index, doc_type='school', id=bsn,
                           body=body)
-
-
-@cli.command()
-@click.argument('infile', type=click.File('r'))
-@pass_context
-def schools(context, infile):
-    context.reader = csv.DictReader(infile)
-    for row in context.reader:
-        click.echo(context.reader.line_num)
-        row.pop('address_id', None)
-        context.es.index(index=context.es_index, doc_type='school',
-                         id=row['bsn'], body=row)
-
-
-@cli.command()
-@click.argument('infile', type=click.File('r'))
-@pass_context
-def schools_ext(context, infile):
-    context.reader = csv.DictReader(infile)
-    lastBsn = None
-    body = None
-    for row in context.reader:
-        click.echo(context.reader.line_num)
-        bsn = row.pop('BSN', None)
-        oeffentlich = row['Schultraeger'] == "öffentlich"
-
-        # submit the data for a single school
-        if lastBsn is None or lastBsn != bsn:
-            if body is not None:
-                context.es.update(index=context.es_index, doc_type='school',
-                                  id=lastBsn, body=body)
-
-            body = {
-                'doc': {
-                    'public': oeffentlich,
-                    'branches': [],
-                    'schooltype': row['Schulart']
-                }
-            }
-
-        lastBsn = bsn
-        body['doc']['branches'].append(row['Schulzweig'])
-
-    # submit the data of the last school to the index
-    context.es.update(index=context.es_index, doc_type='school', id=lastBsn,
-                      body=body)
 
 
 if __name__ == '__main__':
