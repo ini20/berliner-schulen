@@ -21,7 +21,7 @@ setup(
     include_package_data=True,
     license="BSD",
     install_requires=[
-        'Click>=1.1',
+        'Click>=2.2',
         'elasticsearch>=1.0.0',
     ],
     entry_points='''
