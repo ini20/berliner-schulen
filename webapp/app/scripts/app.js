@@ -82,6 +82,21 @@ var sp = sp || {};
                 }
             }
 
+            if (args.languages !== undefined) {
+                if (args.languages.length > 0) {
+                    if (body.query.bool === undefined) {
+                        body.query.bool = {'must' : []};
+                    }
+
+                    body.query.bool.must.push({
+                        'terms' : {
+                            'languages' : args.languages,
+                            'minimum_should_match': 1
+                        }
+                    });
+                }
+            }
+
             es.search({
                 index: sp.config.elasticsearch.index,
                 type: 'school',

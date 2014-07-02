@@ -4,11 +4,12 @@ var sp = sp || {};
 
 angular.module('schooldataApp')
     .controller('MainCtrl', ['$scope', '$http', '$location', '$window', 'es', 'mapService', function ($scope, $http, $location, $window, es, mapService) {
-        console.log('main', $scope);
+
         es.search({
             index: sp.config.elasticsearch.index,
             type: 'district',
             body: {
+                size: 0,
                 aggs: {
                     district: {
                         terms: {
@@ -32,6 +33,7 @@ angular.module('schooldataApp')
             index: sp.config.elasticsearch.index,
             type: 'school',
             body: {
+                size: 0,
                 aggs: {
                     branches: {
                         terms: {
@@ -42,23 +44,46 @@ angular.module('schooldataApp')
                 } 
             }
         }).then(function (body) {
-            var types = [];
+            var branches = [];
             angular.forEach(body.aggregations.branches.buckets, function(v){
-                types.push(v.key);
+                branches.push(v.key);
             });
-            $scope.schoolTypes = types;
+            $scope.schoolTypes = branches;
         }, function (error) {
             console.log(error.message);
         });
 
-        $scope.languages = ['Deutsch', 'Englisch', 'Französisch'];
+        es.search({
+            index: sp.config.elasticsearch.index,
+            type: 'school',
+            body: {
+                size: 0,
+                aggs: {
+                    languages: {
+                        terms: {
+                            field: 'languages',
+                            size: 0
+                        }
+                    }
+                }
+            }
+        }).then(function (body) {
+            var languages = [];
+            angular.forEach(body.aggregations.languages.buckets, function(v){
+                languages.push(v.key);
+            });
+            $scope.languages = languages;
+        }, function (error) {
+            console.log(error.message);
+        });
 
         $scope.updateFilter = function(data) {
             if (data === undefined) {
-                var data = {
+                data = {
                     districts: this.selectedDistricts,
-                    schooltypes: this.selectedSchoolTypes
-                }  
+                    schooltypes: this.selectedSchoolTypes,
+                    languages: this.selectedLanguages
+                };
             }
             mapService.updateFilter(data);
         };
@@ -66,7 +91,8 @@ angular.module('schooldataApp')
         $scope.filterAsLink = function() {
             var data = {
                 districts : this.selectedDistricts,
-                schooltypes: this.selectedSchoolTypes
+                schooltypes: this.selectedSchoolTypes,
+                languages: this.selectedLanguages
             };
             console.log($window.location);
             $scope.shareLink = $window.location.origin+'/'+$window.location.hash+'?filter='+encodeURIComponent(JSON.stringify(data));
@@ -74,7 +100,7 @@ angular.module('schooldataApp')
 
         var searchObject = $location.search();
         if (searchObject.filter !== undefined) {
-            var data = JSON.parse(decodeURIComponent(searchObject.filter))
+            var data = JSON.parse(decodeURIComponent(searchObject.filter));
             console.log(data);
             var empty = true;
             if (data.districts !== undefined) {
@@ -84,6 +110,10 @@ angular.module('schooldataApp')
             if (data.schooltypes !== undefined) {
                 empty = false;
                 $scope.selectedSchoolTypes = data.schooltypes;
+            }
+            if (data.languages !== undefined) {
+                empty = false;
+                $scope.selectedLanguages = data.languages;
             }
 
             if (!empty) {
