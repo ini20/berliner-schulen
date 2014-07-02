@@ -46,6 +46,7 @@ def setup(context):
                 'wwwaddress': {'type': 'string', 'index': 'no'},
                 'public': {'type': 'boolean', 'index': 'not_analyzed'},
                 'schooltype': {'type': 'string', 'index': 'not_analyzed'},
+                'languages': {'type': 'string', 'index': 'not_analyzed'},
                 'branches': {'type': 'string', 'index': 'not_analyzed', 'store': True},
                 'accessibility': {
                     'type': 'nested',
@@ -94,28 +95,6 @@ def setup(context):
                         'cybercafe': {'type': 'integer', 'ignore_malformed': True},
                     }
                 },
-                'languages': {
-                    'type': 'nested',
-                    'properties': {
-                        'starting-first-class': {'type': 'integer', 'ignore_malformed': True},
-                        'english': {'type': 'integer', 'ignore_malformed': True},
-                        'french': {'type': 'integer', 'ignore_malformed': True},
-                        'spanish': {'type': 'integer', 'ignore_malformed': True},
-                        'turish': {'type': 'integer', 'ignore_malformed': True},
-                        'latin': {'type': 'integer', 'ignore_malformed': True},
-                        'russian': {'type': 'integer', 'ignore_malformed': True},
-                        'ancient-greek': {'type': 'integer', 'ignore_malformed': True},
-                        'chinese': {'type': 'integer', 'ignore_malformed': True},
-                        'polish': {'type': 'integer', 'ignore_malformed': True},
-                        'italian': {'type': 'integer', 'ignore_malformed': True},
-                        'hebrew': {'type': 'integer', 'ignore_malformed': True},
-                        'japanese': {'type': 'integer', 'ignore_malformed': True},
-                        'dutch': {'type': 'integer', 'ignore_malformed': True},
-                        'arabic': {'type': 'integer', 'ignore_malformed': True},
-                        'greek': {'type': 'integer', 'ignore_malformed': True},
-                        'portuguese': {'type': 'integer', 'ignore_malformed': True},
-                    }
-                },
             }
         },
     }
@@ -139,7 +118,7 @@ def setup(context):
 @click.argument('accessibility', type=click.File('r'))
 @click.argument('addresses', type=click.File('r'))
 @click.argument('equipments', type=click.File('r'))
-# @click.option('languages', type=click.File('r'))
+@click.argument('languages', type=click.File('r'))
 @click.argument('schools_ext', type=click.File('r'))
 @pass_context
 def load_data(context,
@@ -147,7 +126,7 @@ def load_data(context,
               accessibility,
               addresses,
               equipments,
-              # languages,
+              languages,
               schools_ext
               ):
     click.secho('Loading schools ... ', fg='green')
@@ -171,6 +150,11 @@ def load_data(context,
     with progressbar(tmp, label=PB_LABEL % 'Equipment') as bar:
         for bsn in bar:
             data[bsn]['equipments'] = tmp[bsn]
+
+    tmp = LanguageProcessor(languages).process()
+    with progressbar(tmp, label=PB_LABEL % 'Language') as bar:
+        for bsn in bar:
+            data[bsn].update(tmp[bsn])
 
     tmp = SchoolExtProcessor(schools_ext).process()
     with progressbar(tmp, label=PB_LABEL % 'SchoolExt') as bar:
@@ -241,6 +225,14 @@ class EquipmentProcessor(Processor):
         bsn, row = super(EquipmentProcessor, self).cleanup(row)
         row.pop('address_id', None)
         row.pop('district_id', None)
+        return bsn, row
+
+
+class LanguageProcessor(Processor):
+
+    def cleanup(self, row):
+        bsn, row = super(LanguageProcessor, self).cleanup(row)
+        row['languages'] = row['languages'].split()
         return bsn, row
 
 
