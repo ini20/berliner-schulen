@@ -13,7 +13,9 @@ $ importer setup
 Index all data:
 
 ```shell
-$ importer load_data clean_schools.csv clean_accessibility.csv clean_addresses.csv clean_equipments.csv clean_schools_ext.csv
+$ importer load_data clean_schools.csv clean_accessibility.csv \
+                     clean_addresses.csv clean_equipments.csv \
+					 clean_languages.csv clean_schools_ext.csv
 ```
 
 Clear existing data:
@@ -22,13 +24,15 @@ Clear existing data:
 $ importer clear
 ```
 
-If Elasticsearch doesn't listen on `127.0.0.1:9200` include `--es-hosts 'example.com:1234'` as an argument to `importer`:
+If Elasticsearch doesn't listen on `127.0.0.1:9200` include `--es-hosts
+'example.com:1234'` as an argument to `importer`:
 
 ```shell
 $ importer --es-hosts 'example.com:1234' setup
 ```
 
-If you are running Elasticsearch on a publicly accessible ip and port, you should lock it down and import data via an SSH tunnel:
+If you are running Elasticsearch on a publicly accessible ip and port, you
+should lock it down and import data via an SSH tunnel:
 
 ```shell
 ssh -NfL 9222:localhost:9200 example.com
@@ -70,7 +74,7 @@ Options:
 
 ```shell
 Usage: importer load_data [OPTIONS] SCHOOLS ACCESSIBILITY ADDRESSES EQUIPMENTS
-                          SCHOOLS_EXT
+                          LANGUAGES SCHOOLS_EXT
 
 Options:
   --help  Show this message and exit.
