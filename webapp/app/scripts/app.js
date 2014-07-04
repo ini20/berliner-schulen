@@ -118,6 +118,8 @@ var sp = sp || {};
                         street: v._source.address.street,
                         zip: v._source.address.plz,
                         district: v._source.address.district,
+                        wwwaddress: v._source.wwwaddress,
+                        phonenumber: v._source.phonenumber
                     }));
                 });
                 mapService.total = body.hits.total;
