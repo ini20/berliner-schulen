@@ -102,15 +102,6 @@ def setup(context):
         context.es.indices.create(context.es_index)
     context.es.indices.put_mapping(index=context.es_index,
                                    doc_type='school', body=body)
-    body = {
-        'district': {
-            'properties': {
-                'name': {'type': 'string', 'index': 'not_analyzed', 'store': True},
-            }
-        }
-    }
-    context.es.indices.put_mapping(index=context.es_index,
-                                   doc_type='district', body=body)
 
 
 @cli.command()
@@ -139,12 +130,10 @@ def load_data(context,
         for bsn in bar:
             data[bsn]['accessibility'] = tmp[bsn]
 
-    address_processor = AddressProcessor(addresses)
-    tmp = address_processor.process()
+    tmp = AddressProcessor(addresses).process()
     with progressbar(tmp, label=PB_LABEL % 'Addresses') as bar:
         for bsn in bar:
             data[bsn]['address'] = tmp[bsn]
-    districts = address_processor.districts
 
     tmp = EquipmentProcessor(equipments).process()
     with progressbar(tmp, label=PB_LABEL % 'Equipment') as bar:
@@ -167,11 +156,6 @@ def load_data(context,
         for bsn in bar:
             context.es.index(index=context.es_index, doc_type='school',
                              id=bsn, body=data[bsn])
-
-    with progressbar(districts, label=PB_LABEL % 'Districts') as bar:
-        for district_id in bar:
-            context.es.index(index=context.es_index, doc_type='district',
-                             id=district_id, body=districts[district_id])
 
 
 class Processor(object):
@@ -203,19 +187,13 @@ class AccessibilityProcessor(Processor):
 
 class AddressProcessor(Processor):
 
-    def __init__(self, infile):
-        super(AddressProcessor, self).__init__(infile)
-        self.districts = {}
-
     def cleanup(self, row):
         bsn, row = super(AddressProcessor, self).cleanup(row)
         row.pop('address_id', None)
-        district_id = row.pop('district_id', None)
         lat = row.pop('latitude', None)
         lon = row.pop('longitude', None)
         if lat and lon:
             row['location'] = {'lat': lat, 'lon': lon}
-        self.districts[district_id] = {'name': row['district']}
         return bsn, row
 
 
