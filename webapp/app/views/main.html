@@ -4,48 +4,46 @@
         <form>
             <div class="row">
                 <div class="large-12 columns">
-                    <label>Stadtteil
-                        <div class="row collapse">
-                            <div class="small-10 columns">
+                    <div class="row collapse">
+                        <div class="small-9 columns">
+                            <label>Stadtteil
                                 <select chosen multiple class="multisel" data-placeholder="Stadtteile auswählen" ng-model="selectedDistricts" ng-options="value for value in districts" > 
                                     
                                 </select>
-                            </div>
-                            <div class="small-2 columns">
-                                <a class="button postfix radius selectAll" data-multiId="districts">Alle</a>
-                            </div>
+                            </label>
                         </div>
-                    </label>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <label>Schulart
-                        <div class="row collapse">
-                            <div class="small-10 columns">
+                    <div class="row collapse">
+                        <div class="small-9 columns">
+                            <label>Schulart
                                 <select chosen multiple ng-model="selectedSchoolTypes" ng-options="value for value in schoolTypes" class="multisel" data-placeholder="Schulart auswählen"> 
                                 </select>
-                            </div>
-                            <div class="small-2 columns">
-                                <a class="button postfix radius selectAll" data-multiId="types">Alle</a>
-                            </div>
+                            </label>
                         </div>
-                    </label>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <label>Unterrichtssprache
-                        <div class="row collapse">
-                            <div class="small-10 columns">
+                    <div class="row collapse">
+                        <div class="small-9 columns">
+                            <label>Unterrichtssprache
                                 <select chosen multiple ng-model="selectedLanguages" ng-options="value for value in languages" class="multisel" data-placeholder="Unterrichtssprache auswählen"> 
                                 </select>
-                            </div>
-                            <div class="small-2 columns">
-                                <a class="button postfix radius selectAll" data-multiId="languages">Alle</a>
+                           </label>
+                        </div>
+                        <div class="small-2 columns">
+                            <label for="switchLanguages">Alle</label>
+                            <div class="switch">
+                                <input id="switchLanguages" type="checkbox" ng-model="allLanguages">
+                                <label for="switchLanguages"></label>
                             </div>
                         </div>
-                    </label>
+                    </div>
                 </div>
             </div>
             <div class="row">

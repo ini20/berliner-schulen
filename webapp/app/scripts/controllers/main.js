@@ -77,12 +77,15 @@ angular.module('schooldataApp')
             console.log(error.message);
         });
 
+        $scope.allLanguages = true;
+
         $scope.updateFilter = function(data) {
             if (data === undefined) {
                 data = {
                     districts: this.selectedDistricts,
                     schooltypes: this.selectedSchoolTypes,
-                    languages: this.selectedLanguages
+                    languages: this.selectedLanguages,
+                    allLanguages: this.allLanguages
                 };
             }
             mapService.updateFilter(data);
@@ -92,7 +95,8 @@ angular.module('schooldataApp')
             var data = {
                 districts : this.selectedDistricts,
                 schooltypes: this.selectedSchoolTypes,
-                languages: this.selectedLanguages
+                languages: this.selectedLanguages,
+                allLanguages: this.allLanguages
             };
             console.log($window.location);
             $scope.shareLink = $window.location.origin+'/'+$window.location.hash+'?filter='+encodeURIComponent(JSON.stringify(data));
@@ -114,6 +118,10 @@ angular.module('schooldataApp')
             if (data.languages !== undefined) {
                 empty = false;
                 $scope.selectedLanguages = data.languages;
+            }
+            if (data.allLanguages !== undefined) {
+                empty = false;
+                $scope.allLanguages = data.allLanguages;
             }
 
             if (!empty) {

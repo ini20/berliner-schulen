@@ -83,6 +83,7 @@ var sp = sp || {};
             }
 
             if (args.languages !== undefined) {
+                var all = (args.allLanguages === true);
                 if (args.languages.length > 0) {
                     if (body.query.bool === undefined) {
                         body.query.bool = {'must' : []};
@@ -91,7 +92,7 @@ var sp = sp || {};
                     body.query.bool.must.push({
                         'terms' : {
                             'languages' : args.languages,
-                            'minimum_should_match': 1
+                            'minimum_should_match': (all === true) ? args.languages.length : 1
                         }
                     });
                 }
