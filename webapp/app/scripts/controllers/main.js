@@ -38,9 +38,9 @@ angular.module('schooldataApp')
             body: {
                 size: 0,
                 aggs: {
-                    branches: {
+                    schooltypes: {
                         terms: {
-                            field: 'branches',
+                            field: 'schooltype',
                             size: 0,
                             order: {
                               _term: "asc"
@@ -50,11 +50,11 @@ angular.module('schooldataApp')
                 } 
             }
         }).then(function (body) {
-            var branches = [];
-            angular.forEach(body.aggregations.branches.buckets, function(v){
-                branches.push(v.key);
+            var schooltype = [];
+            angular.forEach(body.aggregations.schooltypes.buckets, function(v){
+                schooltype.push(v.key);
             });
-            $scope.schoolTypes = branches;
+            $scope.schoolTypes = schooltype;
         }, function (error) {
             console.log(error.message);
         });
