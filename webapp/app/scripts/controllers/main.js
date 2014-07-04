@@ -50,11 +50,38 @@ angular.module('schooldataApp')
                 } 
             }
         }).then(function (body) {
-            var schooltype = [];
+            var schooltypes = [];
             angular.forEach(body.aggregations.schooltypes.buckets, function(v){
-                schooltype.push(v.key);
+                schooltypes.push(v.key);
             });
-            $scope.schoolTypes = schooltype;
+            $scope.schoolTypes = schooltypes;
+        }, function (error) {
+            console.log(error.message);
+        });
+
+        es.search({
+            index: sp.config.elasticsearch.index,
+            type: 'school',
+            body: {
+                size: 0,
+                aggs: {
+                    branches: {
+                        terms: {
+                            field: 'branches',
+                            size: 0,
+                            order: {
+                              _term: "asc"
+                            }
+                        }
+                    }
+                } 
+            }
+        }).then(function (body) {
+            var branches = [];
+            angular.forEach(body.aggregations.branches.buckets, function(v){
+                branches.push(v.key);
+            });
+            $scope.branches = branches;
         }, function (error) {
             console.log(error.message);
         });
@@ -93,6 +120,7 @@ angular.module('schooldataApp')
                 data = {
                     districts: this.selectedDistricts,
                     schooltypes: this.selectedSchoolTypes,
+                    branches: this.selectedBranches,
                     languages: this.selectedLanguages,
                     allLanguages: this.allLanguages
                 };
@@ -104,6 +132,7 @@ angular.module('schooldataApp')
             var data = {
                 districts : this.selectedDistricts,
                 schooltypes: this.selectedSchoolTypes,
+                branches: this.selectedBranches,
                 languages: this.selectedLanguages,
                 allLanguages: this.allLanguages
             };
@@ -123,6 +152,10 @@ angular.module('schooldataApp')
             if (data.schooltypes !== undefined) {
                 empty = false;
                 $scope.selectedSchoolTypes = data.schooltypes;
+            }
+            if (data.branches !== undefined) {
+                empty = false;
+                $scope.branches = data.branches;
             }
             if (data.languages !== undefined) {
                 empty = false;

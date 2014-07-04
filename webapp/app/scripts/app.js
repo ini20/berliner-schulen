@@ -82,6 +82,21 @@ var sp = sp || {};
                 }
             }
 
+            if (args.branches !== undefined) {
+                if (args.branches.length > 0) {
+                    if (body.query.bool === undefined) {
+                        body.query.bool = {'must' : []};
+                    }
+
+                    body.query.bool.must.push({
+                        terms : {
+                            branches : args.branches,
+                            minimum_should_match: 1
+                        }
+                    });
+                }
+            }
+
             if (args.languages !== undefined) {
                 var all = (args.allLanguages === true);
                 if (args.languages.length > 0) {

@@ -31,6 +31,18 @@
                 <div class="large-12 columns">
                     <div class="row collapse">
                         <div class="small-9 columns">
+                            <label>Schulzweig
+                                <select chosen multiple ng-model="selectedBranches" ng-options="value for value in branches" class="multisel" data-placeholder="Schulzweig auswählen"> 
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <div class="row collapse">
+                        <div class="small-9 columns">
                             <label>Unterrichtssprache
                                 <select chosen multiple ng-model="selectedLanguages" ng-options="value for value in languages" class="multisel" data-placeholder="Unterrichtssprache auswählen"> 
                                 </select>
