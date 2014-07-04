@@ -14,7 +14,10 @@ angular.module('schooldataApp')
                     district: {
                         terms: {
                             field: 'name',
-                            size: 0
+                            size: 0,
+                            order: {
+                              _term: "asc"
+                            }
                         }
                     }
                 }
@@ -38,7 +41,10 @@ angular.module('schooldataApp')
                     branches: {
                         terms: {
                             field: 'branches',
-                            size: 0
+                            size: 0,
+                            order: {
+                              _term: "asc"
+                            }
                         }
                     }
                 } 
@@ -62,7 +68,10 @@ angular.module('schooldataApp')
                     languages: {
                         terms: {
                             field: 'languages',
-                            size: 0
+                            size: 0,
+                            order: {
+                              _term: "asc"
+                            }
                         }
                     }
                 }
