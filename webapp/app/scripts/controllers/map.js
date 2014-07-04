@@ -52,8 +52,9 @@ angular.module('schooldataApp')
             }
         });
         var selector = new OpenLayers.Control.SelectFeature(overlay, {
+            autoActivate: true,
             hover: false,
-            autoActivate: true
+            toggle: true,
         });
         $scope.map.addControl(new OpenLayers.Control.LayerSwitcher());
         $scope.map.addControl(selector);
