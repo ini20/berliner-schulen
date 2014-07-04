@@ -7,37 +7,26 @@ angular.module('schooldataApp')
 
         es.search({
             index: sp.config.elasticsearch.index,
-            type: 'district',
-            body: {
-                size: 0,
-                aggs: {
-                    district: {
-                        terms: {
-                            field: 'name',
-                            size: 0,
-                            order: {
-                              _term: "asc"
-                            }
-                        }
-                    }
-                }
-            }
-        }).then(function (body) {
-            var districts = [];
-            angular.forEach(body.aggregations.district.buckets, function(v){
-                districts.push(v.key);
-            });
-            $scope.districts = districts;
-        }, function (error) {
-            console.trace(error.message);
-        });
-
-        es.search({
-            index: sp.config.elasticsearch.index,
             type: 'school',
             body: {
                 size: 0,
                 aggs: {
+                    nested: {
+                        nested: {
+                            path: 'address'
+                        },
+                        aggs: {
+                            districts: {
+                                terms: {
+                                    field: 'address.district',
+                                    size: 0,
+                                    order: {
+                                      _term: "asc"
+                                    }
+                                }
+                            }
+                        }
+                    },
                     schooltypes: {
                         terms: {
                             field: 'schooltype',
@@ -46,25 +35,7 @@ angular.module('schooldataApp')
                               _term: "asc"
                             }
                         }
-                    }
-                } 
-            }
-        }).then(function (body) {
-            var schooltypes = [];
-            angular.forEach(body.aggregations.schooltypes.buckets, function(v){
-                schooltypes.push(v.key);
-            });
-            $scope.schoolTypes = schooltypes;
-        }, function (error) {
-            console.log(error.message);
-        });
-
-        es.search({
-            index: sp.config.elasticsearch.index,
-            type: 'school',
-            body: {
-                size: 0,
-                aggs: {
+                    },
                     branches: {
                         terms: {
                             field: 'branches',
@@ -73,25 +44,7 @@ angular.module('schooldataApp')
                               _term: "asc"
                             }
                         }
-                    }
-                } 
-            }
-        }).then(function (body) {
-            var branches = [];
-            angular.forEach(body.aggregations.branches.buckets, function(v){
-                branches.push(v.key);
-            });
-            $scope.branches = branches;
-        }, function (error) {
-            console.log(error.message);
-        });
-
-        es.search({
-            index: sp.config.elasticsearch.index,
-            type: 'school',
-            body: {
-                size: 0,
-                aggs: {
+                    },
                     languages: {
                         terms: {
                             field: 'languages',
@@ -104,7 +57,22 @@ angular.module('schooldataApp')
                 }
             }
         }).then(function (body) {
+            var districts = [];
+            var schooltypes = [];
+            var branches = [];
             var languages = [];
+            angular.forEach(body.aggregations.nested.districts.buckets, function(v){
+                districts.push(v.key);
+            });
+            $scope.districts = districts;
+            angular.forEach(body.aggregations.schooltypes.buckets, function(v){
+                schooltypes.push(v.key);
+            });
+            $scope.schoolTypes = schooltypes;
+            angular.forEach(body.aggregations.branches.buckets, function(v){
+                branches.push(v.key);
+            });
+            $scope.branches = branches;
             angular.forEach(body.aggregations.languages.buckets, function(v){
                 languages.push(v.key);
             });
