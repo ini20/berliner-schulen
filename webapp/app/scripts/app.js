@@ -59,7 +59,7 @@ var sp = sp || {};
                             query: {
                                 terms: {
                                     'address.district': args.districts,
-                                    'minimum_should_match': 1
+                                    minimum_should_match: 1
                                 }
                             }
                         }
@@ -74,9 +74,9 @@ var sp = sp || {};
                     }
 
                     body.query.bool.must.push({
-                        'terms' : {
-                            'branches' : args.schooltypes,
-                            'minimum_should_match': 1
+                        terms : {
+                            schooltype : args.schooltypes,
+                            minimum_should_match: 1
                         }
                     });
                 }
@@ -90,9 +90,9 @@ var sp = sp || {};
                     }
 
                     body.query.bool.must.push({
-                        'terms' : {
-                            'languages' : args.languages,
-                            'minimum_should_match': (all === true) ? args.languages.length : 1
+                        terms : {
+                            languages : args.languages,
+                            minimum_should_match: (all === true) ? args.languages.length : 1
                         }
                     });
                 }
