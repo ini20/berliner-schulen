@@ -15,7 +15,7 @@ var sp = sp || {};
         'angularCharts'
     ]);
 
-    mod.config(['$routeProvider', 'ngClipProvider', function ($routeProvider, ngClipProvider) {
+    mod.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
         .when('/', {
             templateUrl: 'views/main.html',

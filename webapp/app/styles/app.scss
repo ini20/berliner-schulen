@@ -41,7 +41,9 @@
 
 // Chosen's css is not aware of the modified paths. Patch them
 @import "chosen";
-
+// Fix the chart presentation
+@import "chart";
 .big {
 	line-height: 150%;
 }
+
