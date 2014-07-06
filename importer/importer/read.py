@@ -48,18 +48,8 @@ def setup(context):
                 'public': {'type': 'boolean', 'index': 'not_analyzed'},
                 'schooltype': {'type': 'string', 'index': 'not_analyzed'},
                 'languages': {'type': 'string', 'index': 'not_analyzed'},
-                'branches': {'type': 'string', 'index': 'not_analyzed', 'store': True},
-                'accessibility': {
-                    'type': 'nested',
-                    'properties': {
-                        'parking-lot': {'type': 'integer', 'ignore_malformed': True},
-                        'elevator': {'type': 'integer', 'ignore_malformed': True},
-                        'toilet': {'type': 'integer', 'ignore_malformed': True},
-                        'open-for-wcu': {'type': 'integer', 'ignore_malformed': True},
-                        'advice-center-hearing': {'type': 'integer', 'ignore_malformed': True},
-                        'advice-center-speaking': {'type': 'integer', 'ignore_malformed': True},
-                    }
-                },
+                'branches': {'type': 'string', 'index': 'not_analyzed'},
+                'accessibility': {'type': 'string', 'index': 'not_analyzed'},
                 'address': {
                     'type': 'nested',
                     'properties': {
@@ -179,7 +169,10 @@ class Processor(object):
 
 
 class AccessibilityProcessor(Processor):
-    pass
+
+    def process_row(self, row):
+        bsn, row = super(AccessibilityProcessor, self).process_row(row)
+        return bsn, [k for k, v in row.items() if v]
 
 
 class AddressProcessor(Processor):
