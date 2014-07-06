@@ -96,16 +96,16 @@ def setup(context):
                         'cybercafe': {'type': 'integer', 'ignore_malformed': True},
                     }
                 },
-                'personell' : {
-                    'type' : 'object',
+                'personell': {
+                    'type': 'object',
                     'properties': {
-                        'name': {'type': 'string', 'index' : 'not_analyzed'},
-                        'data' : {
-                            'type' : 'object',
-                            'properties' : {
-                                'year' : {'type':'string', 'index':'not_analyzed'},
-                                'amount_m' : {'type':'integer', 'ignore_malformed':True},
-                                'amount_f':{'type':'integer', 'ignore_malformed':True}
+                        'name': {'type': 'string', 'index': 'not_analyzed'},
+                        'data': {
+                            'type': 'object',
+                            'properties': {
+                                'year': {'type': 'string', 'index': 'not_analyzed'},
+                                'amount_m': {'type': 'integer', 'ignore_malformed': True},
+                                'amount_f': {'type': 'integer', 'ignore_malformed': True}
                             }
                         }
                     }
@@ -172,7 +172,8 @@ def load_data(context,
         for bsn in bar:
             if bsn in data:
                 # We have data about schools that don't exist -.-
-                data[bsn]['personell'] = [{'name': k, 'data': v} for k, v in tmp[bsn].items()]
+                data[bsn]['personell'] = [{'name': k, 'data': v}
+                                          for k, v in tmp[bsn].items()]
 
     click.secho('\nIndexing ...', fg='green')
 
@@ -266,6 +267,7 @@ class SchoolExtProcessor(Processor):
         }
         return bsn, data
 
+
 class PersonellProcessor(Processor):
 
     def process(self):
@@ -283,11 +285,11 @@ class PersonellProcessor(Processor):
     def process_row(self, row):
         bsn, row = super(PersonellProcessor, self).process_row(row)
         data = {
-            'name' : row['Text'],
-            'data' : {
-                'year' : row['Schuljahr'],
-                'amount_f' : row['Personal_W'],
-                'amount_m' : row['Personal_M'],
+            'name': row['Text'],
+            'data': {
+                'year': row['Schuljahr'],
+                'amount_f': row['Personal_W'],
+                'amount_m': row['Personal_M'],
             }
         }
         return bsn, data
