@@ -18,7 +18,8 @@ var sp = sp || {};
         $routeProvider
         .when('/', {
             templateUrl: 'views/main.html',
-            controller: 'MainCtrl'
+            controller: 'MainCtrl',
+            reloadOnSearch: false
             })
         .when('/impressum', {
             templateUrl: 'views/about.html',
