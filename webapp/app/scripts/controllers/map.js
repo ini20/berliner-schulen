@@ -62,10 +62,12 @@ angular.module('schooldataApp')
         $scope.map.addLayer(overlay);
 
         $scope.total = 0;
+        $scope.took = 0;
 
         $scope.$on('updateMapMarkers', function() {
             overlay.removeAllFeatures();
             overlay.addFeatures(mapService.markers);
             $scope.total = mapService.total;
+            $scope.took = mapService.took;
         });
     }]);

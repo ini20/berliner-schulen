@@ -44,7 +44,8 @@ var sp = sp || {};
     mod.factory('mapService', ['$rootScope', 'es', function($rootScope, es) {
         var mapService = {
             markers: [],
-            total: 0
+            total: 0,
+            took: 0
         };
 
         mapService.updateFilter = function(args) {
@@ -156,6 +157,7 @@ var sp = sp || {};
                     }));
                 });
                 mapService.total = body.hits.total;
+                mapService.took = body.took;
                 $rootScope.$broadcast('updateMapMarkers');
             }, function (error) {
                 console.log(error.message);
