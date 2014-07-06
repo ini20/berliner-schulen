@@ -5,5 +5,8 @@
     },
     "map": {
         "feature_bubble": "/views/inc/map_feature_bubble.html"
+    },
+    "heatmap": {
+        "data": "heatmap.json"
     }
 }

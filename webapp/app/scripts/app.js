@@ -30,6 +30,10 @@ var sp = sp || {};
             templateUrl: 'views/school.html',
             controller: 'SchoolCtrl'
         })
+        .when('/statistics', {
+            templateUrl: 'views/statistics.html',
+            controller: 'StatisticsCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });

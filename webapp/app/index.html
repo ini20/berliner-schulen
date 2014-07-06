@@ -16,6 +16,7 @@
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/chosen/chosen.css" />
+    <link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
     <!-- endbower -->
     <!-- endbuild -->
     
@@ -43,6 +44,7 @@
                 <!-- Right Nav Section -->
                 <ul class="right">
                     <li><a href="#/" active-link>Home</a></li>
+                    <li><a href="#/statistics" active-link>Statistiken</a></li>
                     <li><a href="#/impressum" active-link>Impressum</a></li>
                 </ul>
             </section>
@@ -95,6 +97,9 @@
     <script src="bower_components/foundation/js/foundation.js"></script>
     <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
     <script src="bower_components/ng-clip/dest/ng-clip.min.js"></script>
+    <script src="bower_components/heatmap.js/src/heatmap.js"></script>
+    <script src="bower_components/heatmap.js/src/heatmap-openlayers.js"></script>
+    <script src="bower_components/heatmap.js/src/heatmap-openlayers-renderer.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -105,6 +110,7 @@
     <script src="scripts/controllers/map.js"></script>
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/school.js"></script>
+    <script src="scripts/controllers/statistics.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">$(document).foundation();</script>
