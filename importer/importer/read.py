@@ -3,6 +3,7 @@
 
 import click
 import csv
+import json
 
 from collections import defaultdict
 from functools import partial
@@ -106,6 +107,7 @@ def setup(context):
 @click.argument('schools_ext', type=click.File('r'))
 @click.argument('personell', type=click.File('r'))
 @click.argument('students', type=click.File('r'))
+@click.argument('heatmap', type=click.File('w'))
 @pass_context
 def load_data(context,
               schools,
@@ -115,7 +117,8 @@ def load_data(context,
               languages,
               schools_ext,
               personell,
-              students
+              students,
+              heatmap
               ):
     click.secho('Loading schools ... ', fg='green')
     data = SchoolProcessor(schools).process()
@@ -168,21 +171,46 @@ def load_data(context,
             context.es.index(index=context.es_index, doc_type='school',
                              id=bsn, body=data[bsn])
 
-    for bsn in data:
-        # sum up all the personell
-        personell = 0
-        if 'personell' in data[bsn]:
+    click.secho('\nPost processing ...', fg='green')
+
+    heatmapData = []
+    maxQuot = 0
+    with progressbar(data, label=PB_LABEL % 'Creating heatmap') as bar:
+        for bsn in bar:
+            # ignore all those schools where we're missing data
+            if not 'personell' in data[bsn]:
+                continue
+            if not 'classes' in data[bsn]:
+                continue
+            if not 'location' in data[bsn]['address']:
+                continue
+
+            # sum up all the personell
+            personell = 0
             for v in data[bsn]['personell']:
                 if v['name'] in ('Lehrkräfte', 'Erzieher(innen)'):
                     d = v['data'][0]
                     personell = personell + float(d['amount_f']) + float(d['amount_m'])
 
             students = 0
-            if 'classes' in data[bsn]:
-                for clazz in data[bsn]['classes']:
-                    students = students + float(clazz['totalStudents'])
+            for clazz in data[bsn]['classes']:
+                students = students + float(clazz['totalStudents'])
 
-                print (bsn + ': ' + str(students / personell)+ '\n')
+            loc = data[bsn]['address']['location']
+            quot = students / personell
+            maxQuot = max(maxQuot, quot)
+            heatmapData.append({
+               'bsn': bsn,
+               'lon': loc['lon'],
+               'lat': loc['lat'],
+               'quot': quot
+            })
+
+    hm = {
+        'max': maxQuot,
+        'data': heatmapData
+    }
+    heatmap.write(json.dumps(hm))
 
 class Processor(object):
 
