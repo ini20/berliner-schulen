@@ -83,6 +83,36 @@ angular.module('schooldataApp')
 
         $scope.allLanguages = true;
 
+        $scope.$watch('selectedDistricts', function(n, o) {
+            if (n !== o) {
+                $location.path($location.search('d', n));
+            }
+        });
+
+        $scope.$watch('selectedSchoolTypes', function(n, o) {
+            if (n !== o) {
+                $location.path($location.search('s', n));
+            }
+        });
+
+        $scope.$watch('selectedBranches', function(n, o) {
+            if (n !== o) {
+                $location.path($location.search('b', n));
+            }
+        });
+
+        $scope.$watch('selectedLanguages', function(n, o) {
+            if (n !== o) {
+                $location.path($location.search('l', n));
+            }
+        });
+
+        $scope.$watch('allLanguages', function(n, o) {
+            if (n !== o) {
+                $location.path($location.search('al', n));
+            }
+        });
+
         $scope.updateFilter = function(data) {
             if (data === undefined) {
                 data = {
@@ -97,45 +127,48 @@ angular.module('schooldataApp')
         };
 
         $scope.filterAsLink = function() {
-            var data = {
-                districts : this.selectedDistricts,
-                schooltypes: this.selectedSchoolTypes,
-                branches: this.selectedBranches,
-                languages: this.selectedLanguages,
-                allLanguages: this.allLanguages
-            };
-            console.log($window.location);
-            $scope.shareLink = $window.location.origin+'/'+$window.location.hash+'?filter='+encodeURIComponent(JSON.stringify(data));
+            $scope.shareLink = $location.absUrl();
         };
 
-        var searchObject = $location.search();
-        if (searchObject.filter !== undefined) {
-            var data = JSON.parse(decodeURIComponent(searchObject.filter));
-            console.log(data);
-            var empty = true;
-            if (data.districts !== undefined) {
-                empty = false;
-                $scope.selectedDistricts = data.districts;
+        var so = $location.search();
+        var empty = true;
+        if (so.d !== undefined) {
+            if (typeof(so.d) === 'string') {
+                $scope.selectedDistricts = [so.d];
+            } else {
+                $scope.selectedDistricts = so.d;
             }
-            if (data.schooltypes !== undefined) {
-                empty = false;
-                $scope.selectedSchoolTypes = data.schooltypes;
+            empty = false;
+        }
+        if (so.s !== undefined) {
+            if (typeof(so.s) === 'string') {
+                $scope.selectedSchoolTypes = [so.s];
+            } else {
+                $scope.selectedSchoolTypes = so.s;
             }
-            if (data.branches !== undefined) {
-                empty = false;
-                $scope.branches = data.branches;
+            empty = false;
+        }
+        if (so.b !== undefined) {
+            if (typeof(so.b) === 'string') {
+                $scope.selectedBranches = [so.b];
+            } else {
+                $scope.selectedBranches = so.b;
             }
-            if (data.languages !== undefined) {
-                empty = false;
-                $scope.selectedLanguages = data.languages;
+            empty = false;
+        }
+        if (so.l !== undefined) {
+            if (typeof(so.l) === 'string') {
+                $scope.selectedLanguages = [so.l];
+            } else {
+                $scope.selectedLanguages = so.l;
             }
-            if (data.allLanguages !== undefined) {
-                empty = false;
-                $scope.allLanguages = data.allLanguages;
-            }
-
-            if (!empty) {
-                $scope.updateFilter(data);
-            }
+            empty = false;
+        }
+        if (so.al !== undefined) {
+            $scope.allLanguages = so.al;
+            empty = false;
+        }
+        if (!empty) {
+            $scope.updateFilter();
         }
     }]);
