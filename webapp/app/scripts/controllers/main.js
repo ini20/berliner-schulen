@@ -21,7 +21,7 @@ angular.module('schooldataApp')
                                     field: 'address.district',
                                     size: 0,
                                     order: {
-                                      _term: "asc"
+                                      _term: 'asc'
                                     }
                                 }
                             }
@@ -32,7 +32,7 @@ angular.module('schooldataApp')
                             field: 'schooltype',
                             size: 0,
                             order: {
-                              _term: "asc"
+                              _term: 'asc'
                             }
                         }
                     },
@@ -41,7 +41,7 @@ angular.module('schooldataApp')
                             field: 'branches',
                             size: 0,
                             order: {
-                              _term: "asc"
+                              _term: 'asc'
                             }
                         }
                     },
@@ -50,7 +50,7 @@ angular.module('schooldataApp')
                             field: 'languages',
                             size: 0,
                             order: {
-                              _term: "asc"
+                              _term: 'asc'
                             }
                         }
                     }
