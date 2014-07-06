@@ -78,15 +78,6 @@
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <label>Klassenstufen
-                        <div style="width: 90%; margin: 0 auto;">
-                            <div id="grades" style="margin: 10px 0px;"></div>
-                        </div>
-                    </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
                     <label>Trägerschaft</label>
                     <input id="checkbox1" type="checkbox" checked /><label for="checkbox1">öffentlich</label>
                     <input id="checkbox2" type="checkbox" checked/><label for="checkbox2">privat</label>
@@ -94,30 +85,18 @@
             </div>
             <div class="row">
                 <div class="large-12 columns">
-                    <label>Eigenschaften</label>
-                    <div class="row">
-                        <div class="medium-6 columns">
-                            <input id="chkBehindertengerecht" type="checkbox"><label for="chkBehindertengerecht">behindertengerecht</label>
+                    <div class="row collapse" ng-hide="shareLink != null">
+                        <div class="small-2 small-offset-10 columns">
+                            <a href="" class="button tiny" ng-click="filterAsLink()">Share</a>
                         </div>
-                        <div class="medium-6 columns">
-                            <input id="chkEssen" type="checkbox"><label for="chkEssen">Mittagessen</label>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <div class="row">
-                    <a href="" class="button success radius" ng-click="updateFilter()">Aktualisieren</a>
-                    <a href="" class="button radius" ng-click="filterAsLink()">Share</a>
                     </div>
                     <div class="row collapse" ng-hide="shareLink == null">
                         <div class="small-10 columns">
-                        <input type="text" name="test" ng-model="shareLink" />
+                            <input type="text" name="test" ng-model="shareLink" />
                         </div>
                         <div class="small-2 columns">
-                        <button class="button postfix radius selectAll" clip-copy="shareLink">Copy</button></div>
+                            <button class="button postfix selectAll" clip-copy="shareLink">Copy</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -125,11 +104,13 @@
     </div>
 </div>
 
-<div class="large-7 columns">
+<div class="large-7 columns" ng-controller="MapCtrl">
     <div class="map_wrapper" style="height: 500px">
-        <div id="map" style="width: 100%; height: 100%" ng-controller="MapCtrl">
+        <div id="map" style="width: 100%; height: 100%">
             <div ng-model="map"></div>
-            <div>{{ total }}</div>
         </div>
+    </div>
+    <div data-alert class="alert-box success" style="margin-top: 1.25rem">
+      {{ total }} Schulen gefunden.
     </div>
 </div>
