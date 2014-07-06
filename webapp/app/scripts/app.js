@@ -48,7 +48,8 @@ var sp = sp || {};
     mod.factory('mapService', ['$rootScope', 'es', function($rootScope, es) {
         var mapService = {
             markers: [],
-            total: 0
+            total: 0,
+            took: 0
         };
 
         mapService.updateFilter = function(args) {
@@ -60,7 +61,7 @@ var sp = sp || {};
                         body.query.bool = {'must' : []};
                     }
                     body.query.bool.must.push({
-                        nested : {
+                        nested: {
                             path: 'address',
                             query: {
                                 terms: {
@@ -80,7 +81,7 @@ var sp = sp || {};
                     }
 
                     body.query.bool.must.push({
-                        terms : {
+                        terms: {
                             schooltype : args.schooltypes,
                             minimum_should_match: 1
                         }
@@ -95,7 +96,7 @@ var sp = sp || {};
                     }
 
                     body.query.bool.must.push({
-                        terms : {
+                        terms: {
                             branches : args.branches,
                             minimum_should_match: 1
                         }
@@ -111,7 +112,7 @@ var sp = sp || {};
                     }
 
                     body.query.bool.must.push({
-                        terms : {
+                        terms: {
                             languages : args.languages,
                             minimum_should_match: (all === true) ? args.languages.length : 1
                         }
@@ -127,12 +128,32 @@ var sp = sp || {};
                     }
 
                     body.query.bool.must.push({
-                        terms : {
+                        terms: {
                             equipments : args.equipments,
                             minimum_should_match: (all === true) ? args.equipments.length : 1
                         }
                     });
                 }
+            }
+
+            if (args.accessibility !== undefined) {
+                var all = (args.allAccessibility === true);
+                if (args.accessibility.length > 0) {
+                    if (body.query.bool === undefined) {
+                        body.query.bool = {'must' : []};
+                    }
+
+                    body.query.bool.must.push({
+                        terms: {
+                            accessibility : args.accessibility,
+                            minimum_should_match: (all === true) ? args.accessibility.length : 1
+                        }
+                    });
+                }
+            }
+
+            if (body.query.bool === undefined) {
+                body.query.match_all = {};
             }
 
             es.search({
@@ -160,6 +181,7 @@ var sp = sp || {};
                     }));
                 });
                 mapService.total = body.hits.total;
+                mapService.took = body.took;
                 $rootScope.$broadcast('updateMapMarkers');
             }, function (error) {
                 console.log(error.message);
