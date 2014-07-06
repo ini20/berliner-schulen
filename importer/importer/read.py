@@ -70,32 +70,7 @@ def setup(context):
                         'plz': {'type': 'integer'},
                     }
                 },
-                'equipments': {
-                    'type': 'nested',
-                    'properties': {
-                        'equipment': {'type': 'string', 'index': 'analyzed'},
-                        'comment': {'type': 'string', 'index': 'analyzed'},
-                        'wood': {'type': 'integer', 'ignore_malformed': True},
-                        'textile': {'type': 'integer', 'ignore_malformed': True},
-                        'metal': {'type': 'integer', 'ignore_malformed': True},
-                        'electronic': {'type': 'integer', 'ignore_malformed': True},
-                        'ceramic': {'type': 'integer', 'ignore_malformed': True},
-                        'workshop': {'type': 'integer', 'ignore_malformed': True},
-                        'workshops': {'type': 'integer', 'ignore_malformed': True},
-                        'weaving': {'type': 'integer', 'ignore_malformed': True},
-                        'bakery': {'type': 'integer', 'ignore_malformed': True},
-                        'kitchen': {'type': 'integer', 'ignore_malformed': True},
-                        'learning-workshop': {'type': 'integer', 'ignore_malformed': True},
-                        'learning-workshops': {'type': 'integer', 'ignore_malformed': True},
-                        'laptops': {'type': 'integer', 'ignore_malformed': True},
-                        'whiteboards': {'type': 'integer', 'ignore_malformed': True},
-                        'presenter': {'type': 'integer', 'ignore_malformed': True},
-                        'pc-pool': {'type': 'integer', 'ignore_malformed': True},
-                        'pc-pools': {'type': 'integer', 'ignore_malformed': True},
-                        'media-library': {'type': 'integer', 'ignore_malformed': True},
-                        'cybercafe': {'type': 'integer', 'ignore_malformed': True},
-                    }
-                },
+                'equipments': {'type': 'string', 'index': 'not_analyzed'},
                 'personell': {
                     'type': 'object',
                     'properties': {
@@ -223,9 +198,7 @@ class EquipmentProcessor(Processor):
 
     def process_row(self, row):
         bsn, row = super(EquipmentProcessor, self).process_row(row)
-        row.pop('address_id', None)
-        row.pop('district_id', None)
-        return bsn, row
+        return bsn, [k for k, v in row.items() if v]
 
 
 class LanguageProcessor(Processor):
