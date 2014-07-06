@@ -15,7 +15,8 @@ Index all data:
 ```shell
 $ importer load_data clean_schools.csv clean_accessibility.csv \
                      clean_addresses.csv clean_equipments.csv \
-					 clean_languages.csv clean_schools_ext.csv
+                     clean_languages.csv clean_schools_ext.csv \
+                     clean_personal.csv
 ```
 
 Clear existing data:
@@ -74,7 +75,7 @@ Options:
 
 ```shell
 Usage: importer load_data [OPTIONS] SCHOOLS ACCESSIBILITY ADDRESSES EQUIPMENTS
-                          LANGUAGES SCHOOLS_EXT
+                          LANGUAGES SCHOOLS_EXT PERSONELL
 
 Options:
   --help  Show this message and exit.
