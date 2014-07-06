@@ -54,11 +54,15 @@ angular.module('schooldataApp')
     };
 
     this.initPersonellCharData = function() {
+        $scope.personellData = null;
+        if ($scope.schoolData.personell === undefined) {
+            return;
+        }
         var p = $scope.schoolData.personell;
-        var years = new Array();
-        var bars = new Array();
+        var years = [];
+        var bars = [];
         p.forEach(function(d) {
-            var val = new Array();
+            var val = [];
             d.data.forEach(function(yd) {
                 if (years.indexOf(yd.year) == -1) {
                     years.push(yd.year);
@@ -70,12 +74,31 @@ angular.module('schooldataApp')
                 y : val
             });
         });
+        bars.sort(function(b1, b2) {
+            return b1.x.localeCompare(b2.x);
+        });
         $scope.personellData = {
             series : years,
             data : bars
         };
 
         console.log($scope.personellData);
+
+        var alternate = false;
+
+        setTimeout(function() {
+            d3.select('#chart').selectAll('g.x.axis g.tick text').
+            attr('y', function() {
+                if (alternate) {
+                    alternate = false;
+                    return 20;
+                } else {
+                    alternate = true;
+                    return 7;
+                }
+            });
+        }, 100);
+
     };
 
     $scope.chartType = 'bar';
