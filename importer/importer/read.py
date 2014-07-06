@@ -4,6 +4,7 @@
 import click
 import csv
 
+from collections import defaultdict
 from functools import partial
 
 from elasticsearch import Elasticsearch
@@ -95,6 +96,20 @@ def setup(context):
                         'cybercafe': {'type': 'integer', 'ignore_malformed': True},
                     }
                 },
+                'personell' : {
+                    'type' : 'object',
+                    'properties': {
+                        'name': {'type': 'string', 'index' : 'not_analyzed'},
+                        'data' : {
+                            'type' : 'object',
+                            'properties' : {
+                                'year' : {'type':'string', 'index':'not_analyzed'},
+                                'amount_m' : {'type':'integer', 'ignore_malformed':True},
+                                'amount_f':{'type':'integer', 'ignore_malformed':True}
+                            }
+                        }
+                    }
+                },
             }
         },
     }
@@ -111,6 +126,7 @@ def setup(context):
 @click.argument('equipments', type=click.File('r'))
 @click.argument('languages', type=click.File('r'))
 @click.argument('schools_ext', type=click.File('r'))
+@click.argument('personell', type=click.File('r'))
 @pass_context
 def load_data(context,
               schools,
@@ -118,7 +134,8 @@ def load_data(context,
               addresses,
               equipments,
               languages,
-              schools_ext
+              schools_ext,
+              personell
               ):
     click.secho('Loading schools ... ', fg='green')
     data = SchoolProcessor(schools).process()
@@ -149,6 +166,13 @@ def load_data(context,
     with progressbar(tmp, label=PB_LABEL % 'SchoolExt') as bar:
         for bsn in bar:
             data[bsn].update(tmp[bsn])
+
+    tmp = PersonellProcessor(personell).process()
+    with progressbar(tmp, label=PB_LABEL % 'Personell') as bar:
+        for bsn in bar:
+            if bsn in data:
+                # We have data about schools that don't exist -.-
+                data[bsn]['personell'] = [{'name': k, 'data': v} for k, v in tmp[bsn].items()]
 
     click.secho('\nIndexing ...', fg='green')
 
@@ -239,6 +263,32 @@ class SchoolExtProcessor(Processor):
             'public': row['Schultraeger'] == "öffentlich",
             'branches': set([row['Schulzweig']]),
             'schooltype': row['Schulart']
+        }
+        return bsn, data
+
+class PersonellProcessor(Processor):
+
+    def process(self):
+        reader = csv.DictReader(self.infile)
+        data = {}
+        for row in reader:
+            bsn, rowdata = self.process_row(row)
+            if bsn is None:
+                continue
+            existingRowData = data.get(bsn, defaultdict(list))
+            existingRowData[rowdata['name']].append(rowdata['data'])
+            data[bsn] = existingRowData
+        return data
+
+    def process_row(self, row):
+        bsn, row = super(PersonellProcessor, self).process_row(row)
+        data = {
+            'name' : row['Text'],
+            'data' : {
+                'year' : row['Schuljahr'],
+                'amount_f' : row['Personal_W'],
+                'amount_m' : row['Personal_M'],
+            }
         }
         return bsn, data
 
