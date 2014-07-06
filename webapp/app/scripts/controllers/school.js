@@ -42,6 +42,7 @@ angular.module('schooldataApp')
                 if (returned.hits.total > 0) {
                     $scope.schoolData = returned.hits.hits[0]._source;
                     ctrl.initPersonellCharData();
+                    ctrl.initStudentsData();
                 } else {
                     $scope.error = "";
                 }
@@ -52,6 +53,34 @@ angular.module('schooldataApp')
                 console.log(error.message);
         });
     };
+
+    this.initStudentsData = function() {
+        $scope.studentsData = null;
+        if ($scope.schoolData.classes === undefined) {
+            return;
+        }
+        var c = $scope.schoolData.classes;
+        var series = ['Gesamt', 'männlich', 'weiblich'];
+        var bars = [];
+        c.forEach(function(d) {
+            var val = [];
+            val.push(parseInt(d.totalStudents));
+            val.push(parseInt(d.maleStudents));
+            val.push(parseInt(d.femaleStudents));
+
+            bars.push({
+                x: d.name,
+                y: val
+            });
+        });
+        bars.sort(function(b1, b2) {
+            return b1.x.localeCompare(b2.x);
+        });
+        $scope.studentsData = {
+            series: series,
+            data: bars
+        };
+    }
 
     this.initPersonellCharData = function() {
         $scope.personellData = null;
