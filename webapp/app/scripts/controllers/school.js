@@ -27,6 +27,8 @@ angular.module('schooldataApp')
 
     body.size = 1;
 
+    var ctrl = this;
+
     this.loadSchool = function() {
         $scope.loading = 1;
         $scope.error = null;
@@ -39,6 +41,7 @@ angular.module('schooldataApp')
                 // we found the school
                 if (returned.hits.total > 0) {
                     $scope.schoolData = returned.hits.hits[0]._source;
+                    ctrl.initPersonellCharData();
                 } else {
                     $scope.error = "";
                 }
@@ -49,6 +52,46 @@ angular.module('schooldataApp')
                 console.log(error.message);
         });
     };
+
+    this.initPersonellCharData = function() {
+        var p = $scope.schoolData.personell;
+        var years = new Array();
+        var bars = new Array();
+        p.forEach(function(d) {
+            var val = new Array();
+            d.data.forEach(function(yd) {
+                if (years.indexOf(yd.year) == -1) {
+                    years.push(yd.year);
+                }
+                val.push(parseInt(yd.amount_f) + parseInt(yd.amount_m));
+            });
+            bars.push({
+                x : d.name,
+                y : val
+            });
+        });
+        $scope.personellData = {
+            series : years,
+            data : bars
+        };
+
+        console.log($scope.personellData);
+    };
+
+    $scope.chartType = 'bar';
+
+    $scope.config = {
+    tooltips: false,
+    labels: false,
+    mouseover: function() {},
+    mouseout: function() {},
+    click: function() {},
+    legend: {
+      display: true,
+      //could be 'left, right'
+      position: 'right'
+    }
+  };
 
     this.loadSchool();
 

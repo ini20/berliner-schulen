@@ -11,7 +11,8 @@ var sp = sp || {};
         'ngRoute',
         'localytics.directives',
         'elasticsearch',
-        'ngClipboard'
+        'ngClipboard',
+        'angularCharts'
     ]);
 
     mod.config(['$routeProvider', 'ngClipProvider', function ($routeProvider, ngClipProvider) {
