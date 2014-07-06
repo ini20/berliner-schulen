@@ -70,6 +70,19 @@ def setup(context):
                         'plz': {'type': 'integer'},
                     }
                 },
+                'classes' : {
+                    'type': 'object',
+                    'properties': {
+                        'name': {'type' : 'string', 'index':'not_analyzed'},
+                        'type': {'type' : 'string', 'index':'not_analyzed'},
+                        'amount': {'type' : 'integer', 'ignore_malformed':True},
+                        'totalStudents' : {'type': 'integer', 'ignore_malformed': True},
+                        'maleStudents' : {'type': 'integer', 'ignore_malformed': True},
+                        'femaleStudents' : {'type': 'integer', 'ignore_malformed': True},
+                        'foreignStudents' : {'type': 'integer', 'ignore_malformed': True},
+                        'nonNativeStudents' : {'type': 'integer', 'ignore_malformed': True},
+                    }
+                },
                 'equipments': {
                     'type': 'nested',
                     'properties': {
@@ -127,6 +140,7 @@ def setup(context):
 @click.argument('languages', type=click.File('r'))
 @click.argument('schools_ext', type=click.File('r'))
 @click.argument('personell', type=click.File('r'))
+@click.argument('students', type=click.File('r'))
 @pass_context
 def load_data(context,
               schools,
@@ -135,7 +149,8 @@ def load_data(context,
               equipments,
               languages,
               schools_ext,
-              personell
+              personell,
+              students
               ):
     click.secho('Loading schools ... ', fg='green')
     data = SchoolProcessor(schools).process()
@@ -175,6 +190,12 @@ def load_data(context,
                 data[bsn]['personell'] = [{'name': k, 'data': v}
                                           for k, v in tmp[bsn].items()]
 
+    tmp = StudentsProcessor(students).process()
+    with progressbar(tmp, label=PB_LABEL % 'Students') as bar:
+        for bsn in bar:
+            if bsn in data:
+                data[bsn]['classes'] = tmp[bsn]
+
     click.secho('\nIndexing ...', fg='green')
 
     with progressbar(data, label=PB_LABEL % 'Schools') as bar:
@@ -182,6 +203,21 @@ def load_data(context,
             context.es.index(index=context.es_index, doc_type='school',
                              id=bsn, body=data[bsn])
 
+    for bsn in data:
+        # sum up all the personell
+        personell = 0
+        if 'personell' in data[bsn]:
+            for v in data[bsn]['personell']:
+                if v['name'] in ('Lehrkräfte', 'Erzieher(innen)'):
+                    d = v['data'][0]
+                    personell = personell + float(d['amount_f']) + float(d['amount_m'])
+
+            students = 0
+            if 'classes' in data[bsn]:
+                for clazz in data[bsn]['classes']:
+                    students = students + float(clazz['totalStudents'])
+
+                print (bsn + ': ' + str(students / personell)+ '\n')
 
 class Processor(object):
 
@@ -294,6 +330,33 @@ class PersonellProcessor(Processor):
         }
         return bsn, data
 
+class StudentsProcessor(Processor):
+
+    def process(self):
+        reader = csv.DictReader(self.infile)
+        data = {}
+        for row in reader:
+            bsn, rowdata = self.process_row(row)
+            if bsn is None:
+                continue
+            existingRowData = data.get(bsn, [])
+            existingRowData.append(rowdata)
+            data[bsn] = existingRowData
+        return data
+
+    def process_row(self, row):
+        bsn, row = super(StudentsProcessor, self).process_row(row)
+        data = {
+            'name' : row['Jahrgangsstufe'],
+            'type' : row['Klassenart'],
+            'amount' : row['K'],
+            'totalStudents' : row['S'],
+            'maleStudents': row['SM'],
+            'femaleStudents':row['SW'],
+            'foreignStudents':row['N'],
+            'nonNativeStudents':row['H']
+        }
+        return bsn, data
 
 if __name__ == '__main__':
     cli()
