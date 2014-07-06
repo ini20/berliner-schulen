@@ -115,6 +115,22 @@ var sp = sp || {};
                 }
             }
 
+            if (args.equipments !== undefined) {
+                var all = (args.allEquipments === true);
+                if (args.equipments.length > 0) {
+                    if (body.query.bool === undefined) {
+                        body.query.bool = {'must' : []};
+                    }
+
+                    body.query.bool.must.push({
+                        terms : {
+                            equipments : args.equipments,
+                            minimum_should_match: (all === true) ? args.equipments.length : 1
+                        }
+                    });
+                }
+            }
+
             es.search({
                 index: sp.config.elasticsearch.index,
                 type: 'school',

@@ -59,6 +59,25 @@
             </div>
             <div class="row">
                 <div class="large-12 columns">
+                    <div class="row collapse">
+                        <div class="small-9 columns">
+                            <label>Ausstattung
+                                <select chosen multiple ng-model="selectedEquipments" ng-options="value for value in equipments" class="multisel" data-placeholder="Ausstattung auswählen" ng-change="updateFilter()"> 
+                                </select>
+                           </label>
+                        </div>
+                        <div class="small-2 columns">
+                            <label for="switchEquipments">Alle</label>
+                            <div class="switch">
+                                <input id="switchEquipments" type="checkbox" ng-model="allEquipments" ng-change="updateFilter()">
+                                <label for="switchEquipments"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
                     <label>Klassenstufen
                         <div style="width: 90%; margin: 0 auto;">
                             <div id="grades" style="margin: 10px 0px;"></div>
