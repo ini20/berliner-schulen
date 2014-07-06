@@ -113,6 +113,12 @@ angular.module('schooldataApp')
         $scope.allEquipments = false;
         $scope.allAccessibility = false;
 
+        $scope.$watch('query', function(n, o) {
+            if (n !== o) {
+                $location.path($location.search('q', n));
+            }
+        });
+
         $scope.$watch('selectedDistricts', function(n, o) {
             if (n !== o) {
                 $location.path($location.search('d', n));
@@ -170,6 +176,7 @@ angular.module('schooldataApp')
         $scope.updateFilter = function(data) {
             if (data === undefined) {
                 data = {
+                    query: this.query,
                     districts: this.selectedDistricts,
                     schooltypes: this.selectedSchoolTypes,
                     branches: this.selectedBranches,
@@ -189,6 +196,11 @@ angular.module('schooldataApp')
         };
 
         var so = $location.search();
+
+        if (so.q !== undefined) {
+            $scope.query = so.q;
+        }
+
         if (so.d !== undefined) {
             if (typeof(so.d) === 'string') {
                 $scope.selectedDistricts = [so.d];
