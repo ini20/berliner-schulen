@@ -31,6 +31,21 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="medium-4 columns">
+				<div class="panel">
+				<h4>Personal</h4>
+				<ul>
+					<li ng-repeat="personal in schoolData.personell">{{personal.name}}
+					<ul>
+					<li ng-repeat="yd in personal.data">{{yd.year}}: {{yd.amount_f * 1 + yd.amount_m * 1}}
+					</ul>
+					</li>
+				</ul>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="large-12 columns" ng:show="loading != null">
 		<h1>Suche nach der Schule mit der Nummer {{schoolId}}!</h1>
