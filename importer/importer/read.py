@@ -48,18 +48,8 @@ def setup(context):
                 'public': {'type': 'boolean', 'index': 'not_analyzed'},
                 'schooltype': {'type': 'string', 'index': 'not_analyzed'},
                 'languages': {'type': 'string', 'index': 'not_analyzed'},
-                'branches': {'type': 'string', 'index': 'not_analyzed', 'store': True},
-                'accessibility': {
-                    'type': 'nested',
-                    'properties': {
-                        'parking-lot': {'type': 'integer', 'ignore_malformed': True},
-                        'elevator': {'type': 'integer', 'ignore_malformed': True},
-                        'toilet': {'type': 'integer', 'ignore_malformed': True},
-                        'open-for-wcu': {'type': 'integer', 'ignore_malformed': True},
-                        'advice-center-hearing': {'type': 'integer', 'ignore_malformed': True},
-                        'advice-center-speaking': {'type': 'integer', 'ignore_malformed': True},
-                    }
-                },
+                'branches': {'type': 'string', 'index': 'not_analyzed'},
+                'accessibility': {'type': 'string', 'index': 'not_analyzed'},
                 'address': {
                     'type': 'nested',
                     'properties': {
@@ -83,32 +73,7 @@ def setup(context):
                         'nonNativeStudents' : {'type': 'integer', 'ignore_malformed': True},
                     }
                 },
-                'equipments': {
-                    'type': 'nested',
-                    'properties': {
-                        'equipment': {'type': 'string', 'index': 'analyzed'},
-                        'comment': {'type': 'string', 'index': 'analyzed'},
-                        'wood': {'type': 'integer', 'ignore_malformed': True},
-                        'textile': {'type': 'integer', 'ignore_malformed': True},
-                        'metal': {'type': 'integer', 'ignore_malformed': True},
-                        'electronic': {'type': 'integer', 'ignore_malformed': True},
-                        'ceramic': {'type': 'integer', 'ignore_malformed': True},
-                        'workshop': {'type': 'integer', 'ignore_malformed': True},
-                        'workshops': {'type': 'integer', 'ignore_malformed': True},
-                        'weaving': {'type': 'integer', 'ignore_malformed': True},
-                        'bakery': {'type': 'integer', 'ignore_malformed': True},
-                        'kitchen': {'type': 'integer', 'ignore_malformed': True},
-                        'learning-workshop': {'type': 'integer', 'ignore_malformed': True},
-                        'learning-workshops': {'type': 'integer', 'ignore_malformed': True},
-                        'laptops': {'type': 'integer', 'ignore_malformed': True},
-                        'whiteboards': {'type': 'integer', 'ignore_malformed': True},
-                        'presenter': {'type': 'integer', 'ignore_malformed': True},
-                        'pc-pool': {'type': 'integer', 'ignore_malformed': True},
-                        'pc-pools': {'type': 'integer', 'ignore_malformed': True},
-                        'media-library': {'type': 'integer', 'ignore_malformed': True},
-                        'cybercafe': {'type': 'integer', 'ignore_malformed': True},
-                    }
-                },
+                'equipments': {'type': 'string', 'index': 'not_analyzed'},
                 'personell': {
                     'type': 'object',
                     'properties': {
@@ -240,7 +205,10 @@ class Processor(object):
 
 
 class AccessibilityProcessor(Processor):
-    pass
+
+    def process_row(self, row):
+        bsn, row = super(AccessibilityProcessor, self).process_row(row)
+        return bsn, [k for k, v in row.items() if v]
 
 
 class AddressProcessor(Processor):
@@ -259,9 +227,7 @@ class EquipmentProcessor(Processor):
 
     def process_row(self, row):
         bsn, row = super(EquipmentProcessor, self).process_row(row)
-        row.pop('address_id', None)
-        row.pop('district_id', None)
-        return bsn, row
+        return bsn, [k for k, v in row.items() if v]
 
 
 class LanguageProcessor(Processor):
