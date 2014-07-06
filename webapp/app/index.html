@@ -20,7 +20,7 @@
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/chosen/chosen.css" />
-    <!--<link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />-->
+    <link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
     <!-- endbower -->
     <!-- endbuild -->
   </head>
@@ -31,13 +31,14 @@
 
     <!-- Add your site or application content here -->
     <div class="contain-to-grid">
-        <nav class="top-bar" data-topbar>
+        <nav class="top-bar" data-topbar="">
             <ul class="title-area">
                 <li class="name">
                     <h1>
                         <a href="/">Berliner Schulen</a>
                     </h1>
                 </li>
+                <li class="toggle-topbar menu-icon"><a><span>Menu</span></a></li>
             </ul>
             <section class="top-bar-section">
                 <!-- Right Nav Section -->
@@ -91,7 +92,9 @@
     <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
     <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
     <script src="bower_components/foundation/js/foundation.js"></script>
-    <script src="bower_components/zeroclipboard/ZeroClipboard.js"></script>
+    <script src="bower_components/foundation/js/foundation/foundation.topbar.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
     <script src="bower_components/ng-clip/dest/ng-clip.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
@@ -104,5 +107,7 @@
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/school.js"></script>
     <!-- endbuild -->
+
+    <script type="text/javascript">$(document).foundation();</script>
 </body>
 </html>
