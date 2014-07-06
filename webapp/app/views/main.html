@@ -78,6 +78,25 @@
             </div>
             <div class="row">
                 <div class="large-12 columns">
+                    <div class="row collapse">
+                        <div class="small-9 columns">
+                            <label>Barrierefreiheit
+                                <select chosen multiple ng-model="selectedAccessibility" ng-options="value for value in accessibility" class="multisel" data-placeholder="Barrierefreiheit" ng-change="updateFilter()"> 
+                                </select>
+                           </label>
+                        </div>
+                        <div class="small-2 columns">
+                            <label for="switchAccessibility">Alle</label>
+                            <div class="switch">
+                                <input id="switchAccessibility" type="checkbox" ng-model="allAccessibility" ng-change="updateFilter()">
+                                <label for="switchAccessibility"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
                     <label>Trägerschaft</label>
                     <input id="checkbox1" type="checkbox" checked /><label for="checkbox1">öffentlich</label>
                     <input id="checkbox2" type="checkbox" checked/><label for="checkbox2">privat</label>
