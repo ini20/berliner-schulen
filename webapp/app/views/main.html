@@ -129,7 +129,10 @@
             <div ng-model="map"></div>
         </div>
     </div>
-    <div data-alert class="alert-box success" style="margin-top: 1.25rem">
-      {{ total }} Schulen in {{ took }} ms gefunden.
+    <div data-alert class="alert-box success" style="margin-top: 1.25rem" ng-hide="total == 0">
+      {{ total }} Schulen gefunden. ({{ took }} ms)
+    </div>
+    <div data-alert class="alert-box alert" style="margin-top: 1.25rem" ng-hide="total != 0">
+      Keine Schulen gefunden. ({{ took }} ms)
     </div>
 </div>
