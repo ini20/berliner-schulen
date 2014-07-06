@@ -7,8 +7,7 @@
                     <div class="row collapse">
                         <div class="small-9 columns">
                             <label>Stadtteil
-                                <select chosen multiple class="multisel" data-placeholder="Stadtteile auswählen" ng-model="selectedDistricts" ng-options="value for value in districts" > 
-                                    
+                                <select chosen multiple class="multisel" data-placeholder="Stadtteile auswählen" ng-model="selectedDistricts" ng-options="value for value in districts" ng-change="updateFilter()"> 
                                 </select>
                             </label>
                         </div>
@@ -20,7 +19,7 @@
                     <div class="row collapse">
                         <div class="small-9 columns">
                             <label>Schulart
-                                <select chosen multiple ng-model="selectedSchoolTypes" ng-options="value for value in schoolTypes" class="multisel" data-placeholder="Schulart auswählen"> 
+                                <select chosen multiple ng-model="selectedSchoolTypes" ng-options="value for value in schoolTypes" class="multisel" data-placeholder="Schulart auswählen" ng-change="updateFilter()"> 
                                 </select>
                             </label>
                         </div>
@@ -32,7 +31,7 @@
                     <div class="row collapse">
                         <div class="small-9 columns">
                             <label>Schulzweig
-                                <select chosen multiple ng-model="selectedBranches" ng-options="value for value in branches" class="multisel" data-placeholder="Schulzweig auswählen"> 
+                                <select chosen multiple ng-model="selectedBranches" ng-options="value for value in branches" class="multisel" data-placeholder="Schulzweig auswählen" ng-change="updateFilter()"> 
                                 </select>
                             </label>
                         </div>
@@ -44,14 +43,14 @@
                     <div class="row collapse">
                         <div class="small-9 columns">
                             <label>Unterrichtssprache
-                                <select chosen multiple ng-model="selectedLanguages" ng-options="value for value in languages" class="multisel" data-placeholder="Unterrichtssprache auswählen"> 
+                                <select chosen multiple ng-model="selectedLanguages" ng-options="value for value in languages" class="multisel" data-placeholder="Unterrichtssprache auswählen" ng-change="updateFilter()"> 
                                 </select>
                            </label>
                         </div>
                         <div class="small-2 columns">
                             <label for="switchLanguages">Alle</label>
                             <div class="switch">
-                                <input id="switchLanguages" type="checkbox" ng-model="allLanguages">
+                                <input id="switchLanguages" type="checkbox" ng-model="allLanguages" ng-change="updateFilter()">
                                 <label for="switchLanguages"></label>
                             </div>
                         </div>
