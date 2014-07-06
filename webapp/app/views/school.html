@@ -33,16 +33,10 @@
 		</div>
 
 		<div class="row">
-			<div class="medium-4 columns">
+			<div class="medium-8 columns">
 				<div class="panel">
 				<h4>Personal</h4>
-				<ul>
-					<li ng-repeat="personal in schoolData.personell">{{personal.name}}
-					<ul>
-					<li ng-repeat="yd in personal.data">{{yd.year}}: {{yd.amount_f * 1 + yd.amount_m * 1}}
-					</ul>
-					</li>
-				</ul>
+				<div ac-chart="chartType" ac-data="personellData" ac-config="config" id='chart' class='chart' style="width: 100%; height: 250px"></div>
 				</div>
 			</div>
 		</div>
