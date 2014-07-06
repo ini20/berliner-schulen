@@ -14,7 +14,7 @@ from .context import pass_context
 
 
 progressbar = partial(click.progressbar, fill_char='=', empty_char=' ')
-PB_LABEL = '%-15s'
+PB_LABEL = '%-16s'
 
 
 @click.group()
@@ -61,17 +61,17 @@ def setup(context):
                         'plz': {'type': 'integer'},
                     }
                 },
-                'classes' : {
+                'classes': {
                     'type': 'object',
                     'properties': {
-                        'name': {'type' : 'string', 'index':'not_analyzed'},
-                        'type': {'type' : 'string', 'index':'not_analyzed'},
-                        'amount': {'type' : 'integer', 'ignore_malformed':True},
-                        'totalStudents' : {'type': 'integer', 'ignore_malformed': True},
-                        'maleStudents' : {'type': 'integer', 'ignore_malformed': True},
-                        'femaleStudents' : {'type': 'integer', 'ignore_malformed': True},
-                        'foreignStudents' : {'type': 'integer', 'ignore_malformed': True},
-                        'nonNativeStudents' : {'type': 'integer', 'ignore_malformed': True},
+                        'name': {'type': 'string', 'index': 'not_analyzed'},
+                        'type': {'type': 'string', 'index': 'not_analyzed'},
+                        'amount': {'type': 'integer', 'ignore_malformed': True},
+                        'totalStudents': {'type': 'integer', 'ignore_malformed': True},
+                        'maleStudents': {'type': 'integer', 'ignore_malformed': True},
+                        'femaleStudents': {'type': 'integer', 'ignore_malformed': True},
+                        'foreignStudents': {'type': 'integer', 'ignore_malformed': True},
+                        'nonNativeStudents': {'type': 'integer', 'ignore_malformed': True},
                     }
                 },
                 'equipments': {'type': 'string', 'index': 'not_analyzed'},
@@ -200,10 +200,10 @@ def load_data(context,
             quot = students / personell
             maxQuot = max(maxQuot, quot)
             heatmapData.append({
-               'bsn': bsn,
-               'lon': loc['lon'],
-               'lat': loc['lat'],
-               'quot': quot
+                'bsn': bsn,
+                'lon': loc['lon'],
+                'lat': loc['lat'],
+                'quot': quot
             })
 
     hm = {
@@ -211,6 +211,7 @@ def load_data(context,
         'data': heatmapData
     }
     heatmap.write(json.dumps(hm))
+
 
 class Processor(object):
 
@@ -324,6 +325,7 @@ class PersonellProcessor(Processor):
         }
         return bsn, data
 
+
 class StudentsProcessor(Processor):
 
     def process(self):
@@ -341,14 +343,14 @@ class StudentsProcessor(Processor):
     def process_row(self, row):
         bsn, row = super(StudentsProcessor, self).process_row(row)
         data = {
-            'name' : row['Jahrgangsstufe'],
-            'type' : row['Klassenart'],
-            'amount' : row['K'],
-            'totalStudents' : row['S'],
+            'name': row['Jahrgangsstufe'],
+            'type': row['Klassenart'],
+            'amount': row['K'],
+            'totalStudents': row['S'],
             'maleStudents': row['SM'],
-            'femaleStudents':row['SW'],
-            'foreignStudents':row['N'],
-            'nonNativeStudents':row['H']
+            'femaleStudents': row['SW'],
+            'foreignStudents': ['N'],
+            'nonNativeStudents': row['H']
         }
         return bsn, data
 

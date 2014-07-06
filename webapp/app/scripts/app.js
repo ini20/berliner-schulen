@@ -55,6 +55,19 @@ var sp = sp || {};
         mapService.updateFilter = function(args) {
             var body = {size: 1000};
             body.query = {};
+
+            if (args.query !== undefined && args.query.length > 0) {
+                if (body.query.bool === undefined) {
+                    body.query.bool = {'must': []};
+                }
+                body.query.bool.must.push({
+                    query_string: {
+                        default_field: "name",
+                        query: args.query
+                    }
+                })
+            }
+
             if (args.districts !== undefined) {
                 if (args.districts.length > 0) {
                     if (body.query.bool === undefined) {

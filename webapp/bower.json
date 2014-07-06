@@ -34,6 +34,13 @@
       "main": [
         "elasticsearch.angular.min.js"
       ]
+    },
+    "heatmap.js": {
+      "main": [
+        "src/heatmap.js",
+        "src/heatmap-openlayers.js",
+        "src/heatmap-openlayers-renderer.js"
+      ]
     }
   }
 }
