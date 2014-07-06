@@ -167,28 +167,25 @@ class Processor(object):
         reader = csv.DictReader(self.infile)
         data = {}
         for row in reader:
-            bsn, rowdata = self.cleanup(row)
+            bsn, rowdata = self.process_row(row)
             if bsn is None:
                 continue
             data[bsn] = rowdata
         return data
 
-    def cleanup(self, row):
+    def process_row(self, row):
         bsn = row.pop('bsn', None)
         return bsn, row
 
 
 class AccessibilityProcessor(Processor):
-
-    def cleanup(self, row):
-        bsn, row = super(AccessibilityProcessor, self).cleanup(row)
-        return bsn, row
+    pass
 
 
 class AddressProcessor(Processor):
 
-    def cleanup(self, row):
-        bsn, row = super(AddressProcessor, self).cleanup(row)
+    def process_row(self, row):
+        bsn, row = super(AddressProcessor, self).process_row(row)
         row.pop('address_id', None)
         lat = row.pop('latitude', None)
         lon = row.pop('longitude', None)
@@ -199,8 +196,8 @@ class AddressProcessor(Processor):
 
 class EquipmentProcessor(Processor):
 
-    def cleanup(self, row):
-        bsn, row = super(EquipmentProcessor, self).cleanup(row)
+    def process_row(self, row):
+        bsn, row = super(EquipmentProcessor, self).process_row(row)
         row.pop('address_id', None)
         row.pop('district_id', None)
         return bsn, row
@@ -208,15 +205,15 @@ class EquipmentProcessor(Processor):
 
 class LanguageProcessor(Processor):
 
-    def cleanup(self, row):
-        bsn, row = super(LanguageProcessor, self).cleanup(row)
+    def process_row(self, row):
+        bsn, row = super(LanguageProcessor, self).process_row(row)
         row['languages'] = row['languages'].split()
         return bsn, row
 
 
 class SchoolProcessor(Processor):
 
-    def cleanup(self, row):
+    def process_row(self, row):
         row.pop('address_id', None)
         return row['bsn'], row
 
@@ -227,7 +224,7 @@ class SchoolExtProcessor(Processor):
         reader = csv.DictReader(self.infile)
         data = {}
         for row in reader:
-            bsn, newrowdata = self.cleanup(row)
+            bsn, newrowdata = self.process_row(row)
             if bsn is None:
                 continue
             rowdata = data.get(bsn, newrowdata)
@@ -236,29 +233,14 @@ class SchoolExtProcessor(Processor):
             data[bsn] = rowdata
         return data
 
-    def cleanup(self, row):
-        bsn, row = super(SchoolExtProcessor, self).cleanup(row)
+    def process_row(self, row):
+        bsn, row = super(SchoolExtProcessor, self).process_row(row)
         data = {
             'public': row['Schultraeger'] == "öffentlich",
             'branches': set([row['Schulzweig']]),
             'schooltype': row['Schulart']
         }
         return bsn, data
-
-
-def _load_languages(context, infile):
-    context.reader = csv.DictReader(infile)
-    for row in context.reader:
-        click.echo(context.reader.line_num)
-        bsn = row.pop('bsn', None)
-        row.pop('', None)
-        body = {
-            'doc': {
-                'languages': row,
-            }
-        }
-        context.es.update(index=context.es_index, doc_type='school', id=bsn,
-                          body=body)
 
 
 if __name__ == '__main__':
