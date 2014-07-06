@@ -132,6 +132,10 @@ var sp = sp || {};
                 }
             }
 
+            if (body.query.bool === undefined) {
+                body.query.match_all = {};
+            }
+
             es.search({
                 index: sp.config.elasticsearch.index,
                 type: 'school',
