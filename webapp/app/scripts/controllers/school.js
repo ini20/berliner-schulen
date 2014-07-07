@@ -80,6 +80,20 @@ angular.module('schooldataApp')
             series: series,
             data: bars
         };
+
+        setTimeout(function() {
+            var alternate = false;
+            d3.select('#studentchart').selectAll('g.x.axis g.tick text').
+            attr('y', function() {
+                if (alternate) {
+                    alternate = false;
+                    return 20;
+                } else {
+                    alternate = true;
+                    return 7;
+                }
+            });
+        }, 100);
     }
 
     this.initPersonellCharData = function() {
@@ -91,21 +105,30 @@ angular.module('schooldataApp')
         var years = [];
         var bars = [];
         p.forEach(function(d) {
-            var val = [];
+            var val = {};
             d.data.forEach(function(yd) {
                 if (years.indexOf(yd.year) == -1) {
                     years.push(yd.year);
                 }
-                val.push(parseInt(yd.amount_f) + parseInt(yd.amount_m));
+                val[yd.year] = parseInt(yd.amount_f) + parseInt(yd.amount_m);
+            });
+
+            var k = Object.keys(val);
+            k.sort();
+
+            var sortedValues = [];
+            k.forEach(function(key) {
+                sortedValues.push(val[key]);
             });
             bars.push({
                 x : d.name,
-                y : val
+                y : sortedValues
             });
         });
         bars.sort(function(b1, b2) {
             return b1.x.localeCompare(b2.x);
         });
+        years.sort();
         $scope.personellData = {
             series : years,
             data : bars
@@ -116,7 +139,7 @@ angular.module('schooldataApp')
         var alternate = false;
 
         setTimeout(function() {
-            d3.select('#chart').selectAll('g.x.axis g.tick text').
+            d3.select('#personellchart').selectAll('g.x.axis g.tick text').
             attr('y', function() {
                 if (alternate) {
                     alternate = false;
