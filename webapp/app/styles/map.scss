@@ -1,0 +1,14 @@
+.olControlAttribution {
+    bottom: 0px !important;
+    background: $primary-color;
+    right: 0px !important;
+    padding: 2px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    border-top-left-radius: 5px;
+}
+
+.olControlAttribution a {
+    color: white;
+    font-weight: bold;
+}
