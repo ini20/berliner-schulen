@@ -49,6 +49,7 @@ def setup(context):
                 'public': {'type': 'boolean', 'index': 'not_analyzed'},
                 'schooltype': {'type': 'string', 'index': 'not_analyzed'},
                 'languages': {'type': 'string', 'index': 'not_analyzed'},
+                'courses': {'type': 'string', 'index': 'not_analyzed'},
                 'branches': {'type': 'string', 'index': 'not_analyzed'},
                 'accessibility': {'type': 'string', 'index': 'not_analyzed'},
                 'address': {
@@ -104,6 +105,7 @@ def setup(context):
 @click.argument('addresses', type=click.File('r'))
 @click.argument('equipments', type=click.File('r'))
 @click.argument('languages', type=click.File('r'))
+@click.argument('advance_courses', type=click.File('r'))
 @click.argument('schools_ext', type=click.File('r'))
 @click.argument('personell', type=click.File('r'))
 @click.argument('students', type=click.File('r'))
@@ -115,6 +117,7 @@ def load_data(context,
               addresses,
               equipments,
               languages,
+              advance_courses,
               schools_ext,
               personell,
               students,
@@ -142,6 +145,11 @@ def load_data(context,
 
     tmp = LanguageProcessor(languages).process()
     with progressbar(tmp, label=PB_LABEL % 'Language') as bar:
+        for bsn in bar:
+            data[bsn].update(tmp[bsn])
+
+    tmp = AdvanceCourseProcessor(advance_courses).process()
+    with progressbar(tmp, label=PB_LABEL % 'Advance Courses') as bar:
         for bsn in bar:
             data[bsn].update(tmp[bsn])
 
@@ -266,6 +274,13 @@ class LanguageProcessor(Processor):
         row['languages'] = row['languages'].split()
         return bsn, row
 
+class AdvanceCourseProcessor(Processor):
+
+    def process_row(self, row):
+        bsn, row = super(AdvanceCourseProcessor, self).process_row(row)
+        if (len(row['courses']) >= 1):
+            row['courses'] = row['courses'].split(', ')
+        return bsn, row
 
 class SchoolProcessor(Processor):
 
