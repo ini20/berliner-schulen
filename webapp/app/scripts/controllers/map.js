@@ -3,7 +3,7 @@
 var sp = sp || {};
 
 angular.module('schooldataApp')
-    .controller('MapCtrl', ['$scope', '$http', '$interpolate', 'mapService', function ($scope, $http, $interpolate, mapService) {
+    .controller('MapCtrl', ['$scope', '$http', '$interpolate', '$timeout', 'mapService', function ($scope, $http, $interpolate, $timeout, mapService) {
         var center = new OpenLayers.Geometry.Point(13.383333, 52.516667)
             .transform('EPSG:4326', 'EPSG:3857');
 
@@ -63,11 +63,26 @@ angular.module('schooldataApp')
 
         $scope.total = 0;
         $scope.took = 0;
+        $scope.display_progress = {'width': '0%'};
+        $scope.display_done = true;
 
         $scope.$on('updateMapMarkers', function() {
             overlay.removeAllFeatures();
-            overlay.addFeatures(mapService.markers);
             $scope.total = mapService.total;
             $scope.took = mapService.took;
+            if (mapService.markers.length > 0) {
+                $scope.display_done = false;
+                var cnt = 0.0;
+                angular.forEach(mapService.markers, function(marker) {
+                    $timeout(function(){
+                        overlay.addFeatures([marker]);
+                        cnt += 1.0;
+                        $scope.display_progress = {'width': (cnt / mapService.markers.length * 100.0) + '%'};
+                        if (cnt >= mapService.markers.length) {
+                            $scope.display_done = true;
+                        }
+                    }, 1);
+                });
+            }
         });
     }]);

@@ -139,4 +139,7 @@
     <div data-alert class="alert-box alert" style="margin-top: 1.25rem" ng-hide="total != 0">
       Keine Schulen gefunden. ({{ took }} ms)
     </div>
+    <div class="progress success" ng-hide="display_done">
+        <span class="meter" ng-style="display_progress"></span>
+    </div>
 </div>
