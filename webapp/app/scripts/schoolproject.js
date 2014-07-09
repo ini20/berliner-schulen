@@ -1,3 +1,4 @@
+/*global sp: true*/
 'use strict';
 
 var sp = sp || {};

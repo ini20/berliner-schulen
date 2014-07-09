@@ -1,7 +1,5 @@
 'use strict';
 
-var sp = sp || {};
-
 angular.module('schooldataApp')
     .controller('MainCtrl', ['$scope', '$http', '$location', '$window', 'es', 'mapService', function ($scope, $http, $location, $window, es, mapService) {
 

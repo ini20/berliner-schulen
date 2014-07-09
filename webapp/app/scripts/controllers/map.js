@@ -1,7 +1,5 @@
 'use strict';
 
-var sp = sp || {};
-
 angular.module('schooldataApp')
     .controller('MapCtrl', ['$scope', '$http', '$interpolate', '$timeout', 'mapService', function ($scope, $http, $interpolate, $timeout, mapService) {
         var center = new OpenLayers.Geometry.Point(13.383333, 52.516667)
@@ -18,10 +16,10 @@ angular.module('schooldataApp')
 
         var popupTemplate;
         $http({method: 'GET', url: sp.config.map.feature_bubble, cache: true}).
-            success(function(data, status, headers, config) {
+            success(function(data) {
                 popupTemplate = $interpolate(data);
             }).
-            error(function(data, status, headers, config) {
+            error(function() {
                 popupTemplate = $interpolate('<div data-alert class="alert-box alert">Template not found!</div>');
             });
 

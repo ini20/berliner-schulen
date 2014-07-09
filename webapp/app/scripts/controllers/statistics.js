@@ -25,7 +25,7 @@ angular.module('schooldataApp')
         $scope.map.addControl(new OpenLayers.Control.LayerSwitcher());
 
         var heatmap = new OpenLayers.Layer.Heatmap('Betreuungsschlüssel', $scope.map, mapnik, {
-            visible: true, radius: 15, "gradient": { 0.15: "rgb(0,255,0)", 0.35: "yellow", 0.75: "rgb(255,0,0)" }
+            visible: true, radius: 15, 'gradient': { 0.15: 'rgb(0,255,0)', 0.35: 'yellow', 0.75: 'rgb(255,0,0)' }
         }, {isBaseLayer: false, opacity: 0.3, projection: new OpenLayers.Projection('EPSG:4326', 'EPSG:4326')});
         $scope.map.addLayer(heatmap);
 
@@ -39,15 +39,14 @@ angular.module('schooldataApp')
                 });
             });
 
-            console.log(transformedData);
             heatmap.setDataSet(transformedData);
         };
 
         $http({method: 'GET', url: sp.config.heatmap.data, cache: true}).
-            success(function(data, status, headers, config) {
+            success(function(data) {
                 ctrl.transformHeatmapData(data);
             }).
-            error(function(data, status, headers, config) {
+            error(function() {
                 // ignore for now
             });
     }]);

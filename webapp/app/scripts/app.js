@@ -1,7 +1,5 @@
 'use strict';
 
-var sp = sp || {};
-
 (function(){
     var mod = angular
     .module('schooldataApp', [
@@ -58,10 +56,10 @@ var sp = sp || {};
                 }
                 body.query.bool.must.push({
                     query_string: {
-                        default_field: "name",
+                        default_field: 'name',
                         query: args.query
                     }
-                })
+                });
             }
 
             if (args.districts !== undefined) {
@@ -114,7 +112,7 @@ var sp = sp || {};
             }
 
             if (args.languages !== undefined) {
-                var all = (args.allLanguages === true);
+                var allL = (args.allLanguages === true);
                 if (args.languages.length > 0) {
                     if (body.query.bool === undefined) {
                         body.query.bool = {'must' : []};
@@ -123,14 +121,14 @@ var sp = sp || {};
                     body.query.bool.must.push({
                         terms: {
                             languages : args.languages,
-                            minimum_should_match: (all === true) ? args.languages.length : 1
+                            minimum_should_match: (allL === true) ? args.languages.length : 1
                         }
                     });
                 }
             }
 
             if (args.equipments !== undefined) {
-                var all = (args.allEquipments === true);
+                var allE = (args.allEquipments === true);
                 if (args.equipments.length > 0) {
                     if (body.query.bool === undefined) {
                         body.query.bool = {'must' : []};
@@ -139,14 +137,14 @@ var sp = sp || {};
                     body.query.bool.must.push({
                         terms: {
                             equipments : args.equipments,
-                            minimum_should_match: (all === true) ? args.equipments.length : 1
+                            minimum_should_match: (allE === true) ? args.equipments.length : 1
                         }
                     });
                 }
             }
 
             if (args.accessibility !== undefined) {
-                var all = (args.allAccessibility === true);
+                var allA = (args.allAccessibility === true);
                 if (args.accessibility.length > 0) {
                     if (body.query.bool === undefined) {
                         body.query.bool = {'must' : []};
@@ -155,7 +153,7 @@ var sp = sp || {};
                     body.query.bool.must.push({
                         terms: {
                             accessibility : args.accessibility,
-                            minimum_should_match: (all === true) ? args.accessibility.length : 1
+                            minimum_should_match: (allA === true) ? args.accessibility.length : 1
                         }
                     });
                 }
@@ -203,9 +201,9 @@ var sp = sp || {};
     mod.directive('activeLink', ['$location', function($location) {
         return {
             restrict: 'A',
-            link: function(scope, element, attrs, controller) {
-                var clazz = "active";
-                if (attrs.activeLink !== "") {
+            link: function(scope, element, attrs) {
+                var clazz = 'active';
+                if (attrs.activeLink !== '') {
                     clazz = attrs.activeLink;
                 }
                 var path = attrs.href;

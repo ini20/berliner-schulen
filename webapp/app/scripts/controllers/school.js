@@ -44,11 +44,11 @@ angular.module('schooldataApp')
                     ctrl.initPersonellCharData();
                     ctrl.initStudentsData();
                 } else {
-                    $scope.error = "";
+                    $scope.error = '';
                 }
                 $scope.loading = null;
             }, function(error) {
-                $scope.error = "";
+                $scope.error = '';
                 $scope.loading = null;
                 console.log(error.message);
         });
@@ -94,7 +94,7 @@ angular.module('schooldataApp')
                 }
             });
         }, 100);
-    }
+    };
 
     this.initPersonellCharData = function() {
         $scope.personellData = null;
@@ -107,7 +107,7 @@ angular.module('schooldataApp')
         p.forEach(function(d) {
             var val = {};
             d.data.forEach(function(yd) {
-                if (years.indexOf(yd.year) == -1) {
+                if (years.indexOf(yd.year) === -1) {
                     years.push(yd.year);
                 }
                 val[yd.year] = parseInt(yd.amount_f) + parseInt(yd.amount_m);
