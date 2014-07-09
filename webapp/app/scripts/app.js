@@ -19,20 +19,16 @@ var sp = sp || {};
         $routeProvider
         .when('/', {
             templateUrl: 'views/main.html',
-            controller: 'MainCtrl',
             reloadOnSearch: false
             })
         .when('/impressum', {
-            templateUrl: 'views/about.html',
-            controller: 'AboutCtrl'
+            templateUrl: 'views/about.html'
         })
         .when('/schools/:schoolId', {
-            templateUrl: 'views/school.html',
-            controller: 'SchoolCtrl'
+            templateUrl: 'views/school.html'
         })
         .when('/statistics', {
-            templateUrl: 'views/statistics.html',
-            controller: 'StatisticsCtrl'
+            templateUrl: 'views/statistics.html'
         })
         .otherwise({
             redirectTo: '/'
