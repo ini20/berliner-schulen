@@ -49,7 +49,7 @@ var sp = sp || {};
         };
 
         mapService.updateFilter = function(args) {
-            var body = {size: 1000};
+            var body = {size: 1100};
             body.query = {};
 
             if (args.query !== undefined && args.query.length > 0) {
