@@ -39,7 +39,7 @@ should lock it down and import data via an SSH tunnel:
 ssh -NfL 9222:localhost:9200 example.com
 ```
 
-Now use `--es-hosts 'localhsot:9222'` for the commands
+Now use `--es-hosts 'localhost:9222'` for the commands
 
 
 
