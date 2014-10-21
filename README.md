@@ -1,6 +1,14 @@
 # Data importer
 
 
+## Installation
+
+```shell
+$ cd importer
+$ pip install --user .
+```
+
+
 ## Usage
 
 
