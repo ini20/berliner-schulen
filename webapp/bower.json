@@ -1,6 +1,6 @@
 {
-  "name": "schooldata",
-  "version": "0.0.0",
+  "name": "berlin-schools",
+  "version": "2.0.0beta",
   "dependencies": {
     "angular": "1.2.16",
     "angular-charts": "~0.2.4",
