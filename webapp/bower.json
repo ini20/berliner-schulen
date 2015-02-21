@@ -14,7 +14,9 @@
     "es5-shim": "~3.1.0",
     "foundation": "zurb/bower-foundation",
     "heatmap.js": "0.0.1",
-    "ng-clip": "master"
+    "ng-clip": "master",
+    "leaflet": "~0.7.3",
+    "angular-leaflet-directive": "~0.7.11"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",
