@@ -22,7 +22,7 @@
 
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/app.css">
-    <link rel="stylesheet" href="fonts/foundation-icons.css">
+    <link rel="stylesheet" href="assets/fonts/foundation-icons.css">
     <!-- endbuild -->
   </head>
   <body ng-app="schooldataApp">
@@ -65,7 +65,7 @@
                     <p>
                         &copy; 2013-2014 Initiative 2.0
                         &#124;
-                        Daten Stand: 1970-01-01
+                        Daten Stand: 2015-02-21
                     </p>
                 </div>
                 <div class="large-6 columns">
@@ -105,20 +105,20 @@
     <script src="bower_components/heatmap.js/src/heatmap-openlayers.js"></script>
     <script src="bower_components/heatmap.js/src/heatmap-openlayers-renderer.js"></script>
     <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
-    <script src="bower_components/ng-clip/dest/ng-clip.min.js"></script>
+    <script src="bower_components/ng-clip/src/ngClip.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/schoolproject.js"></script>
-    <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/filter.js"></script>
-    <script src="scripts/controllers/list.js"></script>
-    <script src="scripts/controllers/map.js"></script>
+    <script src="app.js"></script>
+    <script src="filter/filter.js"></script>
+    <script src="list/list.js"></script>
+    <script src="map/map.js"></script>
     <script src="scripts/controllers/map_progress_bar.js"></script>
-    <script src="scripts/controllers/about.js"></script>
-    <script src="scripts/controllers/school.js"></script>
-    <script src="scripts/controllers/statistics.js"></script>
+    <script src="about/about.js"></script>
+    <script src="details/details.js"></script>
+    <script src="statistics/statistics.js"></script>
     <!-- endbuild -->
 
     <script type="text/javascript">$(document).foundation();</script>
