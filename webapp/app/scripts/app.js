@@ -13,6 +13,15 @@
         'angularCharts'
     ]);
 
+    //We already have a limitTo filter built-in to angular,
+    //let's make a startFrom filter
+    mod.filter('startFrom', function() {
+        return function(input, start) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+    });
+
     mod.config(['$routeProvider', function ($routeProvider) {
         $routeProvider
         .when('/', {
@@ -177,15 +186,17 @@
                         v._source.address.location.lon,
                         v._source.address.location.lat
                     ).transform('EPSG:4326', 'EPSG:3857');
-                    mapService.markers.push(new OpenLayers.Feature.Vector(loc, {
-                        id: v._id,
-                        name: v._source.name,
-                        street: v._source.address.street,
-                        zip: v._source.address.plz,
-                        district: v._source.address.district,
-                        wwwaddress: v._source.wwwaddress,
-                        phonenumber: v._source.phonenumber
-                    }));
+                    mapService.markers.push(new OpenLayers.Feature.Vector(
+                        loc,
+                        {
+                            id: v._id,
+                            name: v._source.name,
+                            street: v._source.address.street,
+                            zip: v._source.address.plz,
+                            district: v._source.address.district,
+                            wwwaddress: v._source.wwwaddress,
+                            phonenumber: v._source.phonenumber
+                        }));
                 });
                 mapService.total = body.hits.total;
                 mapService.took = body.took;
@@ -216,7 +227,7 @@
                         element.parent().removeClass(clazz);
                     }
                 });
-            } 
+            }
         };
     }]);
     return mod;

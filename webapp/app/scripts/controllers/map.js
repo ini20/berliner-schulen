@@ -5,23 +5,30 @@ angular.module('schooldataApp')
         var center = new OpenLayers.Geometry.Point(13.383333, 52.516667)
             .transform('EPSG:4326', 'EPSG:3857');
 
-        var mapnik = new OpenLayers.Layer.OSM.Mapnik('Maplint');
+        var mapbox = new OpenLayers.Layer.XYZ("Berliner Schulen Karte",
+            ["http://a.tiles.mapbox.com/v4/obstschale.kp8hf045/${z}/${x}/${y}.png?access_token=pk.eyJ1Ijoib2JzdHNjaGFsZSIsImEiOiJvSFdVbmRRIn0.2aQ9TaMbMbyrAuFQh_icXg"], {
+            sphericalMercator: true,
+        });
 
         $scope.map = new OpenLayers.Map('map', {
             projection: 'EPSG:3857',
-            layers: [mapnik],
+            layers: [mapbox],
             center: center.getBounds().getCenterLonLat(),
-            zoom: 10
+            zoom: 10,
         });
 
         var popupTemplate;
-        $http({method: 'GET', url: sp.config.map.feature_bubble, cache: true}).
+        $http({
+                method: 'GET',
+                url: sp.config.map.feature_bubble,
+                cache: true
+            }).
             success(function(data) {
                 popupTemplate = $interpolate(data);
             }).
             error(function() {
                 popupTemplate = $interpolate('<div data-alert class="alert-box alert">Template not found!</div>');
-            });
+        });
 
         var overlay = new OpenLayers.Layer.Vector('Overlay', {
             eventListeners: {
@@ -49,6 +56,7 @@ angular.module('schooldataApp')
                 }
             }
         });
+
         var selector = new OpenLayers.Control.SelectFeature(overlay, {
             autoActivate: true,
             hover: false,
@@ -59,15 +67,10 @@ angular.module('schooldataApp')
         // $scope.map.addLayer(mapnik);
         $scope.map.addLayer(overlay);
 
-        $scope.total = 0;
-        $scope.took = 0;
-        $scope.display_progress = {'width': '0%'};
         $scope.display_done = true;
 
         $scope.$on('updateMapMarkers', function() {
             overlay.removeAllFeatures();
-            $scope.total = mapService.total;
-            $scope.took = mapService.took;
             if (mapService.markers.length > 0) {
                 $scope.display_done = false;
                 var cnt = 0.0;
@@ -75,7 +78,6 @@ angular.module('schooldataApp')
                     $timeout(function(){
                         overlay.addFeatures([marker]);
                         cnt += 1.0;
-                        $scope.display_progress = {'width': (cnt / mapService.markers.length * 100.0) + '%'};
                         if (cnt >= mapService.markers.length) {
                             $scope.display_done = true;
                         }

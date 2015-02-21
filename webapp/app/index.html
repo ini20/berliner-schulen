@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    
+
     <script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
     <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
 
@@ -19,9 +19,10 @@
     <link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    
+
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/app.css">
+    <link rel="stylesheet" href="fonts/foundation-icons.css">
     <!-- endbuild -->
   </head>
   <body ng-app="schooldataApp">
@@ -35,11 +36,12 @@
             <ul class="title-area">
                 <li class="name">
                     <h1>
-                        <a href="#/">Berliner Schulen</a>
+                        <a href="#/"><i class="fi-torsos-all"></i> Berliner Schulen</a>
                     </h1>
                 </li>
                 <li class="toggle-topbar menu-icon"><a><span>Menu</span></a></li>
             </ul>
+
             <section class="top-bar-section">
                 <!-- Right Nav Section -->
                 <ul class="right">
@@ -50,17 +52,21 @@
             </section>
         </nav>
     </div>
-    
-    <div class="container row" ng-view="">
-    
+
+    <div class="container" ng-view="">
+
     </div>
-    
+
     <div class="row">
         <div class="large-12 columns">
             <hr />
             <div class="row">
                 <div class="large-6 columns">
-                    <p>&copy; 2013-2014 Initiative 2.0</p>
+                    <p>
+                        &copy; 2013-2014 Initiative 2.0
+                        &#124;
+                        Daten Stand: 1970-01-01
+                    </p>
                 </div>
                 <div class="large-6 columns">
                     <ul class="inline-list right">
@@ -70,7 +76,7 @@
             </div>
         </div>
     </div>
-    
+
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
@@ -106,8 +112,10 @@
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/schoolproject.js"></script>
     <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/filter.js"></script>
+    <script src="scripts/controllers/list.js"></script>
     <script src="scripts/controllers/map.js"></script>
+    <script src="scripts/controllers/map_progress_bar.js"></script>
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/school.js"></script>
     <script src="scripts/controllers/statistics.js"></script>

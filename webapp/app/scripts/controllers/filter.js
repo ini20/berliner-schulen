@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('schooldataApp')
-    .controller('MainCtrl', ['$scope', '$http', '$location', '$window', 'es', 'mapService', function ($scope, $http, $location, $window, es, mapService) {
+    .controller('FilterCtrl', ['$scope', '$http', '$location', '$window', 'es', 'mapService', function ($scope, $http, $location, $window, es, mapService) {
+
+        $scope.showFilterBox = false;
+        $scope.toggleFilterBox = function() {
+            $scope.showFilterBox = $scope.showFilterBox === false ? true: false;
+        };
 
         es.search({
             index: sp.config.elasticsearch.index,
@@ -113,61 +118,61 @@ angular.module('schooldataApp')
 
         $scope.$watch('query', function(n, o) {
             if (n !== o) {
-                $location.path($location.search('q', n));
+                $location.search('q', n);
             }
         });
 
         $scope.$watch('selectedDistricts', function(n, o) {
             if (n !== o) {
-                $location.path($location.search('d', n));
+                $location.search('d', n);
             }
         });
 
         $scope.$watch('selectedSchoolTypes', function(n, o) {
             if (n !== o) {
-                $location.path($location.search('s', n));
+                $location.search('s', n);
             }
         });
 
         $scope.$watch('selectedBranches', function(n, o) {
             if (n !== o) {
-                $location.path($location.search('b', n));
+                $location.search('b', n);
             }
         });
 
         $scope.$watch('selectedLanguages', function(n, o) {
             if (n !== o) {
-                $location.path($location.search('l', n));
+                $location.search('l', n);
             }
         });
 
         $scope.$watch('allLanguages', function(n, o) {
             if (n !== o) {
-                $location.path($location.search('al', n));
+                $location.search('al', n);
             }
         });
 
         $scope.$watch('selectedEquipments', function(n, o) {
             if (n !== o) {
-                $location.path($location.search('e', n));
+                $location.search('e', n);
             }
         });
 
         $scope.$watch('allEquipments', function(n, o) {
             if (n !== o) {
-                $location.path($location.search('ae', n));
+                $location.search('ae', n);
             }
         });
 
         $scope.$watch('selectedAccessibility', function(n, o) {
             if (n !== o) {
-                $location.path($location.search('w', n));
+                $location.search('w', n);
             }
         });
 
         $scope.$watch('allAccessibility', function(n, o) {
             if (n !== o) {
-                $location.path($location.search('aw', n));
+                $location.search('aw', n);
             }
         });
 
@@ -186,11 +191,13 @@ angular.module('schooldataApp')
                     allAccessibility: this.allAccessibility
                 };
             }
+
             mapService.updateFilter(data);
         };
 
         $scope.filterAsLink = function() {
             $scope.shareLink = $location.absUrl();
+            $scope.showShareLink = $scope.showShareLink == true ? false : true;
         };
 
         var so = $location.search();
@@ -260,4 +267,23 @@ angular.module('schooldataApp')
         }
 
         $scope.updateFilter();
+
+        /**
+         * Reset Filter Form and remove GET params
+         */
+        $scope.resetFilter = function() {
+            $scope.query                 = undefined;
+            $scope.selectedDistricts     = undefined;
+            $scope.selectedSchoolTypes   = undefined;
+            $scope.selectedBranches      = undefined;
+            $scope.selectedLanguages     = undefined;
+            $scope.allLanguages          = undefined;
+            $scope.selectedEquipments    = undefined;
+            $scope.allEquipments         = undefined;
+            $scope.selectedAccessibility = undefined;
+            $scope.allAccessibility      = undefined;
+
+            $location.search({});
+            $scope.updateFilter();
+        };
     }]);

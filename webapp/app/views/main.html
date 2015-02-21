@@ -1,145 +1,191 @@
-<div class="large-5 columns" ng-controller="MainCtrl">
-    <div class="panel">
-        <h3>Filter</h3>
-        <form>
-            <div class="row">
-                <div class="large-12 columns">
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <label>Freie Suche
-                                <input type="text" ng-model="query" name="query" ng-change="updateFilter()" placeholder="Freie Suche, z.B. Schulname" />
-                            </label>
-                        </div>
-                    </div>
-                </div>
+<div class="row full-width" ng-controller="FilterCtrl">
+    <button id="filterBtn" ng-click="toggleFilterBox()">
+        <i class="fi-magnifying-glass"></i> Show Filter
+    </button>
+    <div id="filterBox" class="large-12 columns" >
+        <div ng-show="showFilterBox">
+            <h3 id="filterBoxTitle">
+                <strong><i class="fi-results-demographics"></i> Finde die passende Schule</strong>
+            </h3>
+            <div class="large-3 columns">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quod, inquit, quamquam voluptatibus quibusdam est saepe iucundius, tamen expetitur propter voluptatem. Cur id non ita fit? Non igitur potestis voluptate omnia dirigentes aut tueri aut retinere virtutem. Dic in quovis conventu te omnia facere, ne doleas. Qua tu etiam inprudens utebare non numquam. Si quicquam extra virtutem habeatur in bonis. Duo Reges: constructio interrete.</p>
             </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <label>Stadtteil
-                                <select chosen multiple class="multisel" data-placeholder="Stadtteile auswählen" ng-model="selectedDistricts" ng-options="value for value in districts" ng-change="updateFilter()"> 
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <label>Schulart
-                                <select chosen multiple ng-model="selectedSchoolTypes" ng-options="value for value in schoolTypes" class="multisel" data-placeholder="Schulart auswählen" ng-change="updateFilter()"> 
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <label>Schulzweig
-                                <select chosen multiple ng-model="selectedBranches" ng-options="value for value in branches" class="multisel" data-placeholder="Schulzweig auswählen" ng-change="updateFilter()"> 
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <label>Fremdspachen
-                                <select chosen multiple ng-model="selectedLanguages" ng-options="value for value in languages" class="multisel" data-placeholder="Unterrichtssprache auswählen" ng-change="updateFilter()"> 
-                                </select>
-                           </label>
-                        </div>
-                        <div class="small-2 columns">
-                            <label for="switchLanguages">Alle</label>
-                            <div class="switch">
-                                <input id="switchLanguages" type="checkbox" ng-model="allLanguages" ng-change="updateFilter()">
-                                <label for="switchLanguages"></label>
+            <div class="large-6 columns">
+            <form>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div class="row collapse">
+                            <div class="small-9 columns">
+                                <label>Freie Suche
+                                    <input type="text" ng-model="query" name="query" ng-change="updateFilter()" placeholder="Freie Suche, z.B. Schulname" />
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <label>Ausstattung
-                                <select chosen multiple ng-model="selectedEquipments" ng-options="value for value in equipments" class="multisel" data-placeholder="Ausstattung auswählen" ng-change="updateFilter()"> 
-                                </select>
-                           </label>
-                        </div>
-                        <div class="small-2 columns">
-                            <label for="switchEquipments">Alle</label>
-                            <div class="switch">
-                                <input id="switchEquipments" type="checkbox" ng-model="allEquipments" ng-change="updateFilter()">
-                                <label for="switchEquipments"></label>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div class="row collapse">
+                            <div class="small-9 columns">
+                                <label>Stadtteil
+                                    <select chosen multiple class="multisel filterBoxSelect" data-placeholder="Stadtteile auswählen" ng-model="selectedDistricts" ng-options="value for value in districts" ng-change="updateFilter()">
+                                    </select>
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <div class="row collapse">
-                        <div class="small-9 columns">
-                            <label>Barrierefreiheit
-                                <select chosen multiple ng-model="selectedAccessibility" ng-options="value for value in accessibility" class="multisel" data-placeholder="Barrierefreiheit" ng-change="updateFilter()"> 
-                                </select>
-                           </label>
-                        </div>
-                        <div class="small-2 columns">
-                            <label for="switchAccessibility">Alle</label>
-                            <div class="switch">
-                                <input id="switchAccessibility" type="checkbox" ng-model="allAccessibility" ng-change="updateFilter()">
-                                <label for="switchAccessibility"></label>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div class="row collapse">
+                            <div class="small-9 columns">
+                                <label>Schulart
+                                    <select chosen multiple ng-model="selectedSchoolTypes" ng-options="value for value in schoolTypes" class="multisel filterBoxSelect" data-placeholder="Schulart auswählen" ng-change="updateFilter()">
+                                    </select>
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="large-12 columns">
-                    <div class="row collapse" ng-hide="shareLink != null">
-                        <div class="small-2 small-offset-10 columns">
-                            <a href="" class="button tiny" ng-click="filterAsLink()">Share</a>
-                        </div>
-                    </div>
-                    <div class="row collapse" ng-hide="shareLink == null">
-                        <div class="small-10 columns">
-                            <input type="text" name="test" ng-model="shareLink" />
-                        </div>
-                        <div class="small-2 columns">
-                            <button class="button postfix selectAll" clip-copy="shareLink">Copy</button>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div class="row collapse">
+                            <div class="small-9 columns">
+                                <label>Schulzweig
+                                    <select chosen multiple ng-model="selectedBranches" ng-options="value for value in branches" class="multisel filterBoxSelect" data-placeholder="Schulzweig auswählen" ng-change="updateFilter()">
+                                    </select>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div class="row collapse">
+                            <div class="small-9 columns">
+                                <label>Fremdspachen
+                                    <select chosen multiple ng-model="selectedLanguages" ng-options="value for value in languages" class="multisel filterBoxSelect" data-placeholder="Unterrichtssprache auswählen" ng-change="updateFilter()">
+                                    </select>
+                               </label>
+                            </div>
+                            <div class="small-2 columns">
+                                <label for="switchLanguages">Alle</label>
+                                <div class="switch">
+                                    <input id="switchLanguages" type="checkbox" ng-model="allLanguages" ng-change="updateFilter()">
+                                    <label for="switchLanguages"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div class="row collapse">
+                            <div class="small-9 columns">
+                                <label>Ausstattung
+                                    <select chosen multiple ng-model="selectedEquipments" ng-options="value for value in equipments" class="multisel filterBoxSelect" data-placeholder="Ausstattung auswählen" ng-change="updateFilter()">
+                                    </select>
+                               </label>
+                            </div>
+                            <div class="small-2 columns">
+                                <label for="switchEquipments">Alle</label>
+                                <div class="switch">
+                                    <input id="switchEquipments" type="checkbox" ng-model="allEquipments" ng-change="updateFilter()">
+                                    <label for="switchEquipments"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-12 columns">
+                        <div class="row collapse">
+                            <div class="small-9 columns">
+                                <label>Barrierefreiheit
+                                    <select chosen multiple ng-model="selectedAccessibility" ng-options="value for value in accessibility" class="multisel filterBoxSelect" data-placeholder="Barrierefreiheit" ng-change="updateFilter()">
+                                    </select>
+                               </label>
+                            </div>
+                            <div class="small-2 columns">
+                                <label for="switchAccessibility">Alle</label>
+                                <div class="switch">
+                                    <input id="switchAccessibility" type="checkbox" ng-model="allAccessibility" ng-change="updateFilter()">
+                                    <label for="switchAccessibility"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
             </div>
-        </form>
+            <div class="large-3 columns">
+                <div class="row collapse">
+                    <button ng-click="resetFilter()">Reset</button>
+                    <a href="" class="button" ng-click="filterAsLink()">Share</a>
+                </div>
+                        <div class="row collapse" ng-show="showShareLink">
+                            <div class="small-10 columns">
+                                <input type="text" name="test" ng-model="shareLink" />
+                            </div>
+                            <div class="small-2 columns">
+                                <button class="button postfix selectAll" clip-copy="shareLink">Copy</button>
+                            </div>
+                        </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="large-7 columns" ng-controller="MapCtrl">
-    <div class="map_wrapper" style="height: 500px">
-        <div id="map" style="width: 100%; height: 100%">
-            <div ng-model="map"></div>
+<div class="row full-width">
+    <div class="large-12 columns" ng-controller="MapCtrl">
+        <h1 ng-bind="asdf"></h1>
+        <div class="map_wrapper" style="height: 500px">
+            <div id="map" style="width: 100%; height: 100%">
+                <div ng-model="map"></div>
+            </div>
         </div>
     </div>
-    <div data-alert class="alert-box success" style="margin-top: 1.25rem" ng-hide="total == 0">
-      {{ total }} Schulen gefunden. ({{ took }} ms)
+</div>
+
+<hr/>
+
+<div class="row">
+    <div class="large-12 columns" ng-controller="ListCtrl">
+        <table id="schoolList" summary="Diese Tabelle listet alle Schulen auf, die auf die aktuelle Suche zutreffen und so auf der obigen Karte angezeigt werden.">
+            <thead>
+                <tr>
+                    <!-- <th ng:repeat="(i,th) in head" ng-class="selectedCls(i)" ng-click="predicate = 'i'; reverse=!reverse">{{th}}</th> -->
+                    <th ng-click="predicate = 'a_name'; reverse=!reverse">Schule</th>
+                    <th ng-click="predicate = 'b_district'; reverse=!reverse">Ortsteil</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="school in schools | orderBy:predicate:reverse | startFrom:currentPage*pageSize | limitTo:pageSize">
+                    <td><a href="{{ school.d_url }}" target="_blank" title="Webseite von {{ school.name }}">{{ school.a_name }}</a></td>
+                    <td>{{ school.b_district }}</td>
+                    <td><a ng-href="#/schools/{{ school.c_id }}">Details</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="center">
+            <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
+                {{currentPage+1}}/{{numberOfPages()}}
+            <button ng-disabled="currentPage >= schools.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
+        </div>
     </div>
-    <div data-alert class="alert-box alert" style="margin-top: 1.25rem" ng-hide="total != 0">
-      Keine Schulen gefunden. ({{ took }} ms)
-    </div>
-    <div class="progress success" ng-hide="display_done">
-        <span class="meter" ng-style="display_progress"></span>
+</div>
+
+<div class="row">
+    <div class="large-12 columns" ng-controller="MapProgressBarCtrl">
+        <div data-alert class="alert-box success" style="margin-top: 1.25rem" ng-hide="total == 0">
+          {{ total }} Schulen gefunden. ({{ took }} ms)
+        </div>
+        <div data-alert class="alert-box alert" style="margin-top: 1.25rem" ng-hide="total != 0">
+          Keine Schulen gefunden. ({{ took }} ms)
+        </div>
+        <div class="progress success" ng-hide="display_done">
+            <span class="meter" ng-style="display_progress"></span>
+        </div>
     </div>
 </div>

@@ -37,7 +37,7 @@
 //   "foundation/components/top-bar",
 //   "foundation/components/type",
 //   "foundation/components/offcanvas",
-//   "foundation/components/visibility";
+//   "foundation/cdomponents/visibility";
 
 // Chosen's css is not aware of the modified paths. Patch them
 @import "chosen";
@@ -49,4 +49,14 @@
 
 .big {
     line-height: 150%;
+}
+
+.row.full-width {
+	width: 100%;
+	max-width: 100%;
+}
+
+.row.full-width > .columns {
+	padding-left: 0;
+	padding-right: 0;
 }
