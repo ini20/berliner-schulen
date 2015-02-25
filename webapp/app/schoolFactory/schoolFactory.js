@@ -16,7 +16,7 @@ angular.module('berlinerSchulenApp')
 			$http.get('data/schools.json').success(function(data) {
 				// you can do some processing here
 				schools.content = data;
-				$rootScope.$broadcast('updateViews');
+				$rootScope.$broadcast('updateSchools');
 			});
 		};
 

@@ -33,7 +33,7 @@ angular.module('berlinerSchulenApp')
 			}
 		});
 
-		$scope.$on('updateViews', function() {
+		$scope.$on('updateSchools', function() {
 
 			/* Simple function to check if a value is a float */
 			function isFloat(n) {
