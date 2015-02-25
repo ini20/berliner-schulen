@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.factory('schoolFactory', ['$http', function($http){
+	.factory('schoolFactory', ['$http', '$rootScope', function($http, $rootScope){
 		var schools = {content:null};
 
 		schools.updateFilter = function(val) {
@@ -16,14 +16,11 @@ angular.module('berlinerSchulenApp')
 			$http.get('data/schools.json').success(function(data) {
 				// you can do some processing here
 				schools.content = data;
+				$rootScope.$broadcast('updateViews');
 			});
-
 		};
 
-		$http.get('data/schools.json').success(function(data) {
-			// you can do some processing here
-			schools.content = data;
-		});
+		schools.getJson();
 
 		return schools;
 	}]);
