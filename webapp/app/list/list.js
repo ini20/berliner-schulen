@@ -7,34 +7,35 @@
  * # AboutCtrl
  * Controller of the schooldataApp
  */
-angular.module('schooldataApp')
-    .controller('ListCtrl', ['$scope', '$timeout', 'mapService', function ($scope, $timeout, mapService) {
+angular.module('berlinerSchulenApp')
+	.controller('ListCtrl', ['$scope', '$timeout', 'schoolFactory', function ($scope, $timeout, schoolFactory) {
 
-        $scope.currentPage   = 0;
-        $scope.pageSize      = 10;
-        $scope.schools       = [];
-        $scope.numberOfPages = function() {
-            return Math.ceil($scope.schools.length/$scope.pageSize);
-        };
+		$scope.currentPage   = 0;
+		$scope.pageSize      = 10;
+		$scope.schools       = [];
+		$scope.numberOfPages = function() {
+			return Math.ceil($scope.schools.length/$scope.pageSize);
+		};
 
-        $scope.$on('updateMapMarkers', function() {
-            $scope.schools = [];
-            $scope.currentPage = 0;
-            if (mapService.markers.length > 0) {
+		$scope.$on('updateSchools', function() {
+			var schools = schoolFactory.content;
+			$scope.schools = [];
+			$scope.currentPage = 0;
+			if (schools.length > 0) {
 
-                angular.forEach(mapService.markers, function(marker) {
-                    $timeout(function(){
-                        var school = {
-                            'a_name': marker.data.name,
-                            'b_district': marker.data.district,
-                            'c_id': marker.data.id,
-                            'd_url': marker.data.wwwaddress
-                        };
-                        $scope.schools.push(school);
-                    }, 1);
-                });
+				angular.forEach(schools, function(schools) {
+					$timeout(function(){
+						var school = {
+							'a_name': schools.bsn,
+							'b_district': schools.district,
+							'c_id': schools.id,
+							'd_url': schools.wwwaddress
+						};
+						$scope.schools.push(school);
+					}, 1);
+				});
 
-            }
+			}
 
-        });
-    }]);
+		});
+	}]);
