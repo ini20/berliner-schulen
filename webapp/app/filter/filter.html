@@ -1,10 +1,36 @@
-<div ng-show="showFilter">
+<!-- <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+      <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">Sidenav Left</h1>
+      </md-toolbar>
+      <md-content class="md-padding">
+        <md-button ng-click="close()" class="md-primary" hide-gt-md>
+          Close Sidenav Left
+        </md-button>
+        <p hide-md show-gt-md>
+          This sidenav is locked open on your device. To go back to the default behavior,
+          narrow your display.
+        </p>
+      </md-content>
+    </md-sidenav> -->
+<div>
 	<form>
-		<md-input-container>
-			<label>Suche</label>
-			<input type="text" ng-model="search" ng-change="updateFilter()">
-		</md-input-container>
 		<div flex-item>
+			<div class="tc-white-1" flex-container="row">
+				<div flex-item="11">
+					<div class="tc-green-500 p+">
+						<lx-text-field label="First name">
+							<input type="text" ng-model="searchFilter.main" ng-change="filter()">
+						</lx-text-field>
+					</div>
+				</div>
+				<div flex-time="1">
+					<div class="p+++">
+						<button class="btn btn--m btn--green btn--fab" lx-ripple ng-click="toogleFilter()"><i class="mdi mdi-plus"></i></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div ng-show="showFilter" flex-item>
 			<lx-select ng-model="selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>
 				<lx-select-selected>
 					{{ $selected.name }} - {{ $selected.age }}

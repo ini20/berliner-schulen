@@ -1,14 +1,24 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.controller('FilterCtrl', ['$scope', 'schoolFactory', function($scope, schoolFactory) {
+	.controller('FilterCtrl', ['$scope', '$timeout', '$mdSidenav', 'schoolFactory',
+		function($scope, $timeout, $mdSidenav, schoolFactory) {
 
-		$scope.showFilter = true;
+		$scope.searchFilter = {
+			'main': 'hallo'
+		};
+
+		$scope.filter = function() {
+			$timeout(function(){
+				schoolFactory.setFilter($scope.searchFilter);
+				schoolFactory.applyFilter();
+			}, 600);
+		};
+
+		$scope.showFilter = false;
 
 		$scope.toogleFilter = function() {
-			console.log($scope.showFilter);
 			$scope.showFilter = ( $scope.showFilter === true ) ? false : true;
-			console.log($scope.showFilter);
 		};
 
 		$scope.search = 'Marie';

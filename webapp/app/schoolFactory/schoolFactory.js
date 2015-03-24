@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.factory('schoolFactory', ['$http', '$rootScope', function($http, $rootScope){
+	.factory('schoolFactory', ['$http', '$rootScope',
+		function($http, $rootScope){
 
+		var allSchools = {content:null};
 		var schools = {content:null};
 		var filter = {};
 
@@ -21,7 +23,18 @@ angular.module('berlinerSchulenApp')
 		 * @return Obj this
 		 */
 		schools.applyFilter = function() {
-			console.log('filter: ' + filter);
+			// console.log(schools.content);
+			var filteredJson = allSchools.content.filter(function (row) {
+				console.log(row.district.indexOf(filter.main));
+				if(row.district.indexOf(filter.main) > -1) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+			console.log(filteredJson);
+			schools.content = filteredJson;
+			$rootScope.$broadcast('updateSchools');
 
 			return schools;
 		};
@@ -30,7 +43,8 @@ angular.module('berlinerSchulenApp')
 
 			$http.get('data/schools.json').success(function(data) {
 				// you can do some processing here
-				schools.content = data;
+				allSchools.content = data;
+				schools.content    = data;
 				$rootScope.$broadcast('updateSchools');
 			});
 		};
