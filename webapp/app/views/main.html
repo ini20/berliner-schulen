@@ -136,40 +136,8 @@
 	</div>
 </div> -->
 
-<div class="row full-width">
-	<div ng-controller="MapCtrl">
-		<leaflet center="berlin" defaults="defaults" height="480px" width="100%" markers="data.markers"></leaflet>
-	</div>
-</div>
 
-<hr/>
 
-<div id="school-list" class="row">
-	<div class="large-12 columns" ng-controller="ListCtrl">
-		<table id="schoolList" summary="Diese Tabelle listet alle Schulen auf, die auf die aktuelle Suche zutreffen und so auf der obigen Karte angezeigt werden.">
-			<thead>
-				<tr>
-					<!-- <th ng:repeat="(i,th) in head" ng-class="selectedCls(i)" ng-click="predicate = 'i'; reverse=!reverse">{{th}}</th> -->
-					<th ng-click="predicate = 'a_name'; reverse=!reverse">Schule</th>
-					<th ng-click="predicate = 'b_district'; reverse=!reverse">Ortsteil</th>
-					<th>Details</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="school in schools | orderBy:predicate:reverse | startFrom:currentPage*pageSize | limitTo:pageSize">
-					<td><a href="{{ school.d_url }}" target="_blank" title="Webseite von {{ school.name }}">{{ school.a_name }}</a></td>
-					<td>{{ school.b_district }}</td>
-					<td><a ng-href="#/schools/{{ school.c_id }}">Details</a></td>
-				</tr>
-			</tbody>
-		</table>
-		<div class="center">
-			<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
-				{{currentPage+1}}/{{numberOfPages()}}
-			<button ng-disabled="currentPage >= schools.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
-		</div>
-	</div>
-</div>
 
 <!-- <div class="row">
 	<div class="large-12 columns" ng-controller="MapProgressBarCtrl">
