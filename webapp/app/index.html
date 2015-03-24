@@ -13,10 +13,11 @@
 
 	<!-- build:css styles/vendor.css -->
 	<!-- bower:css -->
-	<link rel="stylesheet" href="bower_components/chosen/chosen.css" />
-	<link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
 	<link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
 	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+	<link rel="stylesheet" href="bower_components/mdi/materialdesignicons.css" />
+	<link rel="stylesheet" href="bower_components/lumx/dist/lumx.css" />
 	<!-- endbower -->
 	<!-- endbuild -->
 
@@ -25,55 +26,56 @@
 	<link rel="stylesheet" href="assets/fonts/foundation-icons.css">
 	<!-- endbuild -->
 </head>
-<body ng-app="berlinerSchulenApp">
+<body ng-app="berlinerSchulenApp" layout="column" layout-algin="space-around center">
 	<!--[if lt IE 7]>
-	  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
 
 	<!-- Add your site or application content here -->
-	<div class="contain-to-grid">
-		<nav class="top-bar" data-topbar="">
-			<ul class="title-area">
-				<li class="name">
-					<h1>
-						<a href="#/"><i class="fi-torsos-all"></i> Berliner Schulen</a>
-					</h1>
-				</li>
-				<li class="toggle-topbar menu-icon"><a><span>Menu</span></a></li>
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<span><a href="#/"><i class="fi-torsos-all"></i> Berliner Schulen</a></span>
+				<!-- fill up the space between left and right area -->
+				<span flex></span>
+					<div ng-controller="FilterCtrl">
+						<md-button ng-click="toogleFilter()" class="md-raised md-warn">
+							Suchen
+						</md-button>
+					</div>
+				<span flex></span>
+				<md-button ui-sref="index">
+					Home
+				</md-button>
+				<md-button ui-sref="statistics">
+					Statistiken
+				</md-button>
+				<md-button ui-sref="imprint">
+					Impressum
+				</md-button>
+		</div>
+	</md-toolbar>
+
+	<div ui-view="view1"></div>
+	<div ui-view="view2"></div>
+	<div ui-view="view3"></div>
+
+	<hr />
+
+	<div>
+		<div class="large-6 columns">
+			<p>
+				&copy; 2013-2014 Initiative 2.0
+				&#124;
+				Daten Stand: 2015-02-21
+			</p>
+		</div>
+		<div class="large-6 columns">
+			<ul class="inline-list right">
+				<li><a href="#/impressum">Impressum</a></li>
 			</ul>
-
-			<section class="top-bar-section">
-				<!-- Right Nav Section -->
-				<ul class="right">
-					<li><a href="#/" active-link>Home</a></li>
-					<li><a href="#/statistics" active-link>Statistiken</a></li>
-					<li><a href="#/impressum" active-link>Impressum</a></li>
-				</ul>
-			</section>
-		</nav>
-	</div>
-
-	<div class="container" ng-view></div>
-
-	<div class="row">
-		<div class="large-12 columns">
-			<hr />
-			<div class="row">
-				<div class="large-6 columns">
-					<p>
-						&copy; 2013-2014 Initiative 2.0
-						&#124;
-						Daten Stand: 2015-02-21
-					</p>
-				</div>
-				<div class="large-6 columns">
-					<ul class="inline-list right">
-						<li><a href="#/impressum">Impressum</a></li>
-					</ul>
-				</div>
-			</div>
 		</div>
 	</div>
+
 
 	<!--[if lt IE 9]>
 	<script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -82,45 +84,66 @@
 
 	<!-- build:js scripts/vendor.js -->
 	<!-- bower:js -->
-	<script src="bower_components/modernizr/modernizr.js"></script>
 	<script src="bower_components/jquery/dist/jquery.js"></script>
 	<script src="bower_components/angular/angular.js"></script>
-	<script src="bower_components/d3/d3.js"></script>
-	<script src="bower_components/angular-charts/dist/angular-charts.js"></script>
-	<script src="bower_components/chosen/chosen.jquery.min.js"></script>
-	<script src="bower_components/angular-chosen-localytics/chosen.js"></script>
-	<script src="bower_components/angular-cookies/angular-cookies.js"></script>
-	<script src="bower_components/angular-foundation/mm-foundation-tpls.js"></script>
-	<script src="bower_components/angular-resource/angular-resource.js"></script>
-	<script src="bower_components/angular-route/angular-route.js"></script>
-	<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-	<script src="bower_components/elasticsearch/elasticsearch.angular.min.js"></script>
-	<script src="bower_components/fastclick/lib/fastclick.js"></script>
-	<script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
-	<script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
-	<script src="bower_components/foundation/js/foundation.js"></script>
-	<script src="bower_components/heatmap.js/src/heatmap.js"></script>
-	<script src="bower_components/heatmap.js/src/heatmap-openlayers.js"></script>
-	<script src="bower_components/heatmap.js/src/heatmap-openlayers-renderer.js"></script>
-	<script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
-	<script src="bower_components/ng-clip/src/ngClip.js"></script>
 	<script src="bower_components/leaflet/dist/leaflet.js"></script>
 	<script src="bower_components/leaflet/dist/leaflet-src.js"></script>
 	<script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.js"></script>
+	<script src="bower_components/angular-aria/angular-aria.js"></script>
+	<script src="bower_components/angular-material/angular-material.js"></script>
+	<script src="bower_components/velocity/velocity.js"></script>
+	<script src="bower_components/velocity/velocity.ui.js"></script>
+	<script src="bower_components/moment/moment.js"></script>
+	<script src="bower_components/lumx/dist/lumx.js"></script>
 	<!-- endbower -->
 	<!-- endbuild -->
+
+	<script src="js/colResizable-1.5.min.js"></script>
 
 	<!-- build:js({.tmp,app}) scripts/scripts.js -->
 	<!-- <script src="scripts/schoolproject.js"></script> -->
 	<script src="app.js"></script>
 	<script src="schoolFactory/schoolFactory.js"></script>
-	<!-- <script src="filter/filter.js"></script> -->
+	<script src="filter/filter.js"></script>
 	<script src="map/map.js"></script>
 	<script src="list/list.js"></script>
 	<!-- <script src="scripts/controllers/map_progress_bar.js"></script> -->
-	<!-- <script src="about/about.js"></script> -->
+	<script src="about/about.js"></script>
 	<!-- <script src="details/details.js"></script> -->
-	<!-- <script src="statistics/statistics.js"></script> -->
+	<script src="statistics/statistics.js"></script>
 	<!-- endbuild -->
+
 </body>
 </html>
+
+<!-- md-table jade template-->
+<div id="md-table-template" ng-hide="true">
+	<table md-colresize="md-colresize" class="md-table">
+		<thead>
+			<tr class="md-table-headers-row">
+				<th ng-repeat="h in headers" class="md-table-header"><a href="#" ng-if="handleSort(h.field)" ng-click="reverse=!reverse;order(h.field,reverse)">{{h.name}} <i ng-show="reverse &amp;&amp; h.field == predicate" class="ion-android-arrow-dropup"></i><i ng-show="!reverse &amp;&amp; h.field == predicate" class="ion-android-arrow-dropdown"></i></a><span ng-if="!handleSort(h.field)">{{h.name}}</span></th>
+				<th class="md-table-header"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="c in content | filter:filters | startFrom:tablePage*count | limitTo: count" class="md-table-content-row">
+				<td>
+					<div ng-repeat="h in headers" ng-if="h.field == thumbs" class="md-table-thumbs">
+						<div style="background-image:url({{c.thumb}})"></div>
+					</div>
+				</td>
+				<td ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs" class="md-table-content">{{(h.field.indexOf('date') > 0) ? $filter('date')(c[h.field]) : c[h.field];}}</td>
+				<td class="md-table-td-more">
+					<md-button aria-label="Info"><i class="ion-android-more-vertical">:</i></md-button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div layout="row" class="md-table-footer"><span class="md-table-count-info">Einträge pro Seite: <a href="#" ng-click="goToPage(0); count=10">10</a>,<a href="#" ng-click="goToPage(0); count=25">25</a>,<a href="#" ng-click="goToPage(0); count=50">50</a>,<a href="#" ng-click="goToPage(0); count=100">100</a> (Aktuell: {{count}})</span><span flex="flex"></span><span ng-show="nbOfPages() &gt; 1">
+			<md-button ng-disabled="tablePage==0" ng-click="tablePage=tablePage-1" aria-label="Previous Page" class="md-primary md-hue-2"><i style="font-size:16px;" class="ion-chevron-left"></i></md-button><a href="#" ng-repeat="i in getNumber(nbOfPages()) | startFrom:getNumber(nbOfPages()) | limitTo: 20 track by $index">
+				<md-button ng-click="goToPage($index)" class="md-primary md-hue-2 md-table-footer-item"><span ng-class="{ 'md-table-active-page': tablePage==$index}">{{$index+1}}</span></md-button></a>
+			<md-button ng-disabled="tablePage==nbOfPages()-1" ng-click="tablePage=tablePage+1" aria-label="Next Page" class="md-primary md-hue-2"><i style="font-size:16px;" class="ion-chevron-right"></i></md-button></span></div>
+</div>
+

@@ -1,0 +1,18 @@
+<div style="height: 100%">
+	<md-toolbar class="md-tall" layout="column">
+		<span flex></span>
+		<div class="md-toolbar-tools">
+			<div class="fill-height" layout="row" flex>
+				<div class="md-toolbar-item md-breadcrumb">
+					<span>Liste der Schulen</span>
+				</div>
+			</div>
+		</div>
+	</md-toolbar>
+
+	<md-content layout="column" flex>
+		<md-table headers="headers" content="schools" sortable="sortable"
+			filters="search" custom-class="custom" thumbs="thumbs"
+			count="count"></md-table>
+	</md-content>
+</div>
