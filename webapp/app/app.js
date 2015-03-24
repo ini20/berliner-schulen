@@ -2,26 +2,50 @@
 
 angular.module('berlinerSchulenApp', [
 	'leaflet-directive',
-	'ngRoute']);
+	'ui.router',
+	'ngMaterial',
+	'lumx']);
 
 angular.module('berlinerSchulenApp')
-	.config(['$routeProvider', function ($routeProvider) {
+	.config(function($stateProvider, $urlRouterProvider) {
 
-		$routeProvider
-			.when('/', {templateUrl: 'views/main.html', reloadOnSearch: false})
-			.when('/impressum', {templateUrl: 'views/about.html'})
-			.when('/schools/:schoolId', {templateUrl: 'views/school.html'})
-			.when('/statistics', {templateUrl: 'views/statistics.html'})
-			.otherwise({redirectTo: '/'});
+		// For any unmatched url, redirect to /
+		$urlRouterProvider.otherwise('/');
 
-	}]);
-
-//We already have a limitTo filter built-in to angular,
-//let's make a startFrom filter
-angular.module('berlinerSchulenApp')
-	.filter('startFrom', function() {
-		return function(input, start) {
-			start = +start; //parse to int
-			return input.slice(start);
-		}
+		$stateProvider
+		.state('index', {
+			url: '/',
+			views: {
+				'view1': {
+					controller: 'FilterCtrl',
+					templateUrl: 'filter/filter.html'
+				},
+				'view2': {
+					controller: 'MapCtrl',
+					templateUrl: 'map/map.html'
+				},
+				'view3': {
+					controller: 'ListCtrl',
+					templateUrl: 'list/list.html'
+				}
+			}
+		})
+		.state('statistics', {
+			url: '/statistics',
+			views: {
+				'view1': {
+					controller: 'StatisticsCtrl',
+					templateUrl: 'statistics/statistics.html'
+				}
+			}
+		})
+		.state('imprint', {
+			url: '/impressum',
+			views: {
+				'view1': {
+					controller: 'AboutCtrl',
+					templateUrl: 'about/about.html'
+				}
+			}
+		});
 	});
