@@ -1,5 +1,8 @@
 var fs = require('fs');
 var parse = require('csv-parse');
+var http = require('http');
+
+var httpRequests = 0;
 
 var indexOf = function(schoolarray, bsn){
 	for(var a = 0; a < schoolarray.length; a++)
@@ -82,9 +85,7 @@ fs.readFile("data/Schuldaten2015-02.csv", 'utf-8', function(err, data){
 						school[attrName] = value;
 				}
 
-				//search the address
 
-				schools.push(school);
 			}
 			else
 			{
@@ -92,14 +93,32 @@ fs.readFile("data/Schuldaten2015-02.csv", 'utf-8', function(err, data){
 				exSchool["Schulzweig"].push(line[5]);
 				exSchool["BemerkungenSchulzweig"] += " " + line[22];
 			}
-		}
 
-		var schoolsJSON = JSON.stringify(schools);
-		fs.writeFile("data/data.json", schoolsJSON, function(err){
-			if(err)
-				console.log(err);
-		});
-		console.log("Done!");
+			//search the address
+			var query = school.strasse + ", " + school.PLZ + ", Berlin";
+			var options = {
+				host: ' http://nominatim.openstreetmap.org',
+				path: '/search/q=' + query,
+				port: 80,
+				method: 'POST'
+			};
+
+			httpRequests++;
+			var req = http.request(options, function(res){
+
+				httpRequests--;
+				schools.push(school);
+				if(httpRequests == 0)
+				{
+					var schoolsJSON = JSON.stringify(schools);
+					fs.writeFile("data/data.json", schoolsJSON, function(err){
+						if(err)
+							console.log(err);
+					});
+					console.log("Done!");
+				}
+			});
+		}
 	});
 
 
