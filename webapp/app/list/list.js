@@ -60,7 +60,6 @@ angular.module('berlinerSchulenApp')
 				}
 
 			}
-			console.log($scope.schools);
 		});
 	}]);
 
@@ -102,7 +101,8 @@ angular.module('berlinerSchulenApp')
 					$scope.tablePage = page;
 				};
 			},
-			template: angular.element(document.querySelector('#md-table-template')).html()
+			// template: angular.element(document.querySelector('#md-table-template')).html()
+			templateUrl: 'list/table.html'
 		};
 	});
 
