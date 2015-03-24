@@ -1,289 +1,326 @@
 'use strict';
 
-angular.module('schooldataApp')
-    .controller('FilterCtrl', ['$scope', '$http', '$location', '$window', 'es', 'mapService', function ($scope, $http, $location, $window, es, mapService) {
+angular.module('berlinerSchulenApp')
+	.controller('FilterCtrl', ['$scope', 'schoolFactory', function($scope, schoolFactory) {
 
-        $scope.showFilterBox = false;
-        $scope.toggleFilterBox = function() {
-            $scope.showFilterBox = $scope.showFilterBox === false ? true: false;
-        };
+		$scope.showFilter = true;
 
-        es.search({
-            index: sp.config.elasticsearch.index,
-            type: 'school',
-            body: {
-                size: 0,
-                aggs: {
-                    nested: {
-                        nested: {
-                            path: 'address'
-                        },
-                        aggs: {
-                            districts: {
-                                terms: {
-                                    field: 'address.district',
-                                    size: 0,
-                                    order: {
-                                      _term: 'asc'
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    schooltypes: {
-                        terms: {
-                            field: 'schooltype',
-                            size: 0,
-                            order: {
-                              _term: 'asc'
-                            }
-                        }
-                    },
-                    branches: {
-                        terms: {
-                            field: 'branches',
-                            size: 0,
-                            order: {
-                              _term: 'asc'
-                            }
-                        }
-                    },
-                    languages: {
-                        terms: {
-                            field: 'languages',
-                            size: 0,
-                            order: {
-                              _term: 'asc'
-                            }
-                        }
-                    },
-                    equipments: {
-                        terms: {
-                            field: 'equipments',
-                            size: 0,
-                            order: {
-                              _term: 'asc'
-                            }
-                        }
-                    },
-                    accessibility: {
-                        terms: {
-                            field: 'accessibility',
-                            size: 0,
-                            order: {
-                              _term: 'asc'
-                            }
-                        }
-                    }
-                }
-            }
-        }).then(function (body) {
-            var districts = [];
-            var schooltypes = [];
-            var branches = [];
-            var languages = [];
-            var equipments = [];
-            var accessibility = [];
-            angular.forEach(body.aggregations.nested.districts.buckets, function(v){
-                districts.push(v.key);
-            });
-            $scope.districts = districts;
-            angular.forEach(body.aggregations.schooltypes.buckets, function(v){
-                schooltypes.push(v.key);
-            });
-            $scope.schoolTypes = schooltypes;
-            angular.forEach(body.aggregations.branches.buckets, function(v){
-                branches.push(v.key);
-            });
-            $scope.branches = branches;
-            angular.forEach(body.aggregations.languages.buckets, function(v){
-                languages.push(v.key);
-            });
-            $scope.languages = languages;
-            angular.forEach(body.aggregations.equipments.buckets, function(v){
-                equipments.push(v.key);
-            });
-            $scope.equipments = equipments;
-            angular.forEach(body.aggregations.accessibility.buckets, function(v){
-                accessibility.push(v.key);
-            });
-            $scope.accessibility = accessibility;
-        }, function (error) {
-            console.log(error.message);
-        });
+		$scope.toogleFilter = function() {
+			console.log($scope.showFilter);
+			$scope.showFilter = ( $scope.showFilter === true ) ? false : true;
+			console.log($scope.showFilter);
+		};
 
-        $scope.allLanguages = true;
-        $scope.allEquipments = false;
-        $scope.allAccessibility = false;
+		$scope.search = 'Marie';
 
-        $scope.$watch('query', function(n, o) {
-            if (n !== o) {
-                $location.search('q', n);
-            }
-        });
+		$scope.updateFilter = function() {
+			var tmp = $scope.search;
+			console.log(tmp);
+			schoolFactory.setFilter(tmp)
+				.applyFilter();
+		};
 
-        $scope.$watch('selectedDistricts', function(n, o) {
-            if (n !== o) {
-                $location.search('d', n);
-            }
-        });
+		// Multiple select with local data
+		$scope.people = [
+		    { name: 'Adam',      email: 'adam@email.com',      age: 10 },
+		    { name: 'Amalie',    email: 'amalie@email.com',    age: 12 },
+		    { name: 'Wladimir',  email: 'wladimir@email.com',  age: 30 },
+		    { name: 'Samantha',  email: 'samantha@email.com',  age: 31 },
+		    { name: 'Estefanía', email: 'estefanía@email.com', age: 16 },
+		    { name: 'Natasha',   email: 'natasha@email.com',   age: 54 },
+		    { name: 'Nicole',    email: 'nicole@email.com',    age: 43 },
+		    { name: 'Adrian',    email: 'adrian@email.com',    age: 21 }
+		];
 
-        $scope.$watch('selectedSchoolTypes', function(n, o) {
-            if (n !== o) {
-                $location.search('s', n);
-            }
-        });
+		$scope.selectedPersons = [$scope.people[2], $scope.people[4]];
 
-        $scope.$watch('selectedBranches', function(n, o) {
-            if (n !== o) {
-                $location.search('b', n);
-            }
-        });
 
-        $scope.$watch('selectedLanguages', function(n, o) {
-            if (n !== o) {
-                $location.search('l', n);
-            }
-        });
+	}]);
 
-        $scope.$watch('allLanguages', function(n, o) {
-            if (n !== o) {
-                $location.search('al', n);
-            }
-        });
+// angular.module('schooldataApp')
+// 	.controller('FilterCtrl', ['$scope', '$http', '$location', '$window', 'es', 'mapService', function ($scope, $http, $location, $window, es, mapService) {
 
-        $scope.$watch('selectedEquipments', function(n, o) {
-            if (n !== o) {
-                $location.search('e', n);
-            }
-        });
+// 		$scope.showFilterBox = false;
+// 		$scope.toggleFilterBox = function() {
+// 			$scope.showFilterBox = $scope.showFilterBox === false ? true: false;
+// 		};
 
-        $scope.$watch('allEquipments', function(n, o) {
-            if (n !== o) {
-                $location.search('ae', n);
-            }
-        });
+// 		es.search({
+// 			index: sp.config.elasticsearch.index,
+// 			type: 'school',
+// 			body: {
+// 				size: 0,
+// 				aggs: {
+// 					nested: {
+// 						nested: {
+// 							path: 'address'
+// 						},
+// 						aggs: {
+// 							districts: {
+// 								terms: {
+// 									field: 'address.district',
+// 									size: 0,
+// 									order: {
+// 									  _term: 'asc'
+// 									}
+// 								}
+// 							}
+// 						}
+// 					},
+// 					schooltypes: {
+// 						terms: {
+// 							field: 'schooltype',
+// 							size: 0,
+// 							order: {
+// 							  _term: 'asc'
+// 							}
+// 						}
+// 					},
+// 					branches: {
+// 						terms: {
+// 							field: 'branches',
+// 							size: 0,
+// 							order: {
+// 							  _term: 'asc'
+// 							}
+// 						}
+// 					},
+// 					languages: {
+// 						terms: {
+// 							field: 'languages',
+// 							size: 0,
+// 							order: {
+// 							  _term: 'asc'
+// 							}
+// 						}
+// 					},
+// 					equipments: {
+// 						terms: {
+// 							field: 'equipments',
+// 							size: 0,
+// 							order: {
+// 							  _term: 'asc'
+// 							}
+// 						}
+// 					},
+// 					accessibility: {
+// 						terms: {
+// 							field: 'accessibility',
+// 							size: 0,
+// 							order: {
+// 							  _term: 'asc'
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}
+// 		}).then(function (body) {
+// 			var districts = [];
+// 			var schooltypes = [];
+// 			var branches = [];
+// 			var languages = [];
+// 			var equipments = [];
+// 			var accessibility = [];
+// 			angular.forEach(body.aggregations.nested.districts.buckets, function(v){
+// 				districts.push(v.key);
+// 			});
+// 			$scope.districts = districts;
+// 			angular.forEach(body.aggregations.schooltypes.buckets, function(v){
+// 				schooltypes.push(v.key);
+// 			});
+// 			$scope.schoolTypes = schooltypes;
+// 			angular.forEach(body.aggregations.branches.buckets, function(v){
+// 				branches.push(v.key);
+// 			});
+// 			$scope.branches = branches;
+// 			angular.forEach(body.aggregations.languages.buckets, function(v){
+// 				languages.push(v.key);
+// 			});
+// 			$scope.languages = languages;
+// 			angular.forEach(body.aggregations.equipments.buckets, function(v){
+// 				equipments.push(v.key);
+// 			});
+// 			$scope.equipments = equipments;
+// 			angular.forEach(body.aggregations.accessibility.buckets, function(v){
+// 				accessibility.push(v.key);
+// 			});
+// 			$scope.accessibility = accessibility;
+// 		}, function (error) {
+// 			console.log(error.message);
+// 		});
 
-        $scope.$watch('selectedAccessibility', function(n, o) {
-            if (n !== o) {
-                $location.search('w', n);
-            }
-        });
+// 		$scope.allLanguages = true;
+// 		$scope.allEquipments = false;
+// 		$scope.allAccessibility = false;
 
-        $scope.$watch('allAccessibility', function(n, o) {
-            if (n !== o) {
-                $location.search('aw', n);
-            }
-        });
+// 		$scope.$watch('query', function(n, o) {
+// 			if (n !== o) {
+// 				$location.search('q', n);
+// 			}
+// 		});
 
-        $scope.updateFilter = function(data) {
-            if (data === undefined) {
-                data = {
-                    query: this.query,
-                    districts: this.selectedDistricts,
-                    schooltypes: this.selectedSchoolTypes,
-                    branches: this.selectedBranches,
-                    languages: this.selectedLanguages,
-                    allLanguages: this.allLanguages,
-                    equipments: this.selectedEquipments,
-                    allEquipments: this.allEquipments,
-                    accessibility: this.selectedAccessibility,
-                    allAccessibility: this.allAccessibility
-                };
-            }
+// 		$scope.$watch('selectedDistricts', function(n, o) {
+// 			if (n !== o) {
+// 				$location.search('d', n);
+// 			}
+// 		});
 
-            mapService.updateFilter(data);
-        };
+// 		$scope.$watch('selectedSchoolTypes', function(n, o) {
+// 			if (n !== o) {
+// 				$location.search('s', n);
+// 			}
+// 		});
 
-        $scope.filterAsLink = function() {
-            $scope.shareLink = $location.absUrl();
-            $scope.showShareLink = $scope.showShareLink == true ? false : true;
-        };
+// 		$scope.$watch('selectedBranches', function(n, o) {
+// 			if (n !== o) {
+// 				$location.search('b', n);
+// 			}
+// 		});
 
-        var so = $location.search();
+// 		$scope.$watch('selectedLanguages', function(n, o) {
+// 			if (n !== o) {
+// 				$location.search('l', n);
+// 			}
+// 		});
 
-        if (so.q !== undefined) {
-            $scope.query = so.q;
-        }
+// 		$scope.$watch('allLanguages', function(n, o) {
+// 			if (n !== o) {
+// 				$location.search('al', n);
+// 			}
+// 		});
 
-        if (so.d !== undefined) {
-            if (typeof(so.d) === 'string') {
-                $scope.selectedDistricts = [so.d];
-            } else {
-                $scope.selectedDistricts = so.d;
-            }
-        }
+// 		$scope.$watch('selectedEquipments', function(n, o) {
+// 			if (n !== o) {
+// 				$location.search('e', n);
+// 			}
+// 		});
 
-        if (so.s !== undefined) {
-            if (typeof(so.s) === 'string') {
-                $scope.selectedSchoolTypes = [so.s];
-            } else {
-                $scope.selectedSchoolTypes = so.s;
-            }
-        }
+// 		$scope.$watch('allEquipments', function(n, o) {
+// 			if (n !== o) {
+// 				$location.search('ae', n);
+// 			}
+// 		});
 
-        if (so.b !== undefined) {
-            if (typeof(so.b) === 'string') {
-                $scope.selectedBranches = [so.b];
-            } else {
-                $scope.selectedBranches = so.b;
-            }
-        }
+// 		$scope.$watch('selectedAccessibility', function(n, o) {
+// 			if (n !== o) {
+// 				$location.search('w', n);
+// 			}
+// 		});
 
-        if (so.l !== undefined) {
-            if (typeof(so.l) === 'string') {
-                $scope.selectedLanguages = [so.l];
-            } else {
-                $scope.selectedLanguages = so.l;
-            }
-        }
+// 		$scope.$watch('allAccessibility', function(n, o) {
+// 			if (n !== o) {
+// 				$location.search('aw', n);
+// 			}
+// 		});
 
-        if (so.al !== undefined) {
-            $scope.allLanguages = so.al;
-        }
+// 		$scope.updateFilter = function(data) {
+// 			if (data === undefined) {
+// 				data = {
+// 					query: this.query,
+// 					districts: this.selectedDistricts,
+// 					schooltypes: this.selectedSchoolTypes,
+// 					branches: this.selectedBranches,
+// 					languages: this.selectedLanguages,
+// 					allLanguages: this.allLanguages,
+// 					equipments: this.selectedEquipments,
+// 					allEquipments: this.allEquipments,
+// 					accessibility: this.selectedAccessibility,
+// 					allAccessibility: this.allAccessibility
+// 				};
+// 			}
 
-        if (so.e !== undefined) {
-            if (typeof(so.e) === 'string') {
-                $scope.selectedEquipments = [so.e];
-            } else {
-                $scope.selectedEquipments = so.e;
-            }
-        }
+// 			mapService.updateFilter(data);
+// 		};
 
-        if (so.ae !== undefined) {
-            $scope.allEquipments = so.ae;
-        }
+// 		$scope.filterAsLink = function() {
+// 			$scope.shareLink = $location.absUrl();
+// 			$scope.showShareLink = $scope.showShareLink == true ? false : true;
+// 		};
 
-        if (so.w !== undefined) {
-            if (typeof(so.w) === 'string') {
-                $scope.selectedAccessibility = [so.w];
-            } else {
-                $scope.selectedAccessibility = so.w;
-            }
-        }
+// 		var so = $location.search();
 
-        if (so.aw !== undefined) {
-            $scope.allAccessibility = so.aw;
-        }
+// 		if (so.q !== undefined) {
+// 			$scope.query = so.q;
+// 		}
 
-        $scope.updateFilter();
+// 		if (so.d !== undefined) {
+// 			if (typeof(so.d) === 'string') {
+// 				$scope.selectedDistricts = [so.d];
+// 			} else {
+// 				$scope.selectedDistricts = so.d;
+// 			}
+// 		}
 
-        /**
-         * Reset Filter Form and remove GET params
-         */
-        $scope.resetFilter = function() {
-            $scope.query                 = undefined;
-            $scope.selectedDistricts     = undefined;
-            $scope.selectedSchoolTypes   = undefined;
-            $scope.selectedBranches      = undefined;
-            $scope.selectedLanguages     = undefined;
-            $scope.allLanguages          = undefined;
-            $scope.selectedEquipments    = undefined;
-            $scope.allEquipments         = undefined;
-            $scope.selectedAccessibility = undefined;
-            $scope.allAccessibility      = undefined;
+// 		if (so.s !== undefined) {
+// 			if (typeof(so.s) === 'string') {
+// 				$scope.selectedSchoolTypes = [so.s];
+// 			} else {
+// 				$scope.selectedSchoolTypes = so.s;
+// 			}
+// 		}
 
-            $location.search({});
-            $scope.updateFilter();
-        };
-    }]);
+// 		if (so.b !== undefined) {
+// 			if (typeof(so.b) === 'string') {
+// 				$scope.selectedBranches = [so.b];
+// 			} else {
+// 				$scope.selectedBranches = so.b;
+// 			}
+// 		}
+
+// 		if (so.l !== undefined) {
+// 			if (typeof(so.l) === 'string') {
+// 				$scope.selectedLanguages = [so.l];
+// 			} else {
+// 				$scope.selectedLanguages = so.l;
+// 			}
+// 		}
+
+// 		if (so.al !== undefined) {
+// 			$scope.allLanguages = so.al;
+// 		}
+
+// 		if (so.e !== undefined) {
+// 			if (typeof(so.e) === 'string') {
+// 				$scope.selectedEquipments = [so.e];
+// 			} else {
+// 				$scope.selectedEquipments = so.e;
+// 			}
+// 		}
+
+// 		if (so.ae !== undefined) {
+// 			$scope.allEquipments = so.ae;
+// 		}
+
+// 		if (so.w !== undefined) {
+// 			if (typeof(so.w) === 'string') {
+// 				$scope.selectedAccessibility = [so.w];
+// 			} else {
+// 				$scope.selectedAccessibility = so.w;
+// 			}
+// 		}
+
+// 		if (so.aw !== undefined) {
+// 			$scope.allAccessibility = so.aw;
+// 		}
+
+// 		$scope.updateFilter();
+
+// 		/**
+// 		 * Reset Filter Form and remove GET params
+// 		 */
+// 		$scope.resetFilter = function() {
+// 			$scope.query                 = undefined;
+// 			$scope.selectedDistricts     = undefined;
+// 			$scope.selectedSchoolTypes   = undefined;
+// 			$scope.selectedBranches      = undefined;
+// 			$scope.selectedLanguages     = undefined;
+// 			$scope.allLanguages          = undefined;
+// 			$scope.selectedEquipments    = undefined;
+// 			$scope.allEquipments         = undefined;
+// 			$scope.selectedAccessibility = undefined;
+// 			$scope.allAccessibility      = undefined;
+
+// 			$location.search({});
+// 			$scope.updateFilter();
+// 		};
+// 	}]);
