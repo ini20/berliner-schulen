@@ -1,25 +1,11 @@
-<!-- <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
-      <md-toolbar class="md-theme-indigo">
-        <h1 class="md-toolbar-tools">Sidenav Left</h1>
-      </md-toolbar>
-      <md-content class="md-padding">
-        <md-button ng-click="close()" class="md-primary" hide-gt-md>
-          Close Sidenav Left
-        </md-button>
-        <p hide-md show-gt-md>
-          This sidenav is locked open on your device. To go back to the default behavior,
-          narrow your display.
-        </p>
-      </md-content>
-    </md-sidenav> -->
 <div>
 	<form>
-		<md-progress-linear md-mode="indeterminate" ng-if="loading"></md-progress-linear>
+		<md-progress-linear style="position: absolute" class="mb++" md-mode="indeterminate" ng-if="loading"></md-progress-linear>
 		<div flex-item>
-			<div class="tc-white-1" flex-container="row">
-				<div flex-item="11">
-					<div class="tc-green-500 p+">
-						<lx-text-field label="First name">
+			<div class="tc-black-1" flex-container="row">
+				<div flex-item="8">
+					<div class="p+">
+						<lx-text-field label="Suchen">
 							<input type="text" ng-model="searchFilter.main" ng-change="filter()">
 						</lx-text-field>
 					</div>
