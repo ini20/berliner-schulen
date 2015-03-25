@@ -1,0 +1,27 @@
+{
+  "name": "berlin-schools-dataParser",
+  "version": "2.0.0beta",
+  "description": "Script for parsing xls schooldata to JSON and searching Coordinates",
+  "author": "Projektverbund Initiative 2.0 <team@ini20.de>",
+  "contributors": [
+    {
+      "name": "Hans-Helge Buerger",
+      "email": "mail@hanshelgebuerger.de"
+    },
+    {
+      "name": "Janek Laudan",
+      "email": "janek.laudan@mailbox.tu-berlin.de"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ini20/berliner-schulen"
+  },
+  "keywords": [
+    "opendata",
+    "berlin",
+    "schools",
+    "map"
+  ],
+  "license": "MIT"
+}
