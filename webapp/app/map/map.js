@@ -35,10 +35,48 @@ angular.module('berlinerSchulenApp')
 						lat: 52.5153601,
 						lng: 13.3833154,
 						compileMessage: false,
-						message: 'Das ist Berlin. Für den Fall, dass<br>du das noch nicht wusstest :)',
+						message: 'Das ist Berlin. Für den Fall, dass<br>du das noch nicht wusstest :)'
 					}
 				}
-			}
+			},
+      icons: {
+        blue_icon: {
+          iconUrl: 'assets/img/circle_blue.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        orange_icon: {
+          iconUrl: 'assets/img/circle_orange.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        bluegrey_icon: {
+          iconUrl: 'assets/img/circle_bluegrey.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        cyan_icon: {
+          iconUrl: 'assets/img/circle_cyan.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        green_icon: {
+          iconUrl: 'assets/img/circle_green.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        red_icon: {
+          iconUrl: 'assets/img/circle_red.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        }
+      }
 		});
 
 		/* This $on method is called if the factory has a new dataset
@@ -64,20 +102,39 @@ angular.module('berlinerSchulenApp')
 				 * would break and no marker after this corrupt one will
 				 * be set
 				 */
-				var lat = parseFloat(schools[i].latitude);
-				var lon = parseFloat(schools[i].longitude);
+				var lat = parseFloat(schools[i].lat);
+				var lon = parseFloat(schools[i].lon);
 				if ( isFloat(lat) &&
 					 isFloat(lon) ) {
 
 					// Using an array here b/c with push() it is easy to
 					// add new markers (object) to the array.
-					tmpMarkersArr.push({
-							lat: lat,
-							lng: lon,
-							compileMessage: false,
-							message: schools[i].bsn
-					});
+          var marker = {
+              lat: lat,
+              lng: lon,
+              compileMessage: false,
+              message: schools[i].bsn
+          };
 
+          //choose the icon depending on schooltype
+          switch(schools[i].Schulart){
+            case 'Grundschule':
+                  marker.icon = $scope.icons.orange_icon;
+                  break;
+            case 'Integrierte Sekundarschule':
+                  marker.icon = $scope.icons.blue_icon;
+                  break;
+            case 'Gymnasium':
+                  marker.icon = $scope.icons.cyan_icon;
+                  break;
+            case "Berufsschule" || 'Berufsfachschule' || 'Berufsschule mit sonderpäd. Aufgaben' || 'Kombinierte berufliche Schule':
+                  marker.icon = $scope.icons.green_icon;
+                  break;
+            default:
+                  marker.icon = $scope.icons.bluegrey_icon;
+                  break;
+          }
+					tmpMarkersArr.push(marker);
 				}
 
 				// if ( schools.length - i > 100) {
