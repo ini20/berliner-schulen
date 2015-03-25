@@ -64,14 +64,16 @@ angular.module('berlinerSchulenApp')
 				 * would break and no marker after this corrupt one will
 				 * be set
 				 */
-				if ( isFloat(schools[i].latitude) &&
-					 isFloat(schools[i].longitude) ) {
+				var lat = parseFloat(schools[i].latitude);
+				var lon = parseFloat(schools[i].longitude);
+				if ( isFloat(lat) &&
+					 isFloat(lon) ) {
 
 					// Using an array here b/c with push() it is easy to
 					// add new markers (object) to the array.
 					tmpMarkersArr.push({
-							lat: schools[i].latitude,
-							lng: schools[i].longitude,
+							lat: lat,
+							lng: lon,
 							compileMessage: false,
 							message: schools[i].bsn
 					});
