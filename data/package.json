@@ -23,5 +23,8 @@
     "schools",
     "map"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "csv-parse": "^0.1.0"
+  }
 }
