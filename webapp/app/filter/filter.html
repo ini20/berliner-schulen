@@ -1,20 +1,67 @@
-<div ng-show="showFilter">
+<div>
 	<form>
-		<md-input-container>
-			<label>Suche</label>
-			<input type="text" ng-model="search" ng-change="updateFilter()">
-		</md-input-container>
+		<md-progress-linear style="position: absolute" class="mb++" md-mode="indeterminate" ng-if="loading"></md-progress-linear>
 		<div flex-item>
-			<lx-select ng-model="selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>
-				<lx-select-selected>
-					{{ $selected.name }} - {{ $selected.age }}
-				</lx-select-selected>
+			<div class="tc-black-1" flex-container="row">
+				<div flex-item="8">
+					<div class="p+">
+						<lx-text-field label="Suchen">
+							<input type="text" ng-model="searchFilter.main" ng-change="filter()">
+						</lx-text-field>
+					</div>
+				</div>
+				<div flex-time="1">
+					<div class="p+++">
+						<button class="btn btn--m btn--green btn--fab" lx-ripple ng-click="toogleFilter()"><i class="mdi mdi-plus"></i></button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-				<lx-select-choices>
-					{{ $choice.email }}
-				</lx-select-choices>
-			</lx-select>
+		<div ng-show="showFilter" flex-item>
 
+			<div class="fs-headline display-block m+">
+				<span>Erweiterte Suche</span>
+			</div>
+
+			<div class="tc-black-1 mt++" flex-container="row">
+				<div flex-time="3"><div class="p+">
+					<lx-text-field label="Stra&#223;e">
+						<input type="text" ng-model="searchFilter.street" ng-change="filter()">
+					</lx-text-field>
+				</div></div>
+
+				<div flex-item="3"><div class="p+">
+					<lx-select ng-model="cbDistricts.selectedDistricts" change="cbDistricts.exec(newValue)" placeholder="Bezirk" choices="cbDistricts.districts" multiple floating-label>
+						<lx-select-selected>
+							{{ $selected.name }}
+						</lx-select-selected>
+
+						<lx-select-choices>
+							{{ $choice.name }}
+						</lx-select-choices>
+					</lx-select>
+				</div></div>
+
+				<div flex-item="3"><div class="p+">
+					<lx-select ng-model="cbSchoolSupporter.selectedSupporter" change="cbSchoolSupporter.exec(newValue)" placeholder="Schultr&auml;ger" choices="cbSchoolSupporter.supporter" multiple floating-label>
+						<lx-select-selected>
+							{{ $selected.name }}
+						</lx-select-selected>
+
+						<lx-select-choices>
+							{{ $choice.name }}
+						</lx-select-choices>
+					</lx-select>
+				</div></div>
+
+				<div class="switch mt++">
+					<input type="checkbox" id="ganztagsbetrieb" class="switch__input" ng-model="searchFilter.allDayCare" ng-change="filter()">
+					<label for="ganztagsbetrieb" class="switch__label">Ganztagsbetrieb</label>
+					<span class="switch__help">Nur Schulen anzeigen, die Ganztagsbetrieb anbieten.</span>
+				</div>
+			</div>
+<!--
 			<lx-select ng-model="selects.selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>
 				<lx-select-selected>
 					{{ $selected.name }} - {{ $selected.age }}
@@ -23,7 +70,7 @@
 				<lx-select-choices>
 					{{ $choice.email }}
 				</lx-select-choices>
-			</lx-select>
+			</lx-select> -->
 		</div>
 	</form>
 </div>
