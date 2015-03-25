@@ -15,13 +15,13 @@ angular.module('berlinerSchulenApp')
 				street: '',
 				districts: [],
 				supporter: [],
-				allDayCare: false
+				allDayCare: false,
+				languages: [],
 			};
 		};
 
 		schools.addCallback = function(field, callback) {
 			filterCallbacks.push({ field: field, cb: callback });
-			console.log(filterCallbacks);
 		};
 
 		/**
@@ -51,6 +51,10 @@ angular.module('berlinerSchulenApp')
 
 					case 'allDayCare':
 						filter.allDayCare = filterProp.allDayCare;
+						break;
+
+					case 'languages':
+						filter.languages = filterProp.languages;
 						break;
 				}
 
@@ -128,6 +132,25 @@ angular.module('berlinerSchulenApp')
 					return true;
 				}
 			})
+			// Filter Fremdsprachen
+			.filter(function(row) {
+				if( filter.languages.length > 0 ){
+					for( var sup in filter.languages ) {
+						var supName = filter.languages[sup].name.toLowerCase();
+						if (supName !== '' &&
+							row.Fremdsprachen !== undefined) {
+							for (var i = row.Fremdsprachen.length - 1; i >= 0; i--) {
+								if(row.Fremdsprachen[i].toLowerCase().indexOf(supName) > -1 ) {
+									return true;
+								}
+							}
+						}
+					}
+					return false;
+				} else {
+					return true;
+				}
+			})
 			;
 
 			schools.content = filteredJson;
@@ -179,9 +202,14 @@ angular.module('berlinerSchulenApp')
 						case 'Schultraeger':
 							value = school.Schultraeger;
 							break;
+
+						// case 'Fremdsprachen':
+						// 	value = school.Fremdsprachen;
+						// 	break;
 					}
 
-					if(!tmp[j].contains(value)) {
+					if(value.constructor !== Array &&
+						!tmp[j].contains(value)) {
 						tmp[j].push(value);
 					}
 				}

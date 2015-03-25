@@ -37,7 +37,6 @@ angular.module('berlinerSchulenApp')
 				for(var s in set) {
 					list.push({name: set[s]});
 				}
-				console.log(list);
 				$scope.cbDistricts.districts = list;
 				$scope.cbDistricts.loading = false;
 			},
@@ -62,12 +61,10 @@ angular.module('berlinerSchulenApp')
 			},
 
 			populate: function(set) {
-				console.log(set);
 				var list = [];
 				for(var s in set) {
 					list.push({name: set[s]});
 				}
-				console.log(list);
 				$scope.cbSchoolSupporter.supporter = list;
 				$scope.cbSchoolSupporter.loading = false;
 			},
@@ -79,6 +76,50 @@ angular.module('berlinerSchulenApp')
 			}
 		};
 
+		$scope.cbLanguages = {
+			languages: [
+				{name: 'Griechisch'},
+				{name: 'Arabisch'},
+				{name: 'Chinesisch'},
+				{name: 'Englisch'},
+				{name: 'Französisch'},
+				{name: 'Hebräisch'},
+				{name: 'Italienisch'},
+				{name: 'Japanisch'},
+				{name: 'Latein'},
+				{name: 'Niederländisch'},
+				{name: 'Polnisch'},
+				{name: 'Portugiesisch'},
+				{name: 'Russisch'},
+				{name: 'Spanisch'},
+				{name: 'Türkisch'}
+			],
+
+			selectedLang: [],
+
+			loading: false,
+
+			exec: function(values) {
+				$scope.searchFilter.languages = values.newValue;
+				$scope.filter();
+			},
+
+			populate: function(set) {
+				var list = [];
+				for(var s in set) {
+					list.push({name: set[s]});
+				}
+				$scope.cbLanguages.languages = list;
+				$scope.cbLanguages.loading = false;
+			},
+
+			addCallback: function() {
+				$scope.cbLanguages.loading = true;
+
+				schoolFactory.addCallback('Fremdsprachen', this.populate);
+			}
+		};
+
 		$scope.showFilter = true;
 
 		$scope.toogleFilter = function() {
@@ -87,6 +128,7 @@ angular.module('berlinerSchulenApp')
 
 		$scope.cbDistricts.addCallback();
 		$scope.cbSchoolSupporter.addCallback();
+		// $scope.cbLanguages.addCallback();
 
 	}]);
 
