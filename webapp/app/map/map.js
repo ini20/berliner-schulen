@@ -41,10 +41,6 @@ angular.module('berlinerSchulenApp')
 			}
 		});
 
-		// Tell the schoolFactory to get the JSON file which contains
-		// all the data.
-		schoolFactory.getJson();
-
 		/* This $on method is called if the factory has a new dataset
 		 * available and broadcasts it to all controllers which subscribed
 		 * to this name `updateSchools`.
