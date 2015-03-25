@@ -7,15 +7,21 @@ angular.module('berlinerSchulenApp')
 		var allSchools = {content:null};
 		var schools = {content:null};
 		var filter = {};
+		var filterCallbacks = [];
 
 		schools.initFilter = function(filterProp) {
 			return {
-				main: 'Seminar',
+				main: 'Marie',
 				street: '',
 				districts: [],
 				supporter: [],
 				allDayCare: false
 			};
+		};
+
+		schools.addCallback = function(field, callback) {
+			filterCallbacks.push({ field: field, cb: callback });
+			console.log(filterCallbacks);
 		};
 
 		/**
@@ -86,7 +92,7 @@ angular.module('berlinerSchulenApp')
 				if( filter.districts.length > 0 ){
 					for( var dist in filter.districts ) {
 						var distName = filter.districts[dist].name;
-						if ( row.Region.indexOf(distName) > -1 ) {
+						if ( distName !== '' && row.Region.indexOf(distName) > -1 ) {
 							return true;
 						}
 					}
@@ -100,7 +106,7 @@ angular.module('berlinerSchulenApp')
 				if( filter.supporter.length > 0 ){
 					for( var sup in filter.supporter ) {
 						var supName = filter.supporter[sup].name;
-						if ( row.Schultraeger.toLowerCase().indexOf(supName.toLowerCase()) > -1 ) {
+						if ( supName !== '' && row.Schultraeger.toLowerCase().indexOf(supName.toLowerCase()) > -1 ) {
 							return true;
 						}
 					}
@@ -139,13 +145,52 @@ angular.module('berlinerSchulenApp')
 
 		schools.getJson = function() {
 
-			$http.get('data/schools2.json').success(function(data) {
+			$http.get('data/data.json').success(function(data) {
 				allSchools.content = data;
 				schools.content    = data;
 
 				schools.setFilter({});
 				schools.applyFilter();
+				schools.populateFilterChoices();
 			});
+		};
+
+		schools.populateFilterChoices = function() {
+			// console.log('---populateFilterChoices---');
+
+			var tmp = [];
+			for(var i = filterCallbacks.length - 1; i >= 0; i--) {
+				tmp.push([]);
+			}
+
+			for(i = allSchools.content.length - 1; i >= 0; i--) {
+				for (var j = filterCallbacks.length - 1; j >= 0; j--) {
+
+					var value = '';
+					var field = filterCallbacks[j].field;
+					var school = allSchools.content[i];
+
+
+					switch(field) {
+						case 'Region':
+							value = school.Region;
+							break;
+
+						case 'Schultraeger':
+							value = school.Schultraeger;
+							break;
+					}
+
+					if(!tmp[j].contains(value)) {
+						tmp[j].push(value);
+					}
+				}
+			}
+			console.log(tmp);
+
+			for(i = filterCallbacks.length - 1; i >= 0; i--) {
+				filterCallbacks[i].cb.call(this, tmp[i]);
+			}
 		};
 
 		filter = schools.initFilter();
@@ -153,3 +198,13 @@ angular.module('berlinerSchulenApp')
 
 		return schools;
 	}]);
+
+Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+        if (this[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+};

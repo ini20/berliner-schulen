@@ -21,36 +21,61 @@ angular.module('berlinerSchulenApp')
 		};
 
 		$scope.cbDistricts = {
-			districts: [
-				{name: 'Mitte'},
-				{name: 'Lichtenberg'},
-				{name: 'Wladimir'},
-				{name: 'Samantha'},
-				{name: 'Estefanía'},
-				{name: 'Natasha'},
-				{name: 'Nicole'},
-				{name: 'Adrian'}
-			],
+			districts: [],
 
 			selectedDistricts: [],
+
+			loading: false,
 
 			exec: function(values) {
 				$scope.searchFilter.districts = values.newValue;
 				$scope.filter();
+			},
+
+			populate: function(set) {
+				var list = [];
+				for(var s in set) {
+					list.push({name: set[s]});
+				}
+				console.log(list);
+				$scope.cbDistricts.districts = list;
+				$scope.cbDistricts.loading = false;
+			},
+
+			addCallback: function() {
+				$scope.cbDistricts.loading = true;
+
+				schoolFactory.addCallback('Region', this.populate);
 			}
 		};
 
 		$scope.cbSchoolSupporter = {
-			supporter: [
-				{name: 'Öffentlich'},
-				{name: 'Privat'}
-			],
+			supporter: [],
 
 			selectedSupporter: [],
+
+			loading: false,
 
 			exec: function(values) {
 				$scope.searchFilter.supporter = values.newValue;
 				$scope.filter();
+			},
+
+			populate: function(set) {
+				console.log(set);
+				var list = [];
+				for(var s in set) {
+					list.push({name: set[s]});
+				}
+				console.log(list);
+				$scope.cbSchoolSupporter.supporter = list;
+				$scope.cbSchoolSupporter.loading = false;
+			},
+
+			addCallback: function() {
+				$scope.cbSchoolSupporter.loading = true;
+
+				schoolFactory.addCallback('Schultraeger', this.populate);
 			}
 		};
 
@@ -59,6 +84,9 @@ angular.module('berlinerSchulenApp')
 		$scope.toogleFilter = function() {
 			$scope.showFilter = ( $scope.showFilter === true ) ? false : true;
 		};
+
+		$scope.cbDistricts.addCallback();
+		$scope.cbSchoolSupporter.addCallback();
 
 	}]);
 

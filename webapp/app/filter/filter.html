@@ -32,7 +32,7 @@
 				</div></div>
 
 				<div flex-item="3"><div class="p+">
-					<lx-select ng-model="cbDistricts.selectedDistricts" change="cbDistricts.exec(newValue)" placeholder="Bezirk" choices="cbDistricts.districts" multiple floating-label>
+					<lx-select ng-model="cbDistricts.selectedDistricts" change="cbDistricts.exec(newValue)" placeholder="Bezirk" choices="cbDistricts.districts" loading="{{ cbDistricts.loading }}" multiple floating-label>
 						<lx-select-selected>
 							{{ $selected.name }}
 						</lx-select-selected>
@@ -44,7 +44,7 @@
 				</div></div>
 
 				<div flex-item="3"><div class="p+">
-					<lx-select ng-model="cbSchoolSupporter.selectedSupporter" change="cbSchoolSupporter.exec(newValue)" placeholder="Schultr&auml;ger" choices="cbSchoolSupporter.supporter" multiple floating-label>
+					<lx-select ng-model="cbSchoolSupporter.selectedSupporter" change="cbSchoolSupporter.exec(newValue)" placeholder="Schultr&auml;ger" choices="cbSchoolSupporter.supporter" loading="{{ cbSchoolSupporter.loading }}" multiple floating-label>
 						<lx-select-selected>
 							{{ $selected.name }}
 						</lx-select-selected>
