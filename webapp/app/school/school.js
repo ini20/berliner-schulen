@@ -1,16 +1,9 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name schooldataApp.controller:AboutCtrl
- * @description
- * # AboutCtrl
- * Controller of the schooldataApp
- */
-angular.module('schooldataApp')
+angular.module('berlinerSchulenApp')
   .controller('SchoolCtrl', ['$scope', '$routeParams', 'es', function ($scope, $routeParams, es) {
     $scope.schoolId = $routeParams.schoolId;
-
+    $scope.text = "hallo";
     $scope.schoolData = {};
     $scope.error = null;
     $scope.loading = null;

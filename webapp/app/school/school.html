@@ -1,4 +1,5 @@
 <div class="row" ng-controller="SchoolCtrl">
+	{{text}}
 	<div class="large-12 columns" ng:show="error == null && loading == null">
 		<h2>{{schoolData.name}}</h2>
 		<p>URL: <a href="{{schoolData.wwwaddress}}">{{schoolData.wwwaddress}}</a></p>
@@ -72,7 +73,7 @@
 			</div>
 		</div>
 
-		
+
 	</div>
 	<div class="large-12 columns" ng:show="loading != null">
 		<h1>Suche nach der Schule mit der Nummer {{schoolId}}!</h1>
