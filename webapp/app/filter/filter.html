@@ -108,6 +108,12 @@
 					<label for="dualesLernen" class="switch__label">Duales Lernen</label>
 					<span class="switch__help">Nur Schulen anzeigen, die eine Art des dualen Lernens anbieten</span>
 				</div>
+
+				<div class="switch mt++">
+					<input type="checkbox" id="zweiterBildungsweg" class="switch__input" ng-model="searchFilter.secEdu" ng-change="filter()">
+					<label for="zweiterBildungsweg" class="switch__label">zweiter Bildungsweg</label>
+					<span class="switch__help">Schulen mit zweiten Bildungsweg</span>
+				</div>
 			</div>
 <!--
 			<lx-select ng-model="selects.selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>

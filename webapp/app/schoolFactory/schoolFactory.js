@@ -16,6 +16,7 @@ angular.module('berlinerSchulenApp')
 				districts: [],
 				supporter: [],
 				allDayCare: false,
+				secEdu: false,
 				dual: false,
 				languages: [],
 				accessibilities: [],
@@ -54,6 +55,10 @@ angular.module('berlinerSchulenApp')
 
 					case 'allDayCare':
 						filter.allDayCare = filterProp.allDayCare;
+						break;
+
+					case 'secEdu':
+						filter.secEdu = filterProp.secEdu;
 						break;
 
 					case 'dual':
@@ -139,6 +144,18 @@ angular.module('berlinerSchulenApp')
 				if( filter.allDayCare === true ){
 					if ( row.Ganztagsbetrieb !== undefined ||
 						(row.spez_Angebote !== undefined && row.spez_Angebote.toLowerCase().indexOf("ganztagsschule") > -1)) {
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return true;
+				}
+			})
+			// Filter zweiter Bildungsweg
+			.filter(function(row) {
+				if( filter.secEdu === true ){
+					if (row.ZweiterBildungsweg !== undefined) {
 						return true;
 					} else {
 						return false;
