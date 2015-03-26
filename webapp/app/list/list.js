@@ -63,7 +63,10 @@ angular.module('berlinerSchulenApp')
             case 'Gymnasium':
               school.icon = icons.cyan;
               break;
-            case "Berufsschule" || 'Berufsfachschule' || 'Berufsschule mit sonderpäd. Aufgaben' || 'Kombinierte berufliche Schule':
+            case 'Berufsschule':
+            case 'Berufsfachschule':
+            case 'Berufsschule mit sonderpäd. Aufgaben':
+            case 'Kombinierte berufliche Schule':
               school.icon = icons.green;
               break;
             default:
