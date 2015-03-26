@@ -107,33 +107,43 @@ angular.module('berlinerSchulenApp')
 				if ( isFloat(lat) &&
 					 isFloat(lon) ) {
 
+					// Create Marker Tooltip
+					var tooltip = '<strong>' + schools[i].Schulname + '</strong><br>';
+						tooltip += schools[i].Strasse + ', ' + schools[i].PLZ + '<br><br>';
+						tooltip += '<em>' + schools[i].Schulart + '</em><br>';
+						// TODO: Link zur Detailseite fixen [github.com/ini20/berliner-schulen/issues/18]
+						tooltip += '<a href=#>Link zur Detailseite</a>';
+
 					// Using an array here b/c with push() it is easy to
 					// add new markers (object) to the array.
-          var marker = {
-              lat: lat,
-              lng: lon,
-              compileMessage: false,
-              message: schools[i].bsn
-          };
+					var marker = {
+						lat: lat,
+						lng: lon,
+						compileMessage: false,
+						message: tooltip
+					};
 
-          //choose the icon depending on schooltype
-          switch(schools[i].Schulart){
-            case 'Grundschule':
-                  marker.icon = $scope.icons.orange_icon;
-                  break;
-            case 'Integrierte Sekundarschule':
-                  marker.icon = $scope.icons.blue_icon;
-                  break;
-            case 'Gymnasium':
-                  marker.icon = $scope.icons.cyan_icon;
-                  break;
-            case "Berufsschule" || 'Berufsfachschule' || 'Berufsschule mit sonderpäd. Aufgaben' || 'Kombinierte berufliche Schule':
-                  marker.icon = $scope.icons.green_icon;
-                  break;
-            default:
-                  marker.icon = $scope.icons.bluegrey_icon;
-                  break;
-          }
+					//choose the icon depending on schooltype
+					switch(schools[i].Schulart){
+						case 'Grundschule':
+							marker.icon = $scope.icons.orange_icon;
+							break;
+						case 'Integrierte Sekundarschule':
+							marker.icon = $scope.icons.blue_icon;
+							break;
+						case 'Gymnasium':
+							marker.icon = $scope.icons.cyan_icon;
+							break;
+						case 'Berufsschule':
+						case 'Berufsfachschule':
+						case 'Berufsschule mit sonderpäd. Aufgaben':
+						case 'Kombinierte berufliche Schule':
+							marker.icon = $scope.icons.green_icon;
+							break;
+						default:
+							marker.icon = $scope.icons.bluegrey_icon;
+							break;
+					}
 					tmpMarkersArr.push(marker);
 				}
 

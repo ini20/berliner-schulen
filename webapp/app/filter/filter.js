@@ -48,6 +48,34 @@ angular.module('berlinerSchulenApp')
 			}
 		};
 
+		$scope.cbSchooltypes = {
+			schooltypes: [],
+
+			selectedTypes: [],
+
+			loading: false,
+
+			exec: function(values) {
+				$scope.searchFilter.schooltypes = values.newValue;
+				$scope.filter();
+			},
+
+			populate: function(set) {
+				var list = [];
+				for(var s in set) {
+					list.push({name: set[s]});
+				}
+				$scope.cbSchooltypes.schooltypes = list;
+				$scope.cbSchooltypes.loading = false;
+			},
+
+			addCallback: function() {
+				$scope.cbSchooltypes.loading = true;
+
+				schoolFactory.addCallback('Schulart', this.populate);
+			}
+		};
+
 		$scope.cbSchoolSupporter = {
 			supporter: [],
 
@@ -120,6 +148,68 @@ angular.module('berlinerSchulenApp')
 			}
 		};
 
+		$scope.cbAccessibility = {
+			accessibilities: [],
+
+			selectedAccessibilities: [],
+
+			loading: false,
+
+			exec: function(values) {
+				$scope.searchFilter.accessibilities = values.newValue;
+				$scope.filter();
+			},
+
+			populate: function(set) {
+				var list = [];
+				for(var s in set) {
+					if (set[s] !== '') {
+						list.push({name: set[s]});
+					}
+				}
+
+				$scope.cbAccessibility.accessibilities = list;
+				$scope.cbAccessibility.loading = false;
+			},
+
+			addCallback: function() {
+				$scope.cbAccessibility.loading = true;
+
+				schoolFactory.addCallback('Bauten', this.populate);
+			}
+		};
+
+		$scope.cbCourses = {
+			courses: [],
+
+			selectedCourses: [],
+
+			loading: false,
+
+			exec: function(values) {
+				$scope.searchFilter.courses = values.newValue;
+				$scope.filter();
+			},
+
+			populate: function(set) {
+				var list = [];
+				for(var s in set) {
+					if (set[s] !== '') {
+						list.push({name: set[s]});
+					}
+				}
+
+				$scope.cbCourses.courses = list;
+				$scope.cbCourses.loading = false;
+			},
+
+			addCallback: function() {
+				$scope.cbCourses.loading = true;
+
+				schoolFactory.addCallback('Leistungskurse', this.populate);
+			}
+		};
+
 		$scope.showFilter = true;
 
 		$scope.toogleFilter = function() {
@@ -128,6 +218,9 @@ angular.module('berlinerSchulenApp')
 
 		$scope.cbDistricts.addCallback();
 		$scope.cbSchoolSupporter.addCallback();
+		$scope.cbAccessibility.addCallback();
+		$scope.cbCourses.addCallback();
+		$scope.cbSchooltypes.addCallback();
 		// $scope.cbLanguages.addCallback();
 
 	}]);
