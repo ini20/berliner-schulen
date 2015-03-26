@@ -10,10 +10,16 @@
 angular.module('berlinerSchulenApp')
 	.controller('ListCtrl', ['$scope', '$rootScope', '$timeout', 'schoolFactory', function ($scope, $rootScope, $timeout, schoolFactory) {
 
+    /* Simple function to check if a value is a float */
+    function isFloat(n) {
+      return n === +n && n !== (n|0);
+    }
+
     $scope.centerMap = function(school){
-      var lat = school.lat;
-      var lon = school.lon;
-      $rootScope.$emit('mapCenterRequest', lat, lon);
+      var lat = parseFloat(school.lat);
+      var lon = parseFloat(school.lon);
+      if ( isFloat(lat) && isFloat(lon) )
+        $rootScope.$broadcast('mapCenterRequest', lat, lon);
     };
 		$scope.schools       = [];
 		$scope.numberOfPages = function() {

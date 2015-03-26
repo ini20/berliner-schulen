@@ -3,6 +3,11 @@
 angular.module('berlinerSchulenApp')
 	.controller('MapCtrl', ['$scope', '$rootScope', 'schoolFactory', '$window', function($scope, $rootScope, schoolFactory, $window){
 
+    $scope.click = function()
+    {
+      $scope.berlin.lat = 3;
+      $scope.berlin.lon = 0;
+    }
 		/* This is our Map setup.
 		 *
 		 * It uses the OSM tiles and is set to zoom 14.
@@ -187,10 +192,10 @@ angular.module('berlinerSchulenApp')
      * This should center the map if a table row is clicked
      * unfortunately it is not working yet
      */
-    var mapCenterRequest = $rootScope.$on('mapCenterRequest', function(sender, lat, lon) {
-        $scope.berlin.lat = lat;
-        $scope.berlin.lon = lon;
-
+    var mapCenterRequest = $scope.$on('mapCenterRequest', function(sender, lat, lon) {
+        sender.currentScope.berlin.lat = lat;
+        sender.currentScope.berlin.lng = lon;
+        //sender.currentScope.data.markers[0].focus = true;
     });
-    $rootScope.$on('destroy', mapCenterRequest);
+    $scope.$on('destroy', mapCenterRequest);
 }]);
