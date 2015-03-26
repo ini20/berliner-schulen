@@ -39,44 +39,44 @@ angular.module('berlinerSchulenApp')
 					}
 				}
 			},
-			icons: {
-				blue_icon: {
-					iconUrl: 'assets/img/circle_blue.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				orange_icon: {
-					iconUrl: 'assets/img/circle_orange.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				bluegrey_icon: {
-					iconUrl: 'assets/img/circle_bluegrey.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				cyan_icon: {
-					iconUrl: 'assets/img/circle_cyan.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				green_icon: {
-					iconUrl: 'assets/img/circle_green.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				red_icon: {
-					iconUrl: 'assets/img/circle_red.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				}
-			}
+      icons: {
+        blue_icon: {
+          iconUrl: 'assets/img/circle_blue_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        orange_icon: {
+          iconUrl: 'assets/img/circle_orange_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        bluegrey_icon: {
+          iconUrl: 'assets/img/circle_bluegrey_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        cyan_icon: {
+          iconUrl: 'assets/img/circle_cyan_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        green_icon: {
+          iconUrl: 'assets/img/circle_green_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        red_icon: {
+          iconUrl: 'assets/img/circle_red_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        }
+      }
 		});
 
 		/* This $on method is called if the factory has a new dataset
