@@ -347,6 +347,10 @@ angular.module('berlinerSchulenApp')
 			}
 		};
 
+		schools.getSchoolByBSN = function(bsn) {
+			return {name: 'Sample', type: 'asfd'};
+		};
+
 		filter = schools.initFilter();
 		schools.getJson();
 
