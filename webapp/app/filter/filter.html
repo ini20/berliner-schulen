@@ -24,7 +24,7 @@
 				<span>Erweiterte Suche</span>
 			</div>
 
-			<div class="tc-black-1 mt++" flex-container="row">
+			<div class="tc-black-1" flex-container="row">
 				<div flex-time="3"><div class="p+">
 					<lx-text-field label="Stra&#223;e">
 						<input type="text" ng-model="searchFilter.street" ng-change="filter()">
@@ -55,15 +55,10 @@
 					</lx-select>
 				</div></div>
 
-				<div class="switch mt++">
-					<input type="checkbox" id="ganztagsbetrieb" class="switch__input" ng-model="searchFilter.allDayCare" ng-change="filter()">
-					<label for="ganztagsbetrieb" class="switch__label">Ganztagsbetrieb</label>
-					<span class="switch__help">Nur Schulen anzeigen, die Ganztagsbetrieb anbieten.</span>
-				</div>
 			</div>
 
 
-			<div class="tc-black-1 mt++" flex-container="row">
+			<div class="tc-black-1" flex-container="row">
 				<div flex-item="3"><div class="p+">
 					<lx-select ng-model="cbLanguages.selectedLang" change="cbLanguages.exec(newValue)" placeholder="Fremdsprachen" choices="cbLanguages.languages" loading="{{ cbLanguages.loading }}" multiple floating-label>
 						<lx-select-selected>
@@ -87,6 +82,20 @@
 						</lx-select-choices>
 					</lx-select>
 				</div></div>
+			</div>
+
+			<div class="tc-black-1 mb++" flex-container="row">
+				<div class="switch mt++">
+					<input type="checkbox" id="ganztagsbetrieb" class="switch__input" ng-model="searchFilter.allDayCare" ng-change="filter()">
+					<label for="ganztagsbetrieb" class="switch__label">Ganztagsbetrieb</label>
+					<span class="switch__help">Nur Schulen anzeigen, die Ganztagsbetrieb anbieten.</span>
+				</div>
+
+				<div class="switch mt++">
+					<input type="checkbox" id="dualesLernen" class="switch__input" ng-model="searchFilter.dual" ng-change="filter()">
+					<label for="dualesLernen" class="switch__label">Duales Lernen</label>
+					<span class="switch__help">Nur Schulen anzeigen, die eine Art des dualen Lernens anbieten</span>
+				</div>
 			</div>
 <!--
 			<lx-select ng-model="selects.selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>
