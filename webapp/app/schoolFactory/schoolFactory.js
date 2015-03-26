@@ -17,6 +17,7 @@ angular.module('berlinerSchulenApp')
 				supporter: [],
 				allDayCare: false,
 				languages: [],
+				accessibilities: []
 			};
 		};
 
@@ -56,6 +57,9 @@ angular.module('berlinerSchulenApp')
 					case 'languages':
 						filter.languages = filterProp.languages;
 						break;
+
+					case 'accessibilities':
+						filter.accessibilities = filterProp.accessibilities;
 				}
 
 			}
@@ -151,6 +155,25 @@ angular.module('berlinerSchulenApp')
 					return true;
 				}
 			})
+			// Filter Barrierefreiheit
+			.filter(function(row) {
+				if( filter.accessibilities.length > 0 ){
+					for( var acc in filter.accessibilities ) {
+						var accName = filter.accessibilities[acc].name.toLowerCase();
+						if (accName !== '' &&
+							row.Bauten !== undefined) {
+							for (var i = row.Bauten.length - 1; i >= 0; i--) {
+								if(row.Bauten[i].toLowerCase().indexOf(accName) > -1 ) {
+									return true;
+								}
+							}
+						}
+					}
+					return false;
+				} else {
+					return true;
+				}
+			})
 			;
 
 			schools.content = filteredJson;
@@ -196,11 +219,25 @@ angular.module('berlinerSchulenApp')
 
 					switch(field) {
 						case 'Region':
-							value = school.Region;
+							if (school.Region !== undefined) {
+								value = school.Region;
+							}
 							break;
 
 						case 'Schultraeger':
-							value = school.Schultraeger;
+							if (school.Schultraeger !== undefined) {
+								value = school.Schultraeger;
+							}
+							break;
+
+						case 'Bauten':
+							if (school.Bauten !== undefined) {
+								value = school.Bauten;
+							}
+							break;
+
+						default:
+							value = '';
 							break;
 
 						// case 'Fremdsprachen':
@@ -211,6 +248,12 @@ angular.module('berlinerSchulenApp')
 					if(value.constructor !== Array &&
 						!tmp[j].contains(value)) {
 						tmp[j].push(value);
+					} else if (value.constructor === Array) {
+						for (var g = value.length - 1; g >= 0; g--) {
+							if(!tmp[j].contains(value[g])) {
+								tmp[j].push(value[g]);
+							}
+						}
 					}
 				}
 			}

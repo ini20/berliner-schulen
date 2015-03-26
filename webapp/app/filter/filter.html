@@ -75,6 +75,18 @@
 						</lx-select-choices>
 					</lx-select>
 				</div></div>
+
+				<div flex-item="3"><div class="p+">
+					<lx-select ng-model="cbAccessibility.selectedAccessibilities" change="cbAccessibility.exec(newValue)" placeholder="Barrierefreiheit" choices="cbAccessibility.accessibilities" loading="{{ cbAccessibility.loading }}" multiple floating-label>
+						<lx-select-selected>
+							{{ $selected.name }}
+						</lx-select-selected>
+
+						<lx-select-choices>
+							{{ $choice.name }}
+						</lx-select-choices>
+					</lx-select>
+				</div></div>
 			</div>
 <!--
 			<lx-select ng-model="selects.selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>

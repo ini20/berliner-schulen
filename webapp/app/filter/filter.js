@@ -120,6 +120,37 @@ angular.module('berlinerSchulenApp')
 			}
 		};
 
+		$scope.cbAccessibility = {
+			accessibilities: [],
+
+			selectedAccessibilities: [],
+
+			loading: false,
+
+			exec: function(values) {
+				$scope.searchFilter.accessibilities = values.newValue;
+				$scope.filter();
+			},
+
+			populate: function(set) {
+				var list = [];
+				for(var s in set) {
+					if (set[s] !== '') {
+						list.push({name: set[s]});
+					}
+				}
+
+				$scope.cbAccessibility.accessibilities = list;
+				$scope.cbAccessibility.loading = false;
+			},
+
+			addCallback: function() {
+				$scope.cbAccessibility.loading = true;
+
+				schoolFactory.addCallback('Bauten', this.populate);
+			}
+		};
+
 		$scope.showFilter = true;
 
 		$scope.toogleFilter = function() {
@@ -128,6 +159,7 @@ angular.module('berlinerSchulenApp')
 
 		$scope.cbDistricts.addCallback();
 		$scope.cbSchoolSupporter.addCallback();
+		$scope.cbAccessibility.addCallback();
 		// $scope.cbLanguages.addCallback();
 
 	}]);
