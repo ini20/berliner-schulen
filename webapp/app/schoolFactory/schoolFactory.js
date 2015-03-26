@@ -85,9 +85,6 @@ angular.module('berlinerSchulenApp')
 
 			}
 
-			console.log('---Filter---');
-			console.log(filterProp);
-			console.log(filter);
 			return schools;
 		};
 
@@ -262,8 +259,6 @@ angular.module('berlinerSchulenApp')
 		};
 
 		schools.publishData = function() {
-			console.log("---publishData---");
-			console.log(schools.content);
 			$rootScope.$broadcast('updateSchools');
 		};
 
@@ -280,7 +275,6 @@ angular.module('berlinerSchulenApp')
 		};
 
 		schools.populateFilterChoices = function() {
-			// console.log('---populateFilterChoices---');
 
 			var tmp = [];
 			for(var i = filterCallbacks.length - 1; i >= 0; i--) {
@@ -347,7 +341,6 @@ angular.module('berlinerSchulenApp')
 					}
 				}
 			}
-			console.log(tmp);
 
 			for(i = filterCallbacks.length - 1; i >= 0; i--) {
 				filterCallbacks[i].cb.call(this, tmp[i]);
@@ -361,11 +354,11 @@ angular.module('berlinerSchulenApp')
 	}]);
 
 Array.prototype.contains = function(obj) {
-    var i = this.length;
-    while (i--) {
-        if (this[i] === obj) {
-            return true;
-        }
-    }
-    return false;
+	var i = this.length;
+	while (i--) {
+		if (this[i] === obj) {
+			return true;
+		}
+	}
+	return false;
 };
