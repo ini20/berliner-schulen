@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.controller('MapCtrl', ['$scope', 'schoolFactory', function($scope, schoolFactory){
+	.controller('MapCtrl', ['$scope', 'schoolFactory', '$window', function($scope, schoolFactory, $window){
 
 		/* This is our Map setup.
 		 *
@@ -169,5 +169,18 @@ angular.module('berlinerSchulenApp')
 				markers: tmpMarkersObj
 			});
 		});
+
+    /* This sets the height of the map according to the height of the
+     * window when the page is loaded. If the window is resized the
+     * height of the map stays as is.
+     */
+    var w = angular.element($window);
+    var cachedHeight = -1;
+
+    $scope.getWindowHeight = function(){
+      if(cachedHeight == -1)
+        cachedHeight = w.height() * 0.7;
+      return cachedHeight;
+    }
 
 }]);
