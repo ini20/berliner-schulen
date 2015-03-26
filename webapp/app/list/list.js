@@ -10,59 +10,77 @@
 angular.module('berlinerSchulenApp')
 	.controller('ListCtrl', ['$scope', '$timeout', 'schoolFactory', function ($scope, $timeout, schoolFactory) {
 
-		$scope.headers = [
-			{
-				name:'',
-				field:'thumb'
-			},{
-				name: 'Name',
-				field: 'b_district'
-			},{
-				name:'Description',
-				field: 'c_id'
-			},{
-				name: 'Last Modified',
-				field: 'd_url'
-			},{
-				name: 'moin',
-				field: 'e_field'
-			}
-		];
-
-		$scope.custom = {name: 'bold', description:'grey',last_modified: 'grey'};
-		$scope.sortable = ['a_name', 'b_district', 'd_url'];
-		$scope.thumbs = 'thumb';
-		$scope.count = 10;
-		/** ------ */
-
 		$scope.schools       = [];
 		$scope.numberOfPages = function() {
 			return Math.ceil($scope.schools.length/$scope.pageSize);
 		};
 
 		$scope.$on('updateSchools', function() {
-			var schools = schoolFactory.content;
+      var schools = schoolFactory.content;
+
+      var icons = {
+        blue:  {
+          src: 'assets/img/circle_blue_borderless.svg'
+        },
+        red: {
+          src: 'assets/img/circle_red_borderless.svg'
+        },
+        bluegrey: {
+          src: 'assets/img/circle_bluegrey_borderless.svg'
+        },
+        cyan: {
+          src: 'assets/img/circle_cyan_borderless.svg'
+        },
+        green: {
+          src: 'assets/img/circle_green_borderless.svg'
+        },
+        orange: {
+          src: 'assets/img/circle_orange_borderless.svg'
+        }
+      };
+
 			$scope.schools = [];
 			$scope.currentPage = 0;
 			if (schools.length > 0) {
 
 				for (var i = schools.length - 1; i >= 0; i--) {
 					var school = {
-						'thumb': 'http://lorempixel.com/46/46',
-						'a_name': schools[i].bsn,
-						'b_district': schools[i].district,
-						'c_id': schools[i].plz,
-						'd_url': schools[i].street,
-						'e_field': schools[i].latitude
+						'name': schools[i].Schulname,
+						'district': schools[i].Region,
+						'street': schools[i].Strasse  ,
+            'zip': schools[i].PLZ + ' Berlin',
+						'url': schools[i].Internet,
+						'type': schools[i].Schulart
 					};
 
+          switch(schools[i].Schulart){
+            case 'Grundschule':
+              school.icon = icons.orange;
+              break;
+            case 'Integrierte Sekundarschule':
+              school.icon = icons.blue;
+              break;
+            case 'Gymnasium':
+              school.icon = icons.cyan;
+              break;
+            case "Berufsschule" || 'Berufsfachschule' || 'Berufsschule mit sonderpäd. Aufgaben' || 'Kombinierte berufliche Schule':
+              school.icon = icons.green;
+              break;
+            default:
+              school.icon = icons.bluegrey;
+              break;
+          }
 					$scope.schools.push(school);
 				}
-
 			}
 		});
 	}]);
 
+/*
+Do we even need pagination? looks cool without
+
+ */
+/*
 angular.module('berlinerSchulenApp')
 	.directive('mdTable', function () {
 		return {
@@ -121,7 +139,7 @@ angular.module('berlinerSchulenApp')
 			}
 		};
 	});
-
+//dfg
 //We already have a limitTo filter built-in to angular,
 //let's make a startFrom filter
 angular.module('berlinerSchulenApp')
@@ -136,3 +154,4 @@ angular.module('berlinerSchulenApp')
 			}
 		};
 	});
+*/
