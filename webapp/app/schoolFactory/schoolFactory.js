@@ -19,6 +19,7 @@ angular.module('berlinerSchulenApp')
 				dual: false,
 				languages: [],
 				accessibilities: [],
+				courses: [],
 			};
 		};
 
@@ -65,6 +66,11 @@ angular.module('berlinerSchulenApp')
 
 					case 'accessibilities':
 						filter.accessibilities = filterProp.accessibilities;
+						break;
+
+					case 'courses':
+						filter.courses = filterProp.courses;
+						break;
 				}
 
 			}
@@ -191,6 +197,25 @@ angular.module('berlinerSchulenApp')
 					return true;
 				}
 			})
+			// Filter Leistungskurse
+			.filter(function(row) {
+				if( filter.courses.length > 0 ){
+					for( var course in filter.courses ) {
+						var courseName = filter.courses[course].name.toLowerCase();
+						if (courseName !== '' &&
+							row.Leistungskurse !== undefined) {
+							for (var i = row.Leistungskurse.length - 1; i >= 0; i--) {
+								if(row.Leistungskurse[i].toLowerCase().indexOf(courseName) > -1 ) {
+									return true;
+								}
+							}
+						}
+					}
+					return false;
+				} else {
+					return true;
+				}
+			})
 			;
 
 			schools.content = filteredJson;
@@ -236,20 +261,26 @@ angular.module('berlinerSchulenApp')
 
 					switch(field) {
 						case 'Region':
-							if (school.Region !== undefined) {
+							if(school.Region !== undefined) {
 								value = school.Region;
 							}
 							break;
 
 						case 'Schultraeger':
-							if (school.Schultraeger !== undefined) {
+							if(school.Schultraeger !== undefined) {
 								value = school.Schultraeger;
 							}
 							break;
 
 						case 'Bauten':
-							if (school.Bauten !== undefined) {
+							if(school.Bauten !== undefined) {
 								value = school.Bauten;
+							}
+							break;
+
+						case 'Leistungskurse':
+							if(school.Leistungskurse !== undefined){
+								value = school.Leistungskurse;
 							}
 							break;
 

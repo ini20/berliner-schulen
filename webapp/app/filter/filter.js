@@ -151,6 +151,37 @@ angular.module('berlinerSchulenApp')
 			}
 		};
 
+		$scope.cbCourses = {
+			courses: [],
+
+			selectedCourses: [],
+
+			loading: false,
+
+			exec: function(values) {
+				$scope.searchFilter.courses = values.newValue;
+				$scope.filter();
+			},
+
+			populate: function(set) {
+				var list = [];
+				for(var s in set) {
+					if (set[s] !== '') {
+						list.push({name: set[s]});
+					}
+				}
+
+				$scope.cbCourses.courses = list;
+				$scope.cbCourses.loading = false;
+			},
+
+			addCallback: function() {
+				$scope.cbCourses.loading = true;
+
+				schoolFactory.addCallback('Leistungskurse', this.populate);
+			}
+		};
+
 		$scope.showFilter = true;
 
 		$scope.toogleFilter = function() {
@@ -160,6 +191,7 @@ angular.module('berlinerSchulenApp')
 		$scope.cbDistricts.addCallback();
 		$scope.cbSchoolSupporter.addCallback();
 		$scope.cbAccessibility.addCallback();
+		$scope.cbCourses.addCallback();
 		// $scope.cbLanguages.addCallback();
 
 	}]);

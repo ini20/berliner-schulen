@@ -82,6 +82,18 @@
 						</lx-select-choices>
 					</lx-select>
 				</div></div>
+
+				<div flex-item="3"><div class="p+">
+					<lx-select ng-model="cbCourses.selectedCourses" change="cbCourses.exec(newValue)" placeholder="Leistungskurse" choices="cbCourses.courses" loading="{{ cbCourses.loading }}" multiple floating-label>
+						<lx-select-selected>
+							{{ $selected.name }}
+						</lx-select-selected>
+
+						<lx-select-choices>
+							{{ $choice.name }}
+						</lx-select-choices>
+					</lx-select>
+				</div></div>
 			</div>
 
 			<div class="tc-black-1 mb++" flex-container="row">
