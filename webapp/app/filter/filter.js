@@ -48,6 +48,34 @@ angular.module('berlinerSchulenApp')
 			}
 		};
 
+		$scope.cbSchooltypes = {
+			schooltypes: [],
+
+			selectedTypes: [],
+
+			loading: false,
+
+			exec: function(values) {
+				$scope.searchFilter.schooltypes = values.newValue;
+				$scope.filter();
+			},
+
+			populate: function(set) {
+				var list = [];
+				for(var s in set) {
+					list.push({name: set[s]});
+				}
+				$scope.cbSchooltypes.schooltypes = list;
+				$scope.cbSchooltypes.loading = false;
+			},
+
+			addCallback: function() {
+				$scope.cbSchooltypes.loading = true;
+
+				schoolFactory.addCallback('Schulart', this.populate);
+			}
+		};
+
 		$scope.cbSchoolSupporter = {
 			supporter: [],
 
@@ -192,6 +220,7 @@ angular.module('berlinerSchulenApp')
 		$scope.cbSchoolSupporter.addCallback();
 		$scope.cbAccessibility.addCallback();
 		$scope.cbCourses.addCallback();
+		$scope.cbSchooltypes.addCallback();
 		// $scope.cbLanguages.addCallback();
 
 	}]);

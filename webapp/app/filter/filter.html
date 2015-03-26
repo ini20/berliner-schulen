@@ -44,6 +44,18 @@
 				</div></div>
 
 				<div flex-item="3"><div class="p+">
+					<lx-select ng-model="cbSchooltypes.selectedTypes" change="cbSchooltypes.exec(newValue)" placeholder="Schulart" choices="cbSchooltypes.schooltypes" loading="{{ cbSchooltypes.loading }}" multiple floating-label>
+						<lx-select-selected>
+							{{ $selected.name }}
+						</lx-select-selected>
+
+						<lx-select-choices>
+							{{ $choice.name }}
+						</lx-select-choices>
+					</lx-select>
+				</div></div>
+
+				<div flex-item="3"><div class="p+">
 					<lx-select ng-model="cbSchoolSupporter.selectedSupporter" change="cbSchoolSupporter.exec(newValue)" placeholder="Schultr&auml;ger" choices="cbSchoolSupporter.supporter" loading="{{ cbSchoolSupporter.loading }}" multiple floating-label>
 						<lx-select-selected>
 							{{ $selected.name }}

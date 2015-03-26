@@ -21,6 +21,7 @@ angular.module('berlinerSchulenApp')
 				languages: [],
 				accessibilities: [],
 				courses: [],
+				schooltypes: [],
 			};
 		};
 
@@ -75,6 +76,10 @@ angular.module('berlinerSchulenApp')
 
 					case 'courses':
 						filter.courses = filterProp.courses;
+						break;
+
+					case 'schooltypes':
+						filter.schooltypes = filterProp.schooltypes;
 						break;
 				}
 
@@ -233,6 +238,20 @@ angular.module('berlinerSchulenApp')
 					return true;
 				}
 			})
+			// Filter Schulart
+			.filter(function(row) {
+				if( filter.schooltypes.length > 0 ){
+					for( var type in filter.schooltypes ) {
+						var typeName = filter.schooltypes[type].name;
+						if ( typeName !== '' && row.Schulart.indexOf(typeName) > -1 ) {
+							return true;
+						}
+					}
+					return false;
+				} else {
+					return true;
+				}
+			})
 			;
 
 			schools.content = filteredJson;
@@ -296,8 +315,14 @@ angular.module('berlinerSchulenApp')
 							break;
 
 						case 'Leistungskurse':
-							if(school.Leistungskurse !== undefined){
+							if(school.Leistungskurse !== undefined) {
 								value = school.Leistungskurse;
+							}
+							break;
+
+						case 'Schulart':
+							if(school.Schulart !== undefined) {
+								value = school.Schulart;
 							}
 							break;
 
