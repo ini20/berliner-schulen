@@ -1,0 +1,61 @@
+<div style="height: 100%">
+	<md-toolbar class="md-tall" layout="column">
+		<span flex></span>
+		<div class="md-toolbar-tools">
+			<div class="fill-height" layout="row" flex>
+				<div class="md-toolbar-item md-breadcrumb">
+					<span>Liste der Schulen</span>
+				</div>
+			</div>
+		</div>
+	</md-toolbar>
+
+
+  <div class="data-table-container" style="background: white;" ng-controller="ListCtrl">
+    <table class="data-table">
+      <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Adresse</th>
+        <th>Stadtteil</th>
+        <th>Schulart</th>
+        <th>Link</th>
+        <th>Details</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="6" class="divider divider--dark"></td>
+      </tr>
+      </thead>
+      <tbody>
+
+      <tr class="data-table__clickable-row" ng-repeat="school in schools">
+        <td>
+          <img ng-src="{{school.icon.src}}" class="img-table">
+        </td>
+        <td>
+          <span>{{ school.name }}</span>
+        </td>
+        <td>
+          <span>{{ school.street }}<br/>{{ school.zip }}</span>
+        </td>
+        <td>
+          <span>{{ school.district }}</span>
+        </td>
+        <td>
+          <span>{{ school.type }}</span>
+        </td>
+        <td>
+          <a href="{{school.url}}"><span>{{school.url}}</span></a>
+        </td>
+        <!-- The details pages aren't there yet -->
+        <td>
+          <button class="btn btn--m btn--green btn--raised">Details</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
