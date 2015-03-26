@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.controller('MapCtrl', ['$scope', 'schoolFactory', '$window', function($scope, schoolFactory, $window){
+	.controller('MapCtrl', ['$scope', '$rootScope', 'schoolFactory', '$window', function($scope, $rootScope, schoolFactory, $window){
 
 		/* This is our Map setup.
 		 *
@@ -181,6 +181,16 @@ angular.module('berlinerSchulenApp')
       if(cachedHeight == -1)
         cachedHeight = w.height() * 0.7;
       return cachedHeight;
-    }
+    };
 
+    /*
+     * This should center the map if a table row is clicked
+     * unfortunately it is not working yet
+     */
+    var mapCenterRequest = $rootScope.$on('mapCenterRequest', function(sender, lat, lon) {
+        $scope.berlin.lat = lat;
+        $scope.berlin.lon = lon;
+
+    });
+    $rootScope.$on('destroy', mapCenterRequest);
 }]);

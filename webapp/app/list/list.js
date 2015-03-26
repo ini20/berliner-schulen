@@ -8,8 +8,13 @@
  * Controller of the schooldataApp
  */
 angular.module('berlinerSchulenApp')
-	.controller('ListCtrl', ['$scope', '$timeout', 'schoolFactory', function ($scope, $timeout, schoolFactory) {
+	.controller('ListCtrl', ['$scope', '$rootScope', '$timeout', 'schoolFactory', function ($scope, $rootScope, $timeout, schoolFactory) {
 
+    $scope.centerMap = function(school){
+      var lat = school.lat;
+      var lon = school.lon;
+      $rootScope.$emit('mapCenterRequest', lat, lon);
+    };
 		$scope.schools       = [];
 		$scope.numberOfPages = function() {
 			return Math.ceil($scope.schools.length/$scope.pageSize);
@@ -50,7 +55,9 @@ angular.module('berlinerSchulenApp')
 						'street': schools[i].Strasse  ,
             'zip': schools[i].PLZ + ' Berlin',
 						'url': schools[i].Internet,
-						'type': schools[i].Schulart
+						'type': schools[i].Schulart,
+            'lat': schools[i].lat,
+            'lon': schools[i].lon
 					};
 
           switch(schools[i].Schulart){

@@ -30,7 +30,7 @@
       </thead>
       <tbody>
 
-      <tr class="data-table__clickable-row" ng-repeat="school in schools">
+      <tr class="data-table__clickable-row" ng-repeat="school in schools" ng-click="centerMap(school)">
         <td>
           <img ng-src="{{school.icon.src}}" class="img-table">
         </td>
