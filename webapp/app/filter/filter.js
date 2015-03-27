@@ -6,8 +6,10 @@ angular.module('berlinerSchulenApp')
 
 		// Initialize Filter in Front-End
 		$scope.searchFilter = {
-			main: ''
+			main: 'Marie'
 		};
+
+		$scope.showFilter = false;
 
 		$scope.loading = false;
 
@@ -44,7 +46,7 @@ angular.module('berlinerSchulenApp')
 			addCallback: function() {
 				$scope.cbDistricts.loading = true;
 
-				schoolFactory.addCallback('Region', this.populate);
+				schoolFactory.addFilterCallback('Region', this.populate);
 			}
 		};
 
@@ -72,7 +74,7 @@ angular.module('berlinerSchulenApp')
 			addCallback: function() {
 				$scope.cbSchooltypes.loading = true;
 
-				schoolFactory.addCallback('Schulart', this.populate);
+				schoolFactory.addFilterCallback('Schulart', this.populate);
 			}
 		};
 
@@ -100,7 +102,7 @@ angular.module('berlinerSchulenApp')
 			addCallback: function() {
 				$scope.cbSchoolSupporter.loading = true;
 
-				schoolFactory.addCallback('Schultraeger', this.populate);
+				schoolFactory.addFilterCallback('Schultraeger', this.populate);
 			}
 		};
 
@@ -144,7 +146,7 @@ angular.module('berlinerSchulenApp')
 			addCallback: function() {
 				$scope.cbLanguages.loading = true;
 
-				schoolFactory.addCallback('Fremdsprachen', this.populate);
+				schoolFactory.addFilterCallback('Fremdsprachen', this.populate);
 			}
 		};
 
@@ -175,7 +177,7 @@ angular.module('berlinerSchulenApp')
 			addCallback: function() {
 				$scope.cbAccessibility.loading = true;
 
-				schoolFactory.addCallback('Bauten', this.populate);
+				schoolFactory.addFilterCallback('Bauten', this.populate);
 			}
 		};
 
@@ -206,11 +208,9 @@ angular.module('berlinerSchulenApp')
 			addCallback: function() {
 				$scope.cbCourses.loading = true;
 
-				schoolFactory.addCallback('Leistungskurse', this.populate);
+				schoolFactory.addFilterCallback('Leistungskurse', this.populate);
 			}
 		};
-
-		$scope.showFilter = true;
 
 		$scope.toogleFilter = function() {
 			$scope.showFilter = ( $scope.showFilter === true ) ? false : true;
@@ -221,8 +221,19 @@ angular.module('berlinerSchulenApp')
 		$scope.cbAccessibility.addCallback();
 		$scope.cbCourses.addCallback();
 		$scope.cbSchooltypes.addCallback();
-		// $scope.cbLanguages.addCallback();
 
-		$scope.filter();
+		this.runFilter = function() {
+			if ( schoolFactory.hasData() ) {
+				// If school data is already loaded just apply filter
+				$scope.filter();
+			} else {
+				// else set the filter and wait. The schoolFactory will load
+				// the data and then apply the filter
+				schoolFactory.setFilter($scope.searchFilter);
+			}
+		};
+
+		// Run or set filter depending if data is available
+		this.runFilter();
 
 	}]);
