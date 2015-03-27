@@ -223,6 +223,8 @@ angular.module('berlinerSchulenApp')
 		$scope.cbSchooltypes.addCallback();
 		// $scope.cbLanguages.addCallback();
 
+		$scope.filter();
+
 	}]);
 
 // angular.module('schooldataApp')
