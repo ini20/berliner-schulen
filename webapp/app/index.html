@@ -33,17 +33,14 @@
 	<!-- Add your site or application content here -->
 	<md-toolbar>
 		<div class="md-toolbar-tools">
-			<span><a href="#/"><i class="fi-torsos-all"></i> Berliner Schulen</a></span>
+			<span><a href="#/"><i class="mdi mdi-school"></i> Berliner Schulen</a></span>
 				<!-- fill up the space between left and right area -->
 				<span flex></span>
-				<md-button ui-sref="index">
-					Home
+				<md-button ui-sref="index" class="mr+">
+					<i class="mdi mdi-home"></i> Home
 				</md-button>
 				<md-button ui-sref="statistics">
-					Statistiken
-				</md-button>
-				<md-button ui-sref="imprint">
-					Impressum
+					<i class="mdi mdi-chart-bar"></i> Statistiken
 				</md-button>
 		</div>
 	</md-toolbar>
@@ -65,7 +62,9 @@
 		</div>
 		<div class="large-6 columns">
 			<ul class="inline-list right">
-				<li><a href="#/impressum">Impressum</a></li>
+				<li>
+					<md-button ui-sref="imprint">Impressum</md-button>
+				</li>
 			</ul>
 		</div>
 	</div>
