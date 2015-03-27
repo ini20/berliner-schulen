@@ -129,7 +129,6 @@ angular.module('berlinerSchulenApp')
 			angular.extend($scope.data.markers.m1, {
 				icon: newIcon
 			});
-			console.log($scope.school);
 		};
 
 		this.addCallback = function() {
