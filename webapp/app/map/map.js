@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.controller('MapCtrl', ['$scope', 'schoolFactory', function($scope, schoolFactory){
+	.controller('MapCtrl', ['$scope', 'schoolFactory', '$window', function($scope, schoolFactory, $window){
 
 		/* This is our Map setup.
 		 *
@@ -39,44 +39,44 @@ angular.module('berlinerSchulenApp')
 					}
 				}
 			},
-			icons: {
-				blue_icon: {
-					iconUrl: 'assets/img/circle_blue.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				orange_icon: {
-					iconUrl: 'assets/img/circle_orange.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				bluegrey_icon: {
-					iconUrl: 'assets/img/circle_bluegrey.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				cyan_icon: {
-					iconUrl: 'assets/img/circle_cyan.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				green_icon: {
-					iconUrl: 'assets/img/circle_green.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				red_icon: {
-					iconUrl: 'assets/img/circle_red.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				}
-			}
+      icons: {
+        blue_icon: {
+          iconUrl: 'assets/img/circle_blue_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        orange_icon: {
+          iconUrl: 'assets/img/circle_orange_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        bluegrey_icon: {
+          iconUrl: 'assets/img/circle_bluegrey_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        cyan_icon: {
+          iconUrl: 'assets/img/circle_cyan_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        green_icon: {
+          iconUrl: 'assets/img/circle_green_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        },
+        red_icon: {
+          iconUrl: 'assets/img/circle_red_borderless.svg',
+          iconSize: [15,15],
+          iconAnchor: [7,7],
+          popupAnchor: [0,-5]
+        }
+      }
 		});
 
 		/* This $on method is called if the factory has a new dataset
@@ -168,5 +168,18 @@ angular.module('berlinerSchulenApp')
 				markers: tmpMarkersObj
 			});
 		});
+
+    /* This sets the height of the map according to the height of the
+     * window when the page is loaded. If the window is resized the
+     * height of the map stays as is.
+     */
+    var w = angular.element($window);
+    var cachedHeight = -1;
+
+    $scope.getWindowHeight = function(){
+      if(cachedHeight == -1)
+        cachedHeight = w.height() * 0.7;
+      return cachedHeight;
+    }
 
 }]);
