@@ -36,8 +36,6 @@ angular.module('berlinerSchulenApp')
 		};
 
 		schools.addRunFilterCallback = function(cb) {
-			console.log('callback');
-			console.log(cb);
 			runFilterCallback.push(cb);
 		};
 
