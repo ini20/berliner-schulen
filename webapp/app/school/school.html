@@ -1,101 +1,116 @@
 <div layout="row" layout-align="center center" flex-gutter="24">
-	<div class="card mt+">
+	<div class="card mt+ mb+" id="schoolCard">
 		<div flex-container="column">
-			<div class="card__img" style="height: 200px; width: 500px">
-				<leaflet center="berlin" defaults="defaults" height="200px" width="100%" markers="data.markers"></leaflet>
+			<div class="card__img">
+				<leaflet center="berlin" defaults="defaults" markers="data.markers"></leaflet>
 
 				<!-- <img src="http://lorempixel.com/500/200"> -->
 			</div>
 
-			<div flex-item flex-container="column">
-				<div flex-item>
-					<div class="p+">
-						<strong class="fs-headline display-block">{{ school.name }}</strong>
-						<span class="fs-subhead tc-black-2 display-block">{{ school.type }}</span>
+			<div flex-item>
+				<div class="p+ center">
+					<strong class="fs-headline display-block">{{ school.Schulname }}</strong>
+					<span class="fs-subhead tc-black-2 display-block">{{ school.Schulart }} ({{ school.Schultraeger }})</span>
+				</div>
+			</div>
+
+			<div flex-item flex-container="row">
+				<div flex-item flex-container="column">
+
+					<div class="m+">
+						<form>
+							<lx-text-field label="Schulleitung" fixed-label="true" icon="account">
+								<input type="text" ng-model="school.Schulleitung" ng-disabled="true">
+							</lx-text-field>
+
+							<lx-text-field label="Telefon" fixed-label="true" icon="phone">
+								<input type="text" ng-model="school.Telefon" ng-disabled="true">
+							</lx-text-field>
+
+							<lx-text-field label="E-Mail Adresse" fixed-label="true" icon="email">
+								<input type="email" ng-model="school.eMail" ng-disabled="true">
+							</lx-text-field>
+
+							<lx-text-field label="Adresse" fixed-label="true" icon="city">
+								<input type="text" ng-model="school.Adresse" ng-disabled="true">
+							</lx-text-field>
+						</form>
+					</div>
+
+					<div class="m+"  flex-item ng-if="school.Bauten.length > 0">
+						<span class="fs-title display-block mb">Barrierefreiheit</span>
+
+						<div class="divider divider--dark"></div>
+
+						<ul class="list" ng-repeat="acc in school.Bauten">
+							<li class="list-row list-row--has-separator">
+								<span>{{ acc }}</span>
+							</li>
+						</ul>
+
+					</div>
+
+				</div>
+				<div flex-item flex-container="row">
+					<div flex-item>
+
+						<div class="m+" ng-if="school.Leistungskurse.length > 0">
+							<span class="fs-title display-block mb">Leistungskurse</span>
+
+							<div class="divider divider--dark"></div>
+
+							<ul class="list" ng-repeat="course in school.Leistungskurse">
+								<li class="list-row list-row--has-separator">
+									<span>{{ course }}</span>
+								</li>
+							</ul>
+
+						</div>
+
+						<div class="m+" ng-if="school.Fremdsprachen.length > 0">
+							<span class="fs-title display-block mb">Fremdsprachen</span>
+
+							<div class="divider divider--dark"></div>
+
+							<ul class="list" ng-repeat="lang in school.Fremdsprachen">
+								<li class="list-row list-row--has-separator">
+									<span>{{ lang }}</span>
+								</li>
+							</ul>
+
+						</div>
+
+						<div class="m+" ng-if="school.spez_Angebote.length > 0">
+							<span class="fs-title display-block mb">Spezielle Angebote</span>
+
+							<div class="divider divider--dark"></div>
+
+							<div class="list-row">{{ school.spez_Angebote }}</div>
+
+						</div>
+
+						<div class="m+" ng-if="school.BemerkungenSchulzweig.length > 0">
+							<span class="fs-title display-block mb">Bemerkungen zum Schulzweig</span>
+
+							<div class="divider divider--dark"></div>
+
+							<div class="list-row">{{ school.BemerkungenSchulzweig }}</div>
+
+						</div>
+
 					</div>
 				</div>
 
-				<div class="card__actions">
-					<button class="btn btn--m btn--black btn--flat" lx-ripple>E-Mail an Schule</button>
-					<button class="btn btn--m btn--orange btn--flat" lx-ripple>Webseite</button>
-				</div>
+			</div>
+			<div class="card__actions center">
+				<a class="btn btn--m btn--black btn--flat" lx-ripple
+				href="mailto:{{ school.eMail }}">E-Mail an Schule</a>
+				<a class="btn btn--m btn--orange btn--flat" lx-ripple
+				href="{{ school.Internet }}" target="_blank">Webseite</a>
 			</div>
 		</div>
 	</div>
 </div>
-
-<div class="large-12 columns" ng:show="error == null && loading == null">
-	<h2>{{schoolData.name}}</h2>
-	<p>URL: <a href="{{schoolData.wwwaddress}}">{{schoolData.wwwaddress}}</a></p>
-	<p>Telefon: (030) {{schoolData.phonenumber}}</p>
-	<p>Adresse: {{schoolData.address.street}}, {{schoolData.address.plz}} Berlin</p>
-
-	<div class="row">
-		<div class="medium-8 columns">
-			<div class="panel">
-			<h4>Schülerschaft</h4>
-			<div ng-show="studentsData === null">
-			Es liegen keine Informationen über die Schülerschaft vor</div>
-			<div ng-show="studentsData !== null" ac-chart="chartType" ac-data="studentsData" ac-config="config" id='studentchart' class='chart' style="width: 100%; height: 250px"></div>
-			</div>
-		</div>
-		<div class="medium-4 columns">
-			<div class="panel">
-			<h4>Austattung</h4>
-			<div ng-show="schoolData.equipments.length == 0">
-			Es liegen leider keine Daten über die Ausstattung vor.
-			</div>
-			<ul ng-show="schoolData.equipments.length > 0">
-				<li ng-repeat="value in schoolData.equipments">{{value}}</li>
-			</ul>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="medium-8 columns">
-			<div class="panel">
-			<h4>Personal</h4>
-			<div ng-show="personellData === null">
-			Es liegen keine Informationen über das Personal vor</div>
-			<div ng-show="personellData !== null" ac-chart="chartType" ac-data="personellData" ac-config="config" id='personellchart' class='chart' style="width: 100%; height: 250px"></div>
-			</div>
-		</div>
-		<div class="medium-4 columns">
-			<div class="panel">
-			<h4>Behindertengerechte Austattung</h4>
-			<div ng-show="schoolData.accessibility.length == 0">
-				Es liegen keine Informationen über behindertengerechte Ausstattung vor.
-			</div>
-			<ul ng-show="schoolData.accessibility.length > 0">
-				<li ng-repeat="value in schoolData.accessibility">{{value}}</li>
-			</ul>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="medium-4 columns">
-			<div class="panel">
-			<h4>Fremdsprachen</h4>
-			<div ng-show="schoolData.languages.length == 0">
-				Es liegen keine Informationen über Sprachen vor.
-			</div>
-			<ul>
-				<li ng-repeat="value in schoolData.languages">{{value}}</li>
-			</ul>
-			</div>
-		</div>
-		<div class="medium-4 columns">
-			<div class="panel">
-			<h4>Leistungskurse</h4>
-			<div ng-show="schoolData.courses.length == 0">
-				Es liegen keine Informationen über angebotene Leistungskurse vor.
-			</div>
-			<ul>
-				<li ng-repeat="value in schoolData.courses">{{value}}</li>
-			</ul>
-			</div>
-		</div>
-	</div>
 
 
 </div>

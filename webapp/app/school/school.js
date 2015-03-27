@@ -31,6 +31,44 @@ angular.module('berlinerSchulenApp')
 				lng: 13.3833154,
 				zoom: 15
 			},
+			icons: {
+				blue_icon: {
+					iconUrl: 'assets/img/circle_blue.svg',
+					iconSize: [20,20],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				},
+				orange_icon: {
+					iconUrl: 'assets/img/circle_orange.svg',
+					iconSize: [20,20],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				},
+				bluegrey_icon: {
+					iconUrl: 'assets/img/circle_bluegrey.svg',
+					iconSize: [20,20],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				},
+				cyan_icon: {
+					iconUrl: 'assets/img/circle_cyan.svg',
+					iconSize: [20,20],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				},
+				green_icon: {
+					iconUrl: 'assets/img/circle_green.svg',
+					iconSize: [20,20],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				},
+				red_icon: {
+					iconUrl: 'assets/img/circle_red.svg',
+					iconSize: [20,20],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				}
+			},
 			data: {
 				markers: {
 					// The following is a sample marker and is only shown if
@@ -40,57 +78,65 @@ angular.module('berlinerSchulenApp')
 						lat: 52.5153601,
 						lng: 13.3833154,
 						compileMessage: false,
-						// message: 'Das ist Berlin. Für den Fall, dass<br>du das noch nicht wusstest :)'
+						message: 'Das ist Berlin. Für den Fall, dass<br>du das noch nicht wusstest :)',
+						icon: {}
 					}
 				}
 			},
-			icons: {
-				blue_icon: {
-					iconUrl: 'assets/img/circle_blue.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				orange_icon: {
-					iconUrl: 'assets/img/circle_orange.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				bluegrey_icon: {
-					iconUrl: 'assets/img/circle_bluegrey.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				cyan_icon: {
-					iconUrl: 'assets/img/circle_cyan.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				green_icon: {
-					iconUrl: 'assets/img/circle_green.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				},
-				red_icon: {
-					iconUrl: 'assets/img/circle_red.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
-				}
-			}
 		});
 
 		$scope.school = {};
-		$scope.text = $stateParams.BSN;
 
-		this.loadSchool = function() {
-			var bsn = $stateParams.BSN;
-			$scope.school = schoolFactory.getSchoolByBSN(bsn);
+		$scope.loadSchool = function(school) {
+			$scope.school = school;
+
+			// Prefix Phone with (030)
+			$scope.school.Telefon = '(030) ' + $scope.school.Telefon;
+
+			// Build addresse
+			$scope.school.Adresse = school.Strasse + ', ' + school.PLZ + ' Berlin';
+
+			var latitude = parseFloat(school.lat);
+			var longitude = parseFloat(school.lon);
+			$scope.data.markers.m1.lat = latitude;
+			$scope.data.markers.m1.lng = longitude;
+			//choose the icon depending on schooltype
+
+			var newIcon = null;
+			switch(school.Schulart){
+				case 'Grundschule':
+					newIcon = $scope.icons.orange_icon;
+					break;
+				case 'Integrierte Sekundarschule':
+					newIcon = $scope.icons.blue_icon;
+					break;
+				case 'Gymnasium':
+					newIcon = $scope.icons.cyan_icon;
+					break;
+				case 'Berufsschule':
+				case 'Berufsfachschule':
+				case 'Berufsschule mit sonderpäd. Aufgaben':
+				case 'Kombinierte berufliche Schule':
+					newIcon = $scope.icons.green_icon;
+					break;
+				default:
+					newIcon = $scope.icons.bluegrey_icon;
+					break;
+			}
+			$scope.berlin.lat = latitude;
+			$scope.berlin.lng = longitude;
+
+			angular.extend($scope.data.markers.m1, {
+				icon: newIcon
+			});
+			console.log($scope.school);
 		};
 
-		this.loadSchool();
+		this.addCallback = function() {
+			var bsn = $stateParams.BSN;
+			schoolFactory.addSchoolCallback(bsn, $scope.loadSchool);
+		};
+
+		this.addCallback();
+		schoolFactory.populateSchoolDetails();
 	}]);

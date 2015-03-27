@@ -8,6 +8,7 @@ angular.module('berlinerSchulenApp')
 		var schools = {content:null};
 		var filter = {};
 		var filterCallbacks = [];
+		var schoolCallback = [];
 
 		schools.initFilter = function(filterProp) {
 			return {
@@ -27,6 +28,10 @@ angular.module('berlinerSchulenApp')
 
 		schools.addCallback = function(field, callback) {
 			filterCallbacks.push({ field: field, cb: callback });
+		};
+
+		schools.addSchoolCallback = function(bsn, callback) {
+			schoolCallback.push({bsn: bsn, cb: callback});
 		};
 
 		/**
@@ -270,7 +275,15 @@ angular.module('berlinerSchulenApp')
 
 				schools.setFilter({});
 				schools.applyFilter();
-				schools.populateFilterChoices();
+
+				if(filterCallbacks.length > 0) {
+					schools.populateFilterChoices();
+				}
+				console.log('getJSON');
+				if(schoolCallback.length > 0) {
+					console.log('callback');
+					schools.populateSchoolDetails();
+				}
 			});
 		};
 
@@ -347,8 +360,24 @@ angular.module('berlinerSchulenApp')
 			}
 		};
 
+		schools.populateSchoolDetails = function() {
+			if(allSchools.content !== null) {
+				for (var i = schoolCallback.length - 1; i >= 0; i--) {
+					var bsn = schoolCallback[i].bsn;
+					var school = schools.getSchoolByBSN(bsn);
+					schoolCallback[i].cb.call(this, school);
+				}
+			}
+		};
+
 		schools.getSchoolByBSN = function(bsn) {
-			return {name: 'Sample', type: 'asfd'};
+			for (var i = allSchools.content.length - 1; i >= 0; i--) {
+				if(allSchools.content[i].bsn === bsn) {
+					return allSchools.content[i];
+				}
+			}
+
+			return {};
 		};
 
 		filter = schools.initFilter();
