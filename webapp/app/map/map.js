@@ -111,8 +111,7 @@ angular.module('berlinerSchulenApp')
 					var tooltip = '<strong>' + schools[i].Schulname + '</strong><br>';
 						tooltip += schools[i].Strasse + ', ' + schools[i].PLZ + '<br><br>';
 						tooltip += '<em>' + schools[i].Schulart + '</em><br>';
-						// TODO: Link zur Detailseite fixen [github.com/ini20/berliner-schulen/issues/18]
-						tooltip += '<a href=#>Link zur Detailseite</a>';
+						tooltip += '<a href=#/school/' + schools[i].bsn + '>Link zur Detailseite</a>';
 
 					// Using an array here b/c with push() it is easy to
 					// add new markers (object) to the array.
