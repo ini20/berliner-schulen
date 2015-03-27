@@ -91,7 +91,7 @@ angular.module('berlinerSchulenApp')
 			$scope.school = school;
 
 			// Prefix Phone with (030)
-			$scope.school.Telefon = '(030) ' + $scope.school.Telefon;
+			$scope.school.Telefon = '(030) ' + school.Telefon;
 
 			// Build addresse
 			$scope.school.Adresse = school.Strasse + ', ' + school.PLZ + ' Berlin';
