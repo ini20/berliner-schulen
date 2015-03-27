@@ -9,7 +9,7 @@ angular.module('berlinerSchulenApp')
 			main: 'Marie'
 		};
 
-		$scope.showFilter = false;
+		$scope.showFilter = true;
 
 		$scope.loading = false;
 
@@ -216,17 +216,34 @@ angular.module('berlinerSchulenApp')
 			$scope.showFilter = ( $scope.showFilter === true ) ? false : true;
 		};
 
-		$scope.cbDistricts.addCallback();
-		$scope.cbSchoolSupporter.addCallback();
-		$scope.cbAccessibility.addCallback();
-		$scope.cbCourses.addCallback();
-		$scope.cbSchooltypes.addCallback();
+
 
 		this.runFilter = function() {
 			if ( schoolFactory.hasData() ) {
-				// If school data is already loaded just apply filter
+				// Get Select Box Choices
+				var set = schoolFactory.getChoiceByName('Region');
+				$scope.cbDistricts.populate(set);
+
+				set = schoolFactory.getChoiceByName('Schultraeger');
+				$scope.cbSchoolSupporter.populate(set);
+
+				set = schoolFactory.getChoiceByName('Bauten');
+				$scope.cbAccessibility.populate(set);
+
+				set = schoolFactory.getChoiceByName('Leistungskurse');
+				$scope.cbCourses.populate(set);
+
+				set = schoolFactory.getChoiceByName('Schulart');
+				$scope.cbSchooltypes.populate(set);
+
+				//If school data is already loaded just apply filter
 				$scope.filter();
 			} else {
+				$scope.cbDistricts.addCallback();
+				$scope.cbSchoolSupporter.addCallback();
+				$scope.cbAccessibility.addCallback();
+				$scope.cbCourses.addCallback();
+				$scope.cbSchooltypes.addCallback();
 				// else set the filter and wait. The schoolFactory will load
 				// the data and then apply the filter
 				schoolFactory.setFilter($scope.searchFilter);

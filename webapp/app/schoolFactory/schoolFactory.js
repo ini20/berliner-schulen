@@ -10,6 +10,7 @@ angular.module('berlinerSchulenApp')
 		var filterCallbacks = [];
 		var schoolCallback = [];
 		var runFilterCallback = [];
+		var selectChoices = {};
 
 		schools.initFilter = function(filterProp) {
 			return {
@@ -347,10 +348,6 @@ angular.module('berlinerSchulenApp')
 						default:
 							value = '';
 							break;
-
-						// case 'Fremdsprachen':
-						// 	value = school.Fremdsprachen;
-						// 	break;
 					}
 
 					if(value.constructor !== Array &&
@@ -367,7 +364,57 @@ angular.module('berlinerSchulenApp')
 			}
 
 			for(i = filterCallbacks.length - 1; i >= 0; i--) {
+				schools.saveChoices(filterCallbacks[i].field, tmp[i]);
 				filterCallbacks[i].cb.call(this, tmp[i]);
+			}
+		};
+
+		schools.saveChoices = function(field, set) {
+			switch(field) {
+				case 'Region':
+					selectChoices.Region = set;
+					break;
+
+				case 'Schultraeger':
+					selectChoices.Schultraeger = set;
+					break;
+
+				case 'Bauten':
+					selectChoices.Bauten = set;
+					break;
+
+				case 'Leistungskurse':
+					selectChoices.Leistungskurse = set;
+					break;
+
+				case 'Schulart':
+					selectChoices.Schulart = set;
+					break;
+
+				default:
+					break;
+			}
+		};
+
+		schools.getChoiceByName = function(field) {
+			switch(field) {
+				case 'Region':
+					return selectChoices.Region;
+
+				case 'Schultraeger':
+					return selectChoices.Schultraeger;
+
+				case 'Bauten':
+					return selectChoices.Bauten;
+
+				case 'Leistungskurse':
+					return selectChoices.Leistungskurse;
+
+				case 'Schulart':
+					return selectChoices.Schulart;
+
+				default:
+					return [];
 			}
 		};
 
