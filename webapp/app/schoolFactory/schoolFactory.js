@@ -12,7 +12,7 @@ angular.module('berlinerSchulenApp')
 		var runFilterCallback = [];
 		var selectChoices = {};
 
-		schools.initFilter = function(filterProp) {
+		schools.initFilter = function() {
 			return {
 				main: '',
 				street: '',
