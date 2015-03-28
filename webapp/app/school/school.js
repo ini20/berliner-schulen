@@ -96,39 +96,44 @@ angular.module('berlinerSchulenApp')
 			// Build addresse
 			$scope.school.Adresse = school.Strasse + ', ' + school.PLZ + ' Berlin';
 
-			var latitude = parseFloat(school.lat);
-			var longitude = parseFloat(school.lon);
-			$scope.data.markers.m1.lat = latitude;
-			$scope.data.markers.m1.lng = longitude;
-			//choose the icon depending on schooltype
+			var latitude;
+			var longitude;
+			if (school.lat !== undefined || school.lon !== undefined) {
+				latitude = parseFloat(school.lat);
+				longitude = parseFloat(school.lon);
+				$scope.berlin.lat = latitude;
+				$scope.berlin.lng = longitude;
+				$scope.data.markers.m1.lat = latitude;
+				$scope.data.markers.m1.lng = longitude;
 
-			var newIcon = null;
-			switch(school.Schulart){
-				case 'Grundschule':
-					newIcon = $scope.icons.orange_icon;
-					break;
-				case 'Integrierte Sekundarschule':
-					newIcon = $scope.icons.blue_icon;
-					break;
-				case 'Gymnasium':
-					newIcon = $scope.icons.cyan_icon;
-					break;
-				case 'Berufsschule':
-				case 'Berufsfachschule':
-				case 'Berufsschule mit sonderpäd. Aufgaben':
-				case 'Kombinierte berufliche Schule':
-					newIcon = $scope.icons.green_icon;
-					break;
-				default:
-					newIcon = $scope.icons.bluegrey_icon;
-					break;
+				//choose the icon depending on schooltype
+
+				var newIcon = null;
+				switch(school.Schulart){
+					case 'Grundschule':
+						newIcon = $scope.icons.orange_icon;
+						break;
+					case 'Integrierte Sekundarschule':
+						newIcon = $scope.icons.blue_icon;
+						break;
+					case 'Gymnasium':
+						newIcon = $scope.icons.cyan_icon;
+						break;
+					case 'Berufsschule':
+					case 'Berufsfachschule':
+					case 'Berufsschule mit sonderpäd. Aufgaben':
+					case 'Kombinierte berufliche Schule':
+						newIcon = $scope.icons.green_icon;
+						break;
+					default:
+						newIcon = $scope.icons.bluegrey_icon;
+						break;
+				}
+
+				angular.extend($scope.data.markers.m1, {
+					icon: newIcon
+				});
 			}
-			$scope.berlin.lat = latitude;
-			$scope.berlin.lng = longitude;
-
-			angular.extend($scope.data.markers.m1, {
-				icon: newIcon
-			});
 		};
 
 		this.addCallback = function() {
