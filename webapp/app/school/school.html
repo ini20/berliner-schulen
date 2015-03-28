@@ -104,9 +104,9 @@
 			</div>
 			<div class="card__actions center">
 				<a class="btn btn--m btn--black btn--flat" lx-ripple
-				href="mailto:{{ school.eMail }}">E-Mail an Schule</a>
+				href="mailto:{{ school.eMail }}" ng-if="school.eMail.length > 0">E-Mail an Schule</a>
 				<a class="btn btn--m btn--orange btn--flat" lx-ripple
-				href="{{ school.Internet }}" target="_blank">Webseite</a>
+				href="{{ school.Internet }}" target="_blank" ng-if="school.Internet.length > 0">Webseite</a>
 			</div>
 		</div>
 	</div>
