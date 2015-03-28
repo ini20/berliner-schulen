@@ -1,4 +1,4 @@
-<div layout="row" layout-align="center center" flex-gutter="24">
+<div layout="row" layout-align="center center" flex-gutter="24" ng-if="loaded">
 	<div class="card mt+ mb+" id="schoolCard">
 		<div flex-container="column">
 			<div class="card__img">
@@ -112,11 +112,15 @@
 	</div>
 </div>
 
+<div id="feedback"></div>
 
-</div>
-<div class="large-12 columns" ng:show="loading != null">
-	<h1>Suche nach der Schule mit der Nummer {{schoolId}}!</h1>
-</div>
-<div class="large-12 columns" ng:show="error != null">
-	<h1>Wir haben leider keine Schule mit der Nummer {{schoolId}} gefunden!</h1>
+<div layout="row" layout-align="center center" flex-gutter="24">
+	<div class="card mt+ mb++ p++" ng-if="err">
+		<div class="center mb+ fs-display-4 ">
+			<i class="mdi mdi-emoticon-sad"></i>
+		</div>
+		<div>
+			<span class="fs-headline display-block">Wir haben leider keine Schule mit der Nummer <em>{{school.bsn}}</em> gefunden!</span>
+		</div>
+	</div>
 </div>
