@@ -24,7 +24,7 @@ angular.module('berlinerSchulenApp')
 					languages: [],
 					accessibilities: [],
 					courses: [],
-					schooltypes: [],
+					schooltypes: []
 				};
 			};
 
@@ -109,12 +109,13 @@ angular.module('berlinerSchulenApp')
 					var filteredJson = allSchools.content
 							// Filter Schulname
 							.filter(function (row) {
-								if (row.Schulname !== undefined &&
-									row.Schulname.indexOf(filter.main) > -1) {
-									return true;
-								} else {
-									return false;
+								if (row.Schulname !== undefined)
+								{
+									var name = row.Schulname.toLowerCase();
+									if(name.indexOf(filter.main) > -1)
+										return true;
 								}
+								return false;
 							})
 							// Filter Straße
 							.filter(function (row) {
@@ -438,7 +439,7 @@ angular.module('berlinerSchulenApp')
 			};
 
 			schools.hasData = function () {
-				return (allSchools.content === null) ? false : true;
+				return (allSchools.content !== null);
 			};
 
 			filter = schools.initFilter();
