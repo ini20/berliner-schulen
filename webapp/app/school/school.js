@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.controller('SchoolCtrl', ['$scope', '$stateParams', 'schoolFactory',
-		function ($scope, $stateParams, schoolFactory) {
+	.controller('SchoolCtrl', ['$scope', '$stateParams', 'schoolFactory', 'LxProgressService',
+		function ($scope, $stateParams, schoolFactory, LxProgressService) {
+
+		$scope.loaded = false;
+		$scope.err = false;
 
 			/* This is our Map setup.
 			 *
@@ -87,8 +90,19 @@ angular.module('berlinerSchulenApp')
 
 			$scope.school = {};
 
-			$scope.loadSchool = function (school) {
-				$scope.school = school;
+		$scope.loadSchool = function(school) {
+
+			if (school.bsn === undefined ) {
+				LxProgressService.circular.hide();
+				$scope.school.bsn = $stateParams.BSN;
+				$scope.err = true;
+				return 0;
+			}
+
+			$scope.loaded = true;
+			LxProgressService.circular.hide();
+
+			$scope.school = school;
 
 				// Prefix Phone with (030)
 				$scope.school.Telefon = '(030) ' + school.Telefon;
@@ -137,11 +151,13 @@ angular.module('berlinerSchulenApp')
 		};
 
 
-			this.addCallback = function () {
-				var bsn = $stateParams.BSN;
-				schoolFactory.addSchoolCallback(bsn, $scope.loadSchool);
-			};
+		this.addCallback = function() {
+			$scope.school = {};
+			var bsn = $stateParams.BSN;
+			schoolFactory.addSchoolCallback(bsn, $scope.loadSchool);
+		};
 
-			this.addCallback();
-			schoolFactory.populateSchoolDetails();
-		}]);
+		LxProgressService.circular.show('#5fa2db', '#feedback');
+		this.addCallback();
+		schoolFactory.populateSchoolDetails();
+	}]);
