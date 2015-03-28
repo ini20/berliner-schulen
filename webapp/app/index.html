@@ -2,117 +2,114 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
-    <meta charset="utf-8">
-    <title>Berliner Schulen</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    
-    <script type="text/javascript" src="http://openlayers.org/api/OpenLayers.js"></script>
-    <script type="text/javascript" src="http://openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<title>Berliner Schulen</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <!-- build:css styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/chosen/chosen.css" />
-    <link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-    
-    <!-- build:css({.tmp,app}) styles/main.css -->
-    <link rel="stylesheet" href="styles/app.css">
-    <!-- endbuild -->
-  </head>
-  <body ng-app="schooldataApp">
-    <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+	<!-- build:css styles/vendor.css -->
+	<!-- bower:css -->
+	<link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+	<link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+	<link rel="stylesheet" href="bower_components/lumx/dist/lumx.css" />
+	<!-- endbower -->
+	<!-- endbuild -->
 
-    <!-- Add your site or application content here -->
-    <div class="contain-to-grid">
-        <nav class="top-bar" data-topbar="">
-            <ul class="title-area">
-                <li class="name">
-                    <h1>
-                        <a href="#/">Berliner Schulen</a>
-                    </h1>
-                </li>
-                <li class="toggle-topbar menu-icon"><a><span>Menu</span></a></li>
-            </ul>
-            <section class="top-bar-section">
-                <!-- Right Nav Section -->
-                <ul class="right">
-                    <li><a href="#/" active-link>Home</a></li>
-                    <li><a href="#/statistics" active-link>Statistiken</a></li>
-                    <li><a href="#/impressum" active-link>Impressum</a></li>
-                </ul>
-            </section>
-        </nav>
-    </div>
-    
-    <div class="container row" ng-view="">
-    
-    </div>
-    
-    <div class="row">
-        <div class="large-12 columns">
-            <hr />
-            <div class="row">
-                <div class="large-6 columns">
-                    <p>&copy; 2013-2014 Initiative 2.0</p>
-                </div>
-                <div class="large-6 columns">
-                    <ul class="inline-list right">
-                        <li><a href="#/impressum">Impressum</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!--[if lt IE 9]>
-    <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/json3/lib/json3.min.js"></script>
-    <![endif]-->
+	<!-- build:css({.tmp,app}) styles/main.css -->
+	<link rel="stylesheet" href="styles/app.css">
+	<link rel="stylesheet" href="bower_components/mdi/css/materialdesignicons.min.css">
+	<!-- endbuild -->
+</head>
+<body ng-app="berlinerSchulenApp" layout="column" layout-algin="space-around center" autoscroll="true">
+	<!--[if lt IE 7]>
+		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
 
-    <!-- build:js scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/modernizr/modernizr.js"></script>
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/d3/d3.js"></script>
-    <script src="bower_components/angular-charts/dist/angular-charts.js"></script>
-    <script src="bower_components/chosen/chosen.jquery.min.js"></script>
-    <script src="bower_components/angular-chosen-localytics/chosen.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-foundation/mm-foundation-tpls.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/elasticsearch/elasticsearch.angular.min.js"></script>
-    <script src="bower_components/fastclick/lib/fastclick.js"></script>
-    <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
-    <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
-    <script src="bower_components/foundation/js/foundation.js"></script>
-    <script src="bower_components/heatmap.js/src/heatmap.js"></script>
-    <script src="bower_components/heatmap.js/src/heatmap-openlayers.js"></script>
-    <script src="bower_components/heatmap.js/src/heatmap-openlayers-renderer.js"></script>
-    <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
-    <script src="bower_components/ng-clip/dest/ng-clip.min.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
+	<!-- Add your site or application content here -->
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+			<span class="ml++"><a href="#/"><i class="mdi mdi-school"></i> Berliner Schulen</a></span>
+				<!-- fill up the space between left and right area -->
+				<span flex></span>
+				<md-button ui-sref="index" class="mr+">
+					<i class="mdi mdi-home"></i> Home
+				</md-button>
+				<md-button ui-sref="statistics" class="mr+">
+					<i class="mdi mdi-chart-bar"></i> Statistiken
+				</md-button>
+				<md-button href="https://github.com/ini20/berliner-schulen/" class="mr+">
+					<i class="mdi mdi-github-circle"></i> GitHub
+				</md-button>
+		</div>
+	</md-toolbar>
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/schoolproject.js"></script>
-    <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/main.js"></script>
-    <script src="scripts/controllers/map.js"></script>
-    <script src="scripts/controllers/about.js"></script>
-    <script src="scripts/controllers/school.js"></script>
-    <script src="scripts/controllers/statistics.js"></script>
-    <!-- endbuild -->
+	<div ui-view="view1" autoscroll="false"></div>
+	<div ui-view="view2" autoscroll="false"></div>
+	<div ui-view="view3" autoscroll="false"></div>
 
-    <script type="text/javascript">$(document).foundation();</script>
+	<hr />
+
+	<!-- TODO: Bessers UI für Footer [github.com/ini20/berliner-schulen/issues/27] -->
+	<div>
+		<div class="large-6 columns">
+			<p>
+				&copy; 2013-2014 Initiative 2.0
+				&#124;
+				Daten Stand: 2015-02-21
+			</p>
+		</div>
+		<div class="large-6 columns">
+			<ul class="inline-list right">
+				<li>
+					<md-button ui-sref="imprint">Impressum</md-button>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+
+	<!--[if lt IE 9]>
+	<script src="bower_components/es5-shim/es5-shim.js"></script>
+	<script src="bower_components/json3/lib/json3.min.js"></script>
+	<![endif]-->
+
+	<!-- build:js scripts/vendor.js -->
+	<!-- bower:js -->
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/leaflet/dist/leaflet.js"></script>
+	<script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+	<script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.js"></script>
+	<script src="bower_components/angular-aria/angular-aria.js"></script>
+	<script src="bower_components/angular-material/angular-material.js"></script>
+	<script src="bower_components/velocity/velocity.js"></script>
+	<script src="bower_components/velocity/velocity.ui.js"></script>
+	<script src="bower_components/moment/moment.js"></script>
+	<script src="bower_components/lumx/dist/lumx.js"></script>
+	<!-- endbower -->
+	<!-- endbuild -->
+
+	<!-- TODO: Remove colResizable from Project and packages.json [github.com/ini20/berliner-schulen/issues/28] -->
+	<script src="js/colResizable-1.5.min.js"></script>
+
+	<!-- build:js({.tmp,app}) scripts/scripts.js -->
+	<!-- <script src="scripts/schoolproject.js"></script> -->
+	<script src="app.js"></script>
+	<script src="schoolFactory/schoolFactory.js"></script>
+	<script src="filter/filter.js"></script>
+	<script src="map/map.js"></script>
+	<script src="list/list.js"></script>
+	<script src="about/about.js"></script>
+	<script src="school/school.js"></script>
+	<script src="statistics/statistics.js"></script>
+	<!-- endbuild -->
+
 </body>
 </html>
