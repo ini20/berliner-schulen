@@ -8,18 +8,33 @@
  * Controller of the schooldataApp
  */
 angular.module('berlinerSchulenApp')
-	.controller('ListCtrl', ['$scope', '$timeout', 'schoolFactory', function ($scope, $timeout, schoolFactory) {
+	.controller('ListCtrl', ['$scope', '$rootScope', '$timeout', 'schoolFactory', function ($scope, $rootScope, $timeout, schoolFactory) {
 
-		$scope.schools       = [];
-		$scope.numberOfPages = function() {
-			return Math.ceil($scope.schools.length/$scope.pageSize);
+		/* Simple function to check if a value is a float */
+		function isFloat(n) {
+			return n === +n && n !== (n | 0);
+		}
+
+		/*
+		 * This issues a mapCenterRequest for the selected school.
+		 */
+		$scope.centerMap = function (school) {
+			var lat = parseFloat(school.lat);
+			var lon = parseFloat(school.lon);
+			var bsn = school.bsn;
+			if (isFloat(lat) && isFloat(lon))
+				$rootScope.$broadcast('mapCenterRequest', lat, lon, bsn);
+		};
+		$scope.schools = [];
+		$scope.numberOfPages = function () {
+			return Math.ceil($scope.schools.length / $scope.pageSize);
 		};
 
-		$scope.$on('updateSchools', function() {
+		$scope.$on('updateSchools', function () {
 			var schools = schoolFactory.content;
 
 			var icons = {
-				blue:  {
+				blue: {
 					src: 'assets/img/circle_blue_borderless.svg'
 				},
 				red: {
@@ -47,14 +62,16 @@ angular.module('berlinerSchulenApp')
 					var school = {
 						'name': schools[i].Schulname,
 						'district': schools[i].Region,
-						'street': schools[i].Strasse  ,
+						'street': schools[i].Strasse,
 						'zip': schools[i].PLZ + ' Berlin',
 						'url': schools[i].Internet,
 						'type': schools[i].Schulart,
+						'lat': schools[i].lat,
+						'lon': schools[i].lon,
 						'bsn': schools[i].bsn
 					};
 
-					switch(schools[i].Schulart){
+					switch (schools[i].Schulart) {
 						case 'Grundschule':
 							school.icon = icons.orange;
 							break;
@@ -81,81 +98,81 @@ angular.module('berlinerSchulenApp')
 	}]);
 
 /*
-Do we even need pagination? looks cool without
+ Do we even need pagination? looks cool without
 
  */
 /*
-angular.module('berlinerSchulenApp')
-	.directive('mdTable', function () {
-		return {
-			restrict: 'E',
-			scope: {
-				headers: '=',
-				content: '=',
-				sortable: '=',
-				filters: '=',
-				customClass: '=customClass',
-				thumbs:'=',
-				count: '='
-			},
-			controller: function ($scope,$filter,$window) {
-				var orderBy = $filter('orderBy');
-				$scope.tablePage = 0;
-				$scope.nbOfPages = function () {
-					return Math.ceil($scope.content.length / $scope.count);
-				},
-				$scope.handleSort = function (field) {
-					if ($scope.sortable.indexOf(field) > -1) {
-						return true;
-					} else {
-						return false;
-					}
-				};
-				$scope.order = function(predicate, reverse) {
-					$scope.content = orderBy($scope.content, predicate, reverse);
-					$scope.predicate = predicate;
-				};
-				$scope.order($scope.sortable[0],false);
-				$scope.getNumber = function (num) {
-					return new Array(num);
-				};
-				$scope.goToPage = function (page) {
-					$scope.tablePage = page;
-				};
-			},
-			// template: angular.element(document.querySelector('#md-table-template')).html()
-			templateUrl: 'list/table.html'
-		};
-	});
+ angular.module('berlinerSchulenApp')
+ .directive('mdTable', function () {
+ return {
+ restrict: 'E',
+ scope: {
+ headers: '=',
+ content: '=',
+ sortable: '=',
+ filters: '=',
+ customClass: '=customClass',
+ thumbs:'=',
+ count: '='
+ },
+ controller: function ($scope,$filter,$window) {
+ var orderBy = $filter('orderBy');
+ $scope.tablePage = 0;
+ $scope.nbOfPages = function () {
+ return Math.ceil($scope.content.length / $scope.count);
+ },
+ $scope.handleSort = function (field) {
+ if ($scope.sortable.indexOf(field) > -1) {
+ return true;
+ } else {
+ return false;
+ }
+ };
+ $scope.order = function(predicate, reverse) {
+ $scope.content = orderBy($scope.content, predicate, reverse);
+ $scope.predicate = predicate;
+ };
+ $scope.order($scope.sortable[0],false);
+ $scope.getNumber = function (num) {
+ return new Array(num);
+ };
+ $scope.goToPage = function (page) {
+ $scope.tablePage = page;
+ };
+ },
+ // template: angular.element(document.querySelector('#md-table-template')).html()
+ templateUrl: 'list/table.html'
+ };
+ });
 
-angular.module('berlinerSchulenApp')
-	.directive('mdColresize', function ($timeout) {
-		return {
-			restrict: 'A',
-			link: function (scope, element, attrs) {
-				scope.$evalAsync(function () {
-					$timeout(function(){ $(element).colResizable({
-						liveDrag: true,
-						fixed: true
+ angular.module('berlinerSchulenApp')
+ .directive('mdColresize', function ($timeout) {
+ return {
+ restrict: 'A',
+ link: function (scope, element, attrs) {
+ scope.$evalAsync(function () {
+ $timeout(function(){ $(element).colResizable({
+ liveDrag: true,
+ fixed: true
 
-					});},100);
-				});
-			}
-		};
-	});
-//dfg
-//We already have a limitTo filter built-in to angular,
-//let's make a startFrom filter
-angular.module('berlinerSchulenApp')
-	.filter('startFrom', function() {
-		return function(input, start) {
-			if ( typeof input !== 'undefined' &&
-				typeof start !== 'undefined' ) {
-				start = +start; //parse to int
-				return input.slice(start);
-			} else {
-				return null;
-			}
-		};
-	});
-*/
+ });},100);
+ });
+ }
+ };
+ });
+ //dfg
+ //We already have a limitTo filter built-in to angular,
+ //let's make a startFrom filter
+ angular.module('berlinerSchulenApp')
+ .filter('startFrom', function() {
+ return function(input, start) {
+ if ( typeof input !== 'undefined' &&
+ typeof start !== 'undefined' ) {
+ start = +start; //parse to int
+ return input.slice(start);
+ } else {
+ return null;
+ }
+ };
+ });
+ */
