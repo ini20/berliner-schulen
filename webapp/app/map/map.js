@@ -32,56 +32,46 @@ angular.module('berlinerSchulenApp')
 				zoom: 10
 			},
 			data: {
-				markers: {
-					// The following is a sample marker and is only shown if
-					// the JSON file with all schools cannot be fetched and
-					// therefore no data is available to be shown.
-					m1: {
-						lat: 52.5153601,
-						lng: 13.3833154,
-						compileMessage: false,
-						message: 'Das ist Berlin. Für den Fall, dass<br>du das noch nicht wusstest :)'
-					}
-				}
+				markers: {}
 			},
-      icons: {
-        blue_icon: {
-          iconUrl: 'assets/img/circle_blue_borderless.svg',
-          iconSize: [15,15],
-          iconAnchor: [7,7],
-          popupAnchor: [0,-5]
-        },
-        orange_icon: {
-          iconUrl: 'assets/img/circle_orange_borderless.svg',
-          iconSize: [15,15],
-          iconAnchor: [7,7],
-          popupAnchor: [0,-5]
-        },
-        bluegrey_icon: {
-          iconUrl: 'assets/img/circle_bluegrey_borderless.svg',
-          iconSize: [15,15],
-          iconAnchor: [7,7],
-          popupAnchor: [0,-5]
-        },
-        cyan_icon: {
-          iconUrl: 'assets/img/circle_cyan_borderless.svg',
-          iconSize: [15,15],
-          iconAnchor: [7,7],
-          popupAnchor: [0,-5]
-        },
-        green_icon: {
-          iconUrl: 'assets/img/circle_green_borderless.svg',
-          iconSize: [15,15],
-          iconAnchor: [7,7],
-          popupAnchor: [0,-5]
-        },
-        red_icon: {
-          iconUrl: 'assets/img/circle_red_borderless.svg',
-          iconSize: [15,15],
-          iconAnchor: [7,7],
-          popupAnchor: [0,-5]
-        }
-      }
+			icons: {
+				blue_icon: {
+					iconUrl: 'assets/img/circle_blue_borderless.svg',
+					iconSize: [15,15],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				},
+				orange_icon: {
+					iconUrl: 'assets/img/circle_orange_borderless.svg',
+					iconSize: [15,15],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				},
+				bluegrey_icon: {
+					iconUrl: 'assets/img/circle_bluegrey_borderless.svg',
+					iconSize: [15,15],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				},
+				cyan_icon: {
+					iconUrl: 'assets/img/circle_cyan_borderless.svg',
+					iconSize: [15,15],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				},
+				green_icon: {
+					iconUrl: 'assets/img/circle_green_borderless.svg',
+					iconSize: [15,15],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				},
+				red_icon: {
+					iconUrl: 'assets/img/circle_red_borderless.svg',
+					iconSize: [15,15],
+					iconAnchor: [7,7],
+					popupAnchor: [0,-5]
+				}
+			}
 		});
 
 		/* This $on method is called if the factory has a new dataset
@@ -116,8 +106,7 @@ angular.module('berlinerSchulenApp')
 					var tooltip = '<strong>' + schools[i].Schulname + '</strong><br>';
 						tooltip += schools[i].Strasse + ', ' + schools[i].PLZ + '<br><br>';
 						tooltip += '<em>' + schools[i].Schulart + '</em><br>';
-						// TODO: Link zur Detailseite fixen [github.com/ini20/berliner-schulen/issues/18]
-						tooltip += '<a href=#>Link zur Detailseite</a>';
+						tooltip += '<a href=#/school/' + schools[i].bsn + '>Link zur Detailseite</a>';
 
 					// Using an array here b/c with push() it is easy to
 					// add new markers (object) to the array.
@@ -175,18 +164,18 @@ angular.module('berlinerSchulenApp')
 			});
 		});
 
-    /* This sets the height of the map according to the height of the
-     * window when the page is loaded. If the window is resized the
-     * height of the map stays as is.
-     */
-    var w = angular.element($window);
-    var cachedHeight = -1;
+		/* This sets the height of the map according to the height of the
+		 * window when the page is loaded. If the window is resized the
+		 * height of the map stays as is.
+		 */
+		var w = angular.element($window);
+		var cachedHeight = -1;
 
-    $scope.getWindowHeight = function(){
-      if(cachedHeight == -1)
-        cachedHeight = w.height() * 0.7;
-      return cachedHeight;
-    };
+		$scope.getWindowHeight = function(){
+			if(cachedHeight == -1)
+				cachedHeight = w.height() * 0.7;
+			return cachedHeight;
+		}
 
     /*
      * This should center the map if a table row is clicked

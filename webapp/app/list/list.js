@@ -27,28 +27,28 @@ angular.module('berlinerSchulenApp')
 		};
 
 		$scope.$on('updateSchools', function() {
-      var schools = schoolFactory.content;
+			var schools = schoolFactory.content;
 
-      var icons = {
-        blue:  {
-          src: 'assets/img/circle_blue_borderless.svg'
-        },
-        red: {
-          src: 'assets/img/circle_red_borderless.svg'
-        },
-        bluegrey: {
-          src: 'assets/img/circle_bluegrey_borderless.svg'
-        },
-        cyan: {
-          src: 'assets/img/circle_cyan_borderless.svg'
-        },
-        green: {
-          src: 'assets/img/circle_green_borderless.svg'
-        },
-        orange: {
-          src: 'assets/img/circle_orange_borderless.svg'
-        }
-      };
+			var icons = {
+				blue:  {
+					src: 'assets/img/circle_blue_borderless.svg'
+				},
+				red: {
+					src: 'assets/img/circle_red_borderless.svg'
+				},
+				bluegrey: {
+					src: 'assets/img/circle_bluegrey_borderless.svg'
+				},
+				cyan: {
+					src: 'assets/img/circle_cyan_borderless.svg'
+				},
+				green: {
+					src: 'assets/img/circle_green_borderless.svg'
+				},
+				orange: {
+					src: 'assets/img/circle_orange_borderless.svg'
+				}
+			};
 
 			$scope.schools = [];
 			$scope.currentPage = 0;
@@ -59,33 +59,33 @@ angular.module('berlinerSchulenApp')
 						'name': schools[i].Schulname,
 						'district': schools[i].Region,
 						'street': schools[i].Strasse  ,
-            'zip': schools[i].PLZ + ' Berlin',
+						'zip': schools[i].PLZ + ' Berlin',
 						'url': schools[i].Internet,
 						'type': schools[i].Schulart,
             'lat': schools[i].lat,
             'lon': schools[i].lon
 					};
 
-          switch(schools[i].Schulart){
-            case 'Grundschule':
-              school.icon = icons.orange;
-              break;
-            case 'Integrierte Sekundarschule':
-              school.icon = icons.blue;
-              break;
-            case 'Gymnasium':
-              school.icon = icons.cyan;
-              break;
-            case 'Berufsschule':
-            case 'Berufsfachschule':
-            case 'Berufsschule mit sonderpäd. Aufgaben':
-            case 'Kombinierte berufliche Schule':
-              school.icon = icons.green;
-              break;
-            default:
-              school.icon = icons.bluegrey;
-              break;
-          }
+					switch(schools[i].Schulart){
+						case 'Grundschule':
+							school.icon = icons.orange;
+							break;
+						case 'Integrierte Sekundarschule':
+							school.icon = icons.blue;
+							break;
+						case 'Gymnasium':
+							school.icon = icons.cyan;
+							break;
+						case 'Berufsschule':
+						case 'Berufsfachschule':
+						case 'Berufsschule mit sonderpäd. Aufgaben':
+						case 'Kombinierte berufliche Schule':
+							school.icon = icons.green;
+							break;
+						default:
+							school.icon = icons.bluegrey;
+							break;
+					}
 					$scope.schools.push(school);
 				}
 			}

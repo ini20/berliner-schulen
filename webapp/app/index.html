@@ -25,7 +25,7 @@
 	<link rel="stylesheet" href="bower_components/mdi/css/materialdesignicons.min.css">
 	<!-- endbuild -->
 </head>
-<body ng-app="berlinerSchulenApp" layout="column" layout-algin="space-around center">
+<body ng-app="berlinerSchulenApp" layout="column" layout-algin="space-around center" autoscroll="true">
 	<!--[if lt IE 7]>
 		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
@@ -33,27 +33,25 @@
 	<!-- Add your site or application content here -->
 	<md-toolbar>
 		<div class="md-toolbar-tools">
-			<span><a href="#/"><i class="fi-torsos-all"></i> Berliner Schulen</a></span>
+			<span><a href="#/"><i class="mdi mdi-school"></i> Berliner Schulen</a></span>
 				<!-- fill up the space between left and right area -->
 				<span flex></span>
-				<md-button ui-sref="index">
-					Home
+				<md-button ui-sref="index" class="mr+">
+					<i class="mdi mdi-home"></i> Home
 				</md-button>
 				<md-button ui-sref="statistics">
-					Statistiken
-				</md-button>
-				<md-button ui-sref="imprint">
-					Impressum
+					<i class="mdi mdi-chart-bar"></i> Statistiken
 				</md-button>
 		</div>
 	</md-toolbar>
 
-	<div ui-view="view1"></div>
-	<div ui-view="view2"></div>
-	<div ui-view="view3"></div>
+	<div ui-view="view1" autoscroll="false"></div>
+	<div ui-view="view2" autoscroll="false"></div>
+	<div ui-view="view3" autoscroll="false"></div>
 
 	<hr />
 
+	<!-- TODO: Bessers UI für Footer [github.com/ini20/berliner-schulen/issues/27] -->
 	<div>
 		<div class="large-6 columns">
 			<p>
@@ -64,7 +62,9 @@
 		</div>
 		<div class="large-6 columns">
 			<ul class="inline-list right">
-				<li><a href="#/impressum">Impressum</a></li>
+				<li>
+					<md-button ui-sref="imprint">Impressum</md-button>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -93,6 +93,7 @@
 	<!-- endbower -->
 	<!-- endbuild -->
 
+	<!-- TODO: Remove colResizable from Project and packages.json [github.com/ini20/berliner-schulen/issues/28] -->
 	<script src="js/colResizable-1.5.min.js"></script>
 
 	<!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -102,9 +103,8 @@
 	<script src="filter/filter.js"></script>
 	<script src="map/map.js"></script>
 	<script src="list/list.js"></script>
-	<!-- <script src="scripts/controllers/map_progress_bar.js"></script> -->
 	<script src="about/about.js"></script>
-	<!-- <script src="details/details.js"></script> -->
+	<script src="school/school.js"></script>
 	<script src="statistics/statistics.js"></script>
 	<!-- endbuild -->
 

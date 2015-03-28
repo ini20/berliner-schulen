@@ -30,6 +30,15 @@ angular.module('berlinerSchulenApp')
 				}
 			}
 		})
+		.state('school', {
+			url: '/school/{BSN:[0-9]{2}[A-Z][0-9]{2}}',
+			views: {
+				'view1': {
+					controller: 'SchoolCtrl',
+					templateUrl: 'school/school.html'
+				}
+			}
+		})
 		.state('statistics', {
 			url: '/statistics',
 			views: {
