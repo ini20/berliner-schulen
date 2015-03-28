@@ -5,11 +5,10 @@ var http = require('http');
 var httpRequests = 0;
 var schools = [];
 
-var indexOf = function(schoolarray, bsn){
-	for(var a = 0; a < schoolarray.length; a++)
-	{
+var indexOf = function (schoolarray, bsn) {
+	for (var a = 0; a < schoolarray.length; a++) {
 		var school = schoolarray[a];
-		if(school.bsn == bsn)
+		if (school.bsn == bsn)
 			return a;
 	}
 	return -1;

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.controller('MapCtrl', ['$scope', 'schoolFactory', '$window', function($scope, schoolFactory, $window){
+	.controller('MapCtrl', ['$scope', '$rootScope', 'schoolFactory', '$window', function ($scope, $rootScope, schoolFactory, $window) {
 
 		/* This is our Map setup.
 		 *
@@ -32,39 +32,39 @@ angular.module('berlinerSchulenApp')
 			icons: {
 				blue_icon: {
 					iconUrl: 'assets/img/circle_blue_borderless.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
+					iconSize: [15, 15],
+					iconAnchor: [7, 7],
+					popupAnchor: [0, -5]
 				},
 				orange_icon: {
 					iconUrl: 'assets/img/circle_orange_borderless.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
+					iconSize: [15, 15],
+					iconAnchor: [7, 7],
+					popupAnchor: [0, -5]
 				},
 				bluegrey_icon: {
 					iconUrl: 'assets/img/circle_bluegrey_borderless.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
+					iconSize: [15, 15],
+					iconAnchor: [7, 7],
+					popupAnchor: [0, -5]
 				},
 				cyan_icon: {
 					iconUrl: 'assets/img/circle_cyan_borderless.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
+					iconSize: [15, 15],
+					iconAnchor: [7, 7],
+					popupAnchor: [0, -5]
 				},
 				green_icon: {
 					iconUrl: 'assets/img/circle_green_borderless.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
+					iconSize: [15, 15],
+					iconAnchor: [7, 7],
+					popupAnchor: [0, -5]
 				},
 				red_icon: {
 					iconUrl: 'assets/img/circle_red_borderless.svg',
-					iconSize: [15,15],
-					iconAnchor: [7,7],
-					popupAnchor: [0,-5]
+					iconSize: [15, 15],
+					iconAnchor: [7, 7],
+					popupAnchor: [0, -5]
 				}
 			}
 		});
@@ -74,11 +74,11 @@ angular.module('berlinerSchulenApp')
 		 * to this name `updateSchools`.
 		 * -> This is kind of an Event-Driven-Design
 		 */
-		$scope.$on('updateSchools', function() {
+		$scope.$on('updateSchools', function () {
 
 			/* Simple function to check if a value is a float */
 			function isFloat(n) {
-				return n === +n && n !== (n|0);
+				return n === +n && n !== (n | 0);
 			}
 
 			var tmpMarkersArr = [];
@@ -94,14 +94,14 @@ angular.module('berlinerSchulenApp')
 				 */
 				var lat = parseFloat(schools[i].lat);
 				var lon = parseFloat(schools[i].lon);
-				if ( isFloat(lat) &&
-					 isFloat(lon) ) {
+				if (isFloat(lat) &&
+					isFloat(lon)) {
 
 					// Create Marker Tooltip
 					var tooltip = '<strong>' + schools[i].Schulname + '</strong><br>';
-						tooltip += schools[i].Strasse + ', ' + schools[i].PLZ + '<br><br>';
-						tooltip += '<em>' + schools[i].Schulart + '</em><br>';
-						tooltip += '<a href=#/school/' + schools[i].bsn + '>Link zur Detailseite</a>';
+					tooltip += schools[i].Strasse + ', ' + schools[i].PLZ + '<br><br>';
+					tooltip += '<em>' + schools[i].Schulart + '</em><br>';
+					tooltip += '<a href=#/school/' + schools[i].bsn + '>Link zur Detailseite</a>';
 
 					// Using an array here b/c with push() it is easy to
 					// add new markers (object) to the array.
@@ -109,11 +109,12 @@ angular.module('berlinerSchulenApp')
 						lat: lat,
 						lng: lon,
 						compileMessage: false,
-						message: tooltip
+						message: tooltip,
+						bsn: schools[i].bsn
 					};
 
 					//choose the icon depending on schooltype
-					switch(schools[i].Schulart){
+					switch (schools[i].Schulart) {
 						case 'Grundschule':
 							marker.icon = $scope.icons.orange_icon;
 							break;
@@ -144,7 +145,7 @@ angular.module('berlinerSchulenApp')
 			// the markers object, which is used by the map does not want
 			// an array but an object list. Therefore this simple reduce()
 			// method converts our array into in object list.
-			var tmpMarkersObj = tmpMarkersArr.reduce(function(o, v, i) {
+			var tmpMarkersObj = tmpMarkersArr.reduce(function (o, v, i) {
 				o[i] = v;
 				return o;
 			}, {});
@@ -166,10 +167,29 @@ angular.module('berlinerSchulenApp')
 		var w = angular.element($window);
 		var cachedHeight = -1;
 
-		$scope.getWindowHeight = function(){
-			if(cachedHeight == -1)
+		$scope.getWindowHeight = function () {
+			if (cachedHeight == -1)
 				cachedHeight = w.height() * 0.7;
 			return cachedHeight;
-		}
+		};
 
-}]);
+		/*
+		 * This centers the map to the provided coordinates and
+		 * shows a pop over
+		 */
+		var mapCenterRequest = $scope.$on('mapCenterRequest', function (sender, lat, lon, bsn) {
+			sender.currentScope.berlin.lat = lat;
+			sender.currentScope.berlin.lng = lon;
+
+			for(var i in sender.currentScope.data.markers)
+			{
+				var marker = sender.currentScope.data.markers[i];
+				if(marker.bsn == bsn)
+				{
+					marker.focus = true;
+					break;
+				}
+			}
+		});
+		$scope.$on('destroy', mapCenterRequest);
+	}]);

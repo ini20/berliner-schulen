@@ -2,7 +2,10 @@
 	<div class="card mt+ mb+" id="schoolCard">
 		<div flex-container="column">
 			<div class="card__img">
-				<leaflet center="berlin" defaults="defaults" markers="data.markers"></leaflet>
+				<leaflet center="berlin" defaults="defaults" markers="data.markers" ng-if="school.lat > 0"></leaflet>
+				<div class="center mb+ fs-display-4" ng-if="school.lat === undefined">
+					<i class="mdi mdi-map-marker-off"></i>
+				</div>
 
 				<!-- <img src="http://lorempixel.com/500/200"> -->
 			</div>
