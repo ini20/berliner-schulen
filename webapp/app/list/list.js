@@ -15,11 +15,15 @@ angular.module('berlinerSchulenApp')
 			return n === +n && n !== (n | 0);
 		}
 
+		/*
+		 * This issues a mapCenterRequest for the selected school.
+		 */
 		$scope.centerMap = function (school) {
 			var lat = parseFloat(school.lat);
 			var lon = parseFloat(school.lon);
+			var bsn = school.bsn;
 			if (isFloat(lat) && isFloat(lon))
-				$rootScope.$broadcast('mapCenterRequest', lat, lon);
+				$rootScope.$broadcast('mapCenterRequest', lat, lon, bsn);
 		};
 		$scope.schools = [];
 		$scope.numberOfPages = function () {
@@ -63,7 +67,8 @@ angular.module('berlinerSchulenApp')
 						'url': schools[i].Internet,
 						'type': schools[i].Schulart,
 						'lat': schools[i].lat,
-						'lon': schools[i].lon
+						'lon': schools[i].lon,
+						'bsn': schools[i].bsn
 					};
 
 					switch (schools[i].Schulart) {

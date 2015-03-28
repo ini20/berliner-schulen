@@ -3,10 +3,6 @@
 angular.module('berlinerSchulenApp')
 	.controller('MapCtrl', ['$scope', '$rootScope', 'schoolFactory', '$window', function ($scope, $rootScope, schoolFactory, $window) {
 
-		$scope.click = function () {
-			$scope.berlin.lat = 3;
-			$scope.berlin.lon = 0;
-		}
 		/* This is our Map setup.
 		 *
 		 * It uses the OSM tiles and is set to zoom 14.
@@ -113,7 +109,8 @@ angular.module('berlinerSchulenApp')
 						lat: lat,
 						lng: lon,
 						compileMessage: false,
-						message: tooltip
+						message: tooltip,
+						bsn: schools[i].bsn
 					};
 
 					//choose the icon depending on schooltype
@@ -174,16 +171,25 @@ angular.module('berlinerSchulenApp')
 			if (cachedHeight == -1)
 				cachedHeight = w.height() * 0.7;
 			return cachedHeight;
-		}
+		};
 
 		/*
-		 * This should center the map if a table row is clicked
-		 * unfortunately it is not working yet
+		 * This centers the map to the provided coordinates and
+		 * shows a pop over
 		 */
-		var mapCenterRequest = $scope.$on('mapCenterRequest', function (sender, lat, lon) {
+		var mapCenterRequest = $scope.$on('mapCenterRequest', function (sender, lat, lon, bsn) {
 			sender.currentScope.berlin.lat = lat;
 			sender.currentScope.berlin.lng = lon;
-			//sender.currentScope.data.markers[0].focus = true;
+
+			for(var i in sender.currentScope.data.markers)
+			{
+				var marker = sender.currentScope.data.markers[i];
+				if(marker.bsn == bsn)
+				{
+					marker.focus = true;
+					break;
+				}
+			}
 		});
 		$scope.$on('destroy', mapCenterRequest);
 	}]);
