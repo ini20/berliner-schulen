@@ -108,7 +108,8 @@ angular.module('berlinerSchulenApp')
 						lng: lon,
 						compileMessage: false,
 						message: tooltip,
-						bsn: schools[i].bsn
+						bsn: schools[i].bsn,
+						group: 'berlin'
 					};
 
 					//choose the icon depending on schooltype
