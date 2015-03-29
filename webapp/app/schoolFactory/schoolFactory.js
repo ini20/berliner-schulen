@@ -112,8 +112,9 @@ angular.module('berlinerSchulenApp')
 								if (row.Schulname !== undefined)
 								{
 									var name = row.Schulname.toLowerCase();
-									if(name.indexOf(filter.main) > -1)
+									if(name.indexOf(filter.main) > -1) {
 										return true;
+									}
 								}
 								return false;
 							})
