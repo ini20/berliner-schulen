@@ -50,7 +50,7 @@ angular.module('berlinerSchulenApp')
 				for (var field in filterProp) {
 					switch (field) {
 						case 'main':
-							filter.main = filterProp.main;
+							filter.main = filterProp.main.toLowerCase();
 							break;
 
 						case 'street':

@@ -9,14 +9,12 @@ angular.module('berlinerSchulenApp')
 				main: 'marie'
 			};
 
-			$scope.searchText = 'marie';
 			$scope.showFilter = true;
 			$scope.loading = false;
 
 			$scope.filter = function () {
 				$scope.loading = true;
 				$timeout(function () {
-					$scope.searchFilter.main = $scope.searchText.toLowerCase();
 					schoolFactory.setFilter($scope.searchFilter);
 					schoolFactory.applyFilter();
 					$scope.loading = false;
