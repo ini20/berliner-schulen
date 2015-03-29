@@ -6,7 +6,7 @@ angular.module('berlinerSchulenApp')
 
 			// Initialize Filter in Front-End
 			$scope.searchFilter = {
-				main: 'marie'
+				main: 'Tech'
 			};
 
 			$scope.showFilter = false;
