@@ -74,15 +74,13 @@ angular.module('berlinerSchulenApp')
 		 * to this name `updateSchools`.
 		 * -> This is kind of an Event-Driven-Design
 		 */
-		$scope.$on('updateSchools', function () {
-
+		var updateSchools = $scope.$on('updateSchools', function (event, schools) {
 			/* Simple function to check if a value is a float */
 			function isFloat(n) {
 				return n === +n && n !== (n | 0);
 			}
 
 			var tmpMarkersArr = [];
-			var schools = schoolFactory.content;
 
 			for (var i = schools.length - 1; i >= 0; i--) {
 

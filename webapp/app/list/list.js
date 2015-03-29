@@ -30,8 +30,7 @@ angular.module('berlinerSchulenApp')
 			return Math.ceil($scope.schools.length / $scope.pageSize);
 		};
 
-		$scope.$on('updateSchools', function () {
-			var schools = schoolFactory.content;
+		var updateSchools = $scope.$on('updateSchools', function (event, schools) {
 
 			var icons = {
 				blue: {

@@ -276,7 +276,7 @@ angular.module('berlinerSchulenApp')
 			};
 
 			schools.publishData = function () {
-				$rootScope.$broadcast('updateSchools');
+				$rootScope.$broadcast('updateSchools', schools.content);
 			};
 
 			schools.getJson = function () {
