@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.controller('MapCtrl', ['$scope', '$rootScope', 'schoolFactory', '$window', function ($scope, $rootScope, schoolFactory, $window) {
+	.controller('MapCtrl', ['$scope', '$rootScope', '$timeout', 'schoolFactory', '$window',
+		function ($scope, $rootScope, $timeout, schoolFactory, $window) {
 
 		/* This is our Map setup.
 		 *
@@ -13,18 +14,13 @@ angular.module('berlinerSchulenApp')
 		angular.extend($scope, {
 			defaults: {
 				tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-				maxZoom: 14,
-				path: {
-					weight: 10,
-					color: '#800000',
-					opacity: 1
-				},
+				maxZoom: 17,
 				scrollWheelZoom: false
 			},
 			berlin: {
 				lat: 52.5153601,
 				lng: 13.3833154,
-				zoom: 10
+				zoom: 11
 			},
 			data: {
 				markers: {}
@@ -80,9 +76,9 @@ angular.module('berlinerSchulenApp')
 				return n === +n && n !== (n | 0);
 			}
 
-			var tmpMarkersArr = [];
+			$scope.data.markers = {};
 
-			for (var i = schools.length - 1; i >= 0; i--) {
+			for (var i = 0; i <= schools.length; i++) {
 
 				/* ---Validation---
 				 * We have to check if lat and long are set. If no
@@ -90,8 +86,12 @@ angular.module('berlinerSchulenApp')
 				 * would break and no marker after this corrupt one will
 				 * be set
 				 */
-				var lat = parseFloat(schools[i].lat);
-				var lon = parseFloat(schools[i].lon);
+				var lat = null;
+				var lon = null;
+				if (schools[i] !== undefined) {
+					lat = parseFloat(schools[i].lat);
+					lon = parseFloat(schools[i].lon);
+				}
 				if (isFloat(lat) &&
 					isFloat(lon)) {
 
@@ -132,31 +132,11 @@ angular.module('berlinerSchulenApp')
 							marker.icon = $scope.icons.bluegrey_icon;
 							break;
 					}
-					tmpMarkersArr.push(marker);
+					$scope.data.markers[schools[i].bsn] = marker;
 				}
-
-				// if ( schools.length - i > 100) {
-				// 	break;
-				// }
 			}
-
-			// the markers object, which is used by the map does not want
-			// an array but an object list. Therefore this simple reduce()
-			// method converts our array into in object list.
-			var tmpMarkersObj = tmpMarkersArr.reduce(function (o, v, i) {
-				o[i] = v;
-				return o;
-			}, {});
-
-			/* Set the new markers on to the map using angular.extend
-			 * to update the markers object. Before we do that we empty
-			 * all the object to remove old markers
-			 */
-			$scope.data.markers = {};
-			angular.extend($scope.data, {
-				markers: tmpMarkersObj
-			});
 		});
+		$scope.$on('destroy', updateSchools);
 
 		/* This sets the height of the map according to the height of the
 		 * window when the page is loaded. If the window is resized the
@@ -166,8 +146,9 @@ angular.module('berlinerSchulenApp')
 		var cachedHeight = -1;
 
 		$scope.getWindowHeight = function () {
-			if (cachedHeight == -1)
+			if (cachedHeight === -1) {
 				cachedHeight = w.height() * 0.7;
+			}
 			return cachedHeight;
 		};
 
@@ -179,15 +160,14 @@ angular.module('berlinerSchulenApp')
 			sender.currentScope.berlin.lat = lat;
 			sender.currentScope.berlin.lng = lon;
 
-			for(var i in sender.currentScope.data.markers)
-			{
+			for(var i in sender.currentScope.data.markers) {
 				var marker = sender.currentScope.data.markers[i];
-				if(marker.bsn == bsn)
-				{
+				if(marker.bsn === bsn) {
 					marker.focus = true;
 					break;
 				}
 			}
 		});
 		$scope.$on('destroy', mapCenterRequest);
+
 	}]);
