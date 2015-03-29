@@ -9,7 +9,7 @@ angular.module('berlinerSchulenApp')
 				main: 'marie'
 			};
 
-			$scope.showFilter = true;
+			$scope.showFilter = false;
 			$scope.loading = false;
 
 			$scope.filter = function () {
