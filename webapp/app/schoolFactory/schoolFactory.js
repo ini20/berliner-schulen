@@ -50,7 +50,7 @@ angular.module('berlinerSchulenApp')
 				for (var field in filterProp) {
 					switch (field) {
 						case 'main':
-							filter.main = filterProp.main;
+							filter.main = filterProp.main.toLowerCase();
 							break;
 
 						case 'street':
@@ -112,8 +112,9 @@ angular.module('berlinerSchulenApp')
 								if (row.Schulname !== undefined)
 								{
 									var name = row.Schulname.toLowerCase();
-									if(name.indexOf(filter.main) > -1)
+									if(name.indexOf(filter.main) > -1) {
 										return true;
+									}
 								}
 								return false;
 							})
@@ -275,7 +276,7 @@ angular.module('berlinerSchulenApp')
 			};
 
 			schools.publishData = function () {
-				$rootScope.$broadcast('updateSchools');
+				$rootScope.$broadcast('updateSchools', schools.content);
 			};
 
 			schools.getJson = function () {

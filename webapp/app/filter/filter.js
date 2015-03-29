@@ -6,17 +6,15 @@ angular.module('berlinerSchulenApp')
 
 			// Initialize Filter in Front-End
 			$scope.searchFilter = {
-				main: 'marie'
+				main: 'Tech'
 			};
 
-			$scope.searchText = 'marie';
-			$scope.showFilter = true;
+			$scope.showFilter = false;
 			$scope.loading = false;
 
 			$scope.filter = function () {
 				$scope.loading = true;
 				$timeout(function () {
-					$scope.searchFilter.main = $scope.searchText.toLowerCase();
 					schoolFactory.setFilter($scope.searchFilter);
 					schoolFactory.applyFilter();
 					$scope.loading = false;
