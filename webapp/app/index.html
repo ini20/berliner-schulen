@@ -25,6 +25,7 @@
 	<!-- build:css({.tmp,app}) styles/main.css -->
 	<link rel="stylesheet" href="styles/app.css">
 	<link rel="stylesheet" href="bower_components/mdi/css/materialdesignicons.min.css">
+	<link rel="stylesheet" href="styles/overlay.css">
 	<!-- endbuild -->
 </head>
 <body ng-app="berlinerSchulenApp" layout="column" layout-algin="space-around center" autoscroll="true">
@@ -52,7 +53,6 @@
 
 	<div ui-view="view1" autoscroll="false"></div>
 	<div ui-view="view2" autoscroll="false"></div>
-	<div ui-view="view3" autoscroll="false"></div>
 
 	<md-toolbar class="bgc-blue-grey-400">
 		<div class="md-toolbar-tools fs-subhead" layout="row" layout-align="center center">
@@ -106,6 +106,7 @@
 	<script src="about/about.js"></script>
 	<script src="school/school.js"></script>
 	<script src="statistics/statistics.js"></script>
+	<script src="filterAndMap/filterAndMap.js"></script>
 	<!-- endbuild -->
 
 </body>
