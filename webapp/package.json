@@ -43,6 +43,7 @@
     "grunt-ng-annotate": "^0.10.0",
     "grunt-ngmin": "0.0.3",
     "grunt-svgmin": "^0.4.0",
+    "grunt-text-replace": "^0.4.0",
     "grunt-usemin": "^2.1.1",
     "grunt-wiredep": "^1.7.0",
     "jshint-stylish": "^0.2.0",
