@@ -444,12 +444,14 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
+    'copy:fonts',
     'cdnify',
     'cssmin',
+    'replace',
     'uglify',
-    'filerev',
+    // 'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
   ]);
 
   grunt.registerTask('default', [
