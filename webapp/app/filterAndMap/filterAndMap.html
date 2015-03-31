@@ -7,27 +7,27 @@
 		<div class="overlayContent" layout-padding>
 			<div ng-controller="FilterCtrl">
 				<form>
-					<!--<md-progress-linear style="position: absolute" class="mb++" md-mode="indeterminate" ng-if="loading"></md-progress-linear>-->
+					<md-progress-linear style="position: absolute" class="mb++" md-mode="indeterminate" ng-if="loading"></md-progress-linear>
 					<div flex>
-						<div class="tc-black-1" layout="row" layout-align="center">
-							<div flex="10"></div>
-							<div flex="70">
-								<div class="p+">
+						<div class="tc-black-1" layout="row" layout-align="space-around center">
+							<div flex="85">
+								<!--<div class="p+">-->
 									<lx-text-field label="Suchen">
 										<input type="text" ng-model="searchFilter.main" ng-change="filter()">
 									</lx-text-field>
-								</div>
+								<!--</div>-->
 							</div>
-							<div flex="20">
-								<div class="p+++">
+							<div flex="15">
+								<div class="p+">
 									<button class="btn btn--m btn--green btn--fab" lx-ripple ng-click="toogleFilter()">
 										<i class="mdi mdi-plus"></i></button>
 								</div>
 							</div>
-						</div>
 					</div>
 
 					<div class="additional" ng-show="showFilter" layout="column">
+
+
 
 
 						<lx-text-field label="Stra&#223;e">
@@ -46,6 +46,7 @@
 								{{ $choice.name }}
 							</lx-select-choices>
 						</lx-select>
+
 
 
 						<lx-select ng-model="cbSchooltypes.selectedTypes" change="cbSchooltypes.exec(newValue)"
