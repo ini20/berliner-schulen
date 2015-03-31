@@ -388,6 +388,21 @@ module.exports = function (grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       }
+    },
+
+    replace: {
+      example: {
+        src: [
+          '<%= yeoman.dist %>/styles/main.css'
+        ],
+        dest: '<%= yeoman.dist %>/styles/main.css',
+        replacements: [
+          {
+            from: 'fonts/materialdesignicons-webfont',
+            to: 'assets/fonts/mdi/fonts/materialdesignicons-webfont'
+          }
+        ]
+      }
     }
   });
 
