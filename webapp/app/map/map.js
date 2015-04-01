@@ -41,9 +41,7 @@ angular.module('berlinerSchulenApp')
 				lng: 13.3833154,
 				zoom: 11
 			},
-			data: {
-				markers: {}
-			},
+			data: {},
 			icons: {
 				blue_icon: {
 					iconUrl: 'assets/img/circle_blue_borderless.svg',
@@ -97,7 +95,7 @@ angular.module('berlinerSchulenApp')
 
 			$scope.data.markers = {};
 
-			for (var i = 0; i <= schools.length; i++) {
+			for (var i = 0; i < schools.length; i++) {
 
 				/* ---Validation---
 				 * We have to check if lat and long are set. If no
@@ -111,6 +109,7 @@ angular.module('berlinerSchulenApp')
 					lat = parseFloat(schools[i].lat);
 					lon = parseFloat(schools[i].lon);
 				}
+
 				if (isFloat(lat) &&
 					isFloat(lon)) {
 
