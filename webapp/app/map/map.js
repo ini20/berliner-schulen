@@ -17,6 +17,25 @@ angular.module('berlinerSchulenApp')
 				maxZoom: 17,
 				scrollWheelZoom: false
 			},
+			layers: {
+				baselayers: {
+					osm: {
+						name: 'OpenStreetMap',
+						url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+						type: 'xyz',
+						layerOptions: {
+							attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+						}
+					}
+				},
+				overlays: {
+					schools: {
+						name: 'Schulen',
+						type: 'markercluster',
+						visible: true
+					}
+				}
+			},
 			berlin: {
 				lat: 52.5153601,
 				lng: 13.3833154,
@@ -109,7 +128,7 @@ angular.module('berlinerSchulenApp')
 						compileMessage: false,
 						message: tooltip,
 						bsn: schools[i].bsn,
-						group: 'berlin'
+						layer: 'schools'
 					};
 
 					//choose the icon depending on schooltype
