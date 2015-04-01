@@ -1,6 +1,6 @@
 <div layout="row" layout-align="center center" flex-gutter="24" ng-if="loaded">
 	<div class="card mt+ mb+" id="schoolCard">
-		<div flex-container="column">
+		<div>
 			<div class="card__img">
 				<leaflet center="berlin" defaults="defaults" markers="data.markers" ng-if="school.lat > 0"></leaflet>
 				<div class="center mb+ fs-display-4" ng-if="school.lat === undefined">
