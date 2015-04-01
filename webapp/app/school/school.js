@@ -16,7 +16,7 @@ angular.module('berlinerSchulenApp')
 			 */
 			angular.extend($scope, {
 				defaults: {
-					tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+					tileLayer: 'http://api.tiles.mapbox.com/v4/obstschale.kp8hf045/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoib2JzdHNjaGFsZSIsImEiOiJvSFdVbmRRIn0.2aQ9TaMbMbyrAuFQh_icXg',
 					maxZoom: 15,
 					path: {
 						weight: 10,

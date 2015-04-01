@@ -13,12 +13,17 @@ angular.module('berlinerSchulenApp')
 		 */
 		angular.extend($scope, {
 			defaults: {
-				tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+				// tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
 				maxZoom: 17,
 				scrollWheelZoom: false
 			},
 			layers: {
 				baselayers: {
+					mapbox: {
+						name: 'Mapbox',
+						url: 'http://api.tiles.mapbox.com/v4/obstschale.kp8hf045/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoib2JzdHNjaGFsZSIsImEiOiJvSFdVbmRRIn0.2aQ9TaMbMbyrAuFQh_icXg',
+						type: 'xyz'
+					},
 					osm: {
 						name: 'OpenStreetMap',
 						url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
