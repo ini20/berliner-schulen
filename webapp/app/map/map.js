@@ -17,14 +17,31 @@ angular.module('berlinerSchulenApp')
 				maxZoom: 17,
 				scrollWheelZoom: false
 			},
+			layers: {
+				baselayers: {
+					osm: {
+						name: 'OpenStreetMap',
+						url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+						type: 'xyz',
+						layerOptions: {
+							attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+						}
+					}
+				},
+				overlays: {
+					schools: {
+						name: 'Schulen',
+						type: 'markercluster',
+						visible: true
+					}
+				}
+			},
 			berlin: {
 				lat: 52.5153601,
 				lng: 13.3833154,
 				zoom: 11
 			},
-			data: {
-				markers: {}
-			},
+			data: {},
 			icons: {
 				blue_icon: {
 					iconUrl: 'assets/img/circle_blue_borderless.svg',
@@ -78,7 +95,7 @@ angular.module('berlinerSchulenApp')
 
 			$scope.data.markers = {};
 
-			for (var i = 0; i <= schools.length; i++) {
+			for (var i = 0; i < schools.length; i++) {
 
 				/* ---Validation---
 				 * We have to check if lat and long are set. If no
@@ -92,6 +109,7 @@ angular.module('berlinerSchulenApp')
 					lat = parseFloat(schools[i].lat);
 					lon = parseFloat(schools[i].lon);
 				}
+
 				if (isFloat(lat) &&
 					isFloat(lon)) {
 
@@ -109,7 +127,7 @@ angular.module('berlinerSchulenApp')
 						compileMessage: false,
 						message: tooltip,
 						bsn: schools[i].bsn,
-						group: 'berlin'
+						layer: 'schools'
 					};
 
 					//choose the icon depending on schooltype
