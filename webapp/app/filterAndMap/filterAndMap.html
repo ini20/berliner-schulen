@@ -2,15 +2,21 @@
 	<div flex="100" flex-gt-md="33" flex-gt-lg="25" layout-padding id="filterContainer">
 		<div ng-controller="FilterCtrl">
 			<form>
-				<md-progress-linear style="position: absolute" class="mb+++" md-mode="indeterminate"
+				<md-progress-linear md-mode="indeterminate"
 									ng-if="loading"></md-progress-linear>
-				<div layout-md="row" layout-align="space-around center">
-					<div flex="95">
+
+				<div layout-md="row" layout-align-md="center center">
+				<div layout="row" flex="95" layout-align="end center" layout-fill>
+					<div flex>
 						<lx-text-field label="Schlagwort">
 							<input type="text" ng-model="searchFilter.main" ng-change="filter()">
 						</lx-text-field>
 					</div>
+					<div>
+						<button class="btn btn--m btn--red btn--raised ml+ mt+" ng-click="resetFilter()" lx-ripple>Zurücksetzen</button>
+					</div>
 				</div>
+					</div>
 
 				<div layout-md="row" layout-align="space-around center">
 					<lx-text-field flex="45" label="Stra&#223;e">
