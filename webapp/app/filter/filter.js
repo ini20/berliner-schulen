@@ -6,7 +6,17 @@ angular.module('berlinerSchulenApp')
 
 			// Initialize Filter in Front-End
 			$scope.searchFilter = {
-				main: 'Tech'
+				main: 'Tech',
+				street: '',
+				districts: [],
+				schooltypes: [],
+				supporter: [],
+				languages: [],
+				accessibilities: [],
+				courses: [],
+				allDayCare: false,
+				dual: false,
+				secEdu: false,
 			};
 
 			$scope.showFilter = false;
@@ -15,10 +25,36 @@ angular.module('berlinerSchulenApp')
 			$scope.filter = function () {
 				$scope.loading = true;
 				$timeout(function () {
-					schoolFactory.setFilter($scope.searchFilter);
-					schoolFactory.applyFilter();
+					schoolFactory
+						.setFilter($scope.searchFilter)
+						.applyFilter();
 					$scope.loading = false;
 				}, 600);
+			};
+
+			$scope.resetFilter = function() {
+
+				$scope.cbDistricts.selectedDistricts = [];
+				$scope.cbSchooltypes.selectedTypes = [];
+				$scope.cbSchoolSupporter.selectedSupporter = [];
+				$scope.cbLanguages.selectedLang = [];
+				$scope.cbAccessibility.selectedAccessibilities = [];
+				$scope.cbCourses.selectedCourses = [];
+
+				$scope.searchFilter = {
+					main: '',
+					street: '',
+					districts: [],
+					schooltypes: [],
+					supporter: [],
+					languages: [],
+					accessibilities: [],
+					courses: [],
+					allDayCare: false,
+					dual: false,
+					secEdu: false,
+				};
+				$scope.filter();
 			};
 
 			$scope.cbDistricts = {

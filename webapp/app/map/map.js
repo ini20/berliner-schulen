@@ -13,20 +13,42 @@ angular.module('berlinerSchulenApp')
 		 */
 		angular.extend($scope, {
 			defaults: {
-				tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+				// tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
 				maxZoom: 17,
 				scrollWheelZoom: false,
 				zoomControl: true,
 				zoomControlPosition: 'topright'
+			},
+			layers: {
+				baselayers: {
+					mapbox: {
+						name: 'Mapbox',
+						url: 'http://api.tiles.mapbox.com/v4/obstschale.kp8hf045/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoib2JzdHNjaGFsZSIsImEiOiJvSFdVbmRRIn0.2aQ9TaMbMbyrAuFQh_icXg',
+						type: 'xyz'
+					},
+					osm: {
+						name: 'OpenStreetMap',
+						url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+						type: 'xyz',
+						layerOptions: {
+							attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+						}
+					}
+				},
+				overlays: {
+					schools: {
+						name: 'Schulen',
+						type: 'markercluster',
+						visible: true
+					}
+				}
 			},
 			berlin: {
 				lat: 52.5153601,
 				lng: 13.3833154,
 				zoom: 11
 			},
-			data: {
-				markers: {}
-			},
+			data: {},
 			icons: {
 				blue_icon: {
 					iconUrl: 'assets/img/circle_blue_borderless.svg',
@@ -80,7 +102,7 @@ angular.module('berlinerSchulenApp')
 
 			$scope.data.markers = {};
 
-			for (var i = 0; i <= schools.length; i++) {
+			for (var i = 0; i < schools.length; i++) {
 
 				/* ---Validation---
 				 * We have to check if lat and long are set. If no
@@ -94,6 +116,7 @@ angular.module('berlinerSchulenApp')
 					lat = parseFloat(schools[i].lat);
 					lon = parseFloat(schools[i].lon);
 				}
+
 				if (isFloat(lat) &&
 					isFloat(lon)) {
 
@@ -111,7 +134,7 @@ angular.module('berlinerSchulenApp')
 						compileMessage: false,
 						message: tooltip,
 						bsn: schools[i].bsn,
-						group: 'berlin'
+						layer: 'schools'
 					};
 
 					//choose the icon depending on schooltype
