@@ -15,7 +15,9 @@ angular.module('berlinerSchulenApp')
 			defaults: {
 				// tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
 				maxZoom: 17,
-				scrollWheelZoom: false
+				scrollWheelZoom: false,
+				zoomControl: true,
+				zoomControlPosition: 'topright'
 			},
 			layers: {
 				baselayers: {
@@ -169,7 +171,7 @@ angular.module('berlinerSchulenApp')
 		var w = angular.element($window);
 		var cachedHeight = -1;
 
-		$scope.getWindowHeight = function () {
+		$scope.getMinMapHeight = function () {
 			if (cachedHeight === -1) {
 				cachedHeight = w.height() * 0.7;
 			}
