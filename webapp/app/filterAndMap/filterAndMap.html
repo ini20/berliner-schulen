@@ -130,8 +130,9 @@
 			</form>
 		</div>
 	</div>
-	<div flex="100" flex-gt-md="66" flex-gt-lg="75" ng-controller="MapCtrl">
-		<leaflet center="berlin" layers="layers" defaults="defaults" width="100%" markers="data.markers"
-				 ng-style="{'height': '100%', 'min-height': getMinMapHeight() + 'px'}"></leaflet>
+	<div flex="100" flex-gt-md="66" flex-gt-lg="75" ng-controller="MapCtrl"
+		 ng-style="{'min-height': getMinMapHeight() + 'px'}" style="position: relative;">
+		<leaflet center="berlin" layers="layers" defaults="defaults" markers="data.markers"
+				 height="100%" width="100%" style="position: absolute"></leaflet>
 	</div>
 </div>
