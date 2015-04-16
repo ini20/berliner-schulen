@@ -1,7 +1,10 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js"> <!--<![endif]-->
 <head>
@@ -13,13 +16,12 @@
 
 	<!-- build:css styles/vendor.css -->
 	<!-- bower:css -->
-	<link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
-	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-	<link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-	<link rel="stylesheet" href="bower_components/mdi/materialdesignicons.css" />
-	<link rel="stylesheet" href="bower_components/lumx/dist/lumx.css" />
-	<link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
-	<link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+	<link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css"/>
+	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css"/>
+	<link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+	<link rel="stylesheet" href="bower_components/lumx/dist/lumx.css"/>
+	<link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css"/>
+	<link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
 	<!-- endbower -->
 	<!-- endbuild -->
 
@@ -29,100 +31,132 @@
 	<!-- endbuild -->
 </head>
 <body ng-app="berlinerSchulenApp" layout="column" layout-algin="space-around center" autoscroll="true">
-	<!--[if lt IE 7]>
-		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]-->
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+	your browser</a> to improve your experience.</p>
+<![endif]-->
 
-	<!-- Add your site or application content here -->
-	<md-toolbar>
-		<div class="md-toolbar-tools">
-			<span class="ml++"><a href="#/"><i class="mdi mdi-school"></i> Berliner Schulen</a></span>
-				<!-- fill up the space between left and right area -->
-				<span flex></span>
-				<md-button ui-sref="index" class="mr+">
-					<i class="mdi mdi-home"></i> Home
-				</md-button>
-				<!-- <md-button ui-sref="statistics" class="mr+">
-					<i class="mdi mdi-chart-bar"></i> Statistiken
-				</md-button> -->
-				<md-button href="https://github.com/ini20/berliner-schulen/" class="mr+">
-					<i class="mdi mdi-github-circle"></i> GitHub
-				</md-button>
+<!-- Add your site or application content here -->
+<md-toolbar>
+	<div class="md-toolbar-tools">
+		<span class="ml++" hide-sm hide-gt-md></span><span><a href="#/"><i class="mdi mdi-school"></i><label class="ml">Berliner
+		Schulen</label></a></span>
+		<!-- fill up the space between left and right area -->
+		<span flex></span>
+
+		<div hide-sm hide-md>
+			<md-button ui-sref="index" class="mr+">
+				<i class="mdi mdi-home"></i> Home
+			</md-button>
+			<md-button href="https://github.com/ini20/berliner-schulen/" class="mr+">
+				<i class="mdi mdi-github-circle"></i> GitHub
+			</md-button>
 		</div>
-	</md-toolbar>
+		<div hide-gt-md>
+			<lx-dropdown position="right" from-top>
+				<button class="btn btn--l btn--white btn--icon" lx-ripple lx-dropdown-toggle>
+					<i class="mdi mdi-menu"></i>
+				</button>
 
-	<div ui-view="view1" autoscroll="false"></div>
-	<div ui-view="view2" autoscroll="false"></div>
-
-	<md-toolbar class="bgc-blue-grey-400">
-		<div class="md-toolbar-tools fs-subhead" layout="row" layout-align="center center">
-			<div class="pl+ pr+">
-				&copy; 2013-2015 <a href="http://ini20.de" title="Initiative 2.0">Initiative 2.0</a>
-			</div>
-			<div class="pl+ pr+">
-				Daten Stand: 2015-02-21
-			</div>
-			<div class="pl+ pr+">
-				<md-button href="http://www.berlin.de/sen/bildung/schulverzeichnis_und_portraets/anwendung/" title="Berliner Schulen | Berlin.de"><i class="mdi mdi-link"></i> Suchformular auf Berlin.de</md-button>
-			</div>
-			<div class="pl+ pr+">
-				<md-button ui-sref="imprint">Impressum</md-button>
-			</div>
+				<lx-dropdown-menu layout-padding>
+					<ul>
+						<li>
+							<a class="dropdown-link mb" ui-sref="index">
+								<i class="mdi mdi-home"></i> Home
+							</a>
+						</li>
+						<li class="dropdown-divider"></li>
+						<li>
+							<a class="dropdown-link mt" href="https://github.com/ini20/berliner-schulen/">
+								<i class="mdi mdi-github-circle"></i> GitHub
+							</a>
+						</li>
+					</ul>
+				</lx-dropdown-menu>
+			</lx-dropdown>
+			<span class="mr" hide-sm></span>
 		</div>
-	</md-toolbar>
+	</div>
+</md-toolbar>
+
+<div ui-view="view1" autoscroll="false"></div>
+<div ui-view="view2" autoscroll="false"></div>
+
+<md-toolbar class="bgc-blue-grey-400">
+	<div class="md-toolbar-tools fs-subhead" layout="row" layout-align="center center">
+		<div class="pl+ pr+">
+			&copy; 2013-2015 <a href="http://ini20.de" title="Initiative 2.0">Initiative 2.0</a>
+		</div>
+		<div class="pl+ pr+">
+			Daten Stand: 2015-02-21
+		</div>
+		<div class="pl+ pr+">
+			<md-button href="http://www.berlin.de/sen/bildung/schulverzeichnis_und_portraets/anwendung/"
+					   title="Berliner Schulen | Berlin.de"><i class="mdi mdi-link"></i> Suchformular auf Berlin.de
+			</md-button>
+		</div>
+		<div class="pl+ pr+">
+			<md-button ui-sref="imprint">Impressum</md-button>
+		</div>
+	</div>
+</md-toolbar>
 
 
-	<!--[if lt IE 9]>
-	<script src="bower_components/es5-shim/es5-shim.js"></script>
-	<script src="bower_components/json3/lib/json3.min.js"></script>
-	<![endif]-->
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.min.js"></script>
+<![endif]-->
 
-	<!-- build:js scripts/vendor.js -->
-	<!-- bower:js -->
-	<script src="bower_components/jquery/dist/jquery.js"></script>
-	<script src="bower_components/angular/angular.js"></script>
-	<script src="bower_components/leaflet/dist/leaflet.js"></script>
-	<script src="bower_components/leaflet/dist/leaflet-src.js"></script>
-	<script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
-	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-	<script src="bower_components/angular-animate/angular-animate.js"></script>
-	<script src="bower_components/angular-aria/angular-aria.js"></script>
-	<script src="bower_components/angular-material/angular-material.js"></script>
-	<script src="bower_components/velocity/velocity.js"></script>
-	<script src="bower_components/velocity/velocity.ui.js"></script>
-	<script src="bower_components/moment/moment.js"></script>
-	<script src="bower_components/lumx/dist/lumx.js"></script>
-	<script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
-	<!-- endbower -->
-	<!-- endbuild -->
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/leaflet/dist/leaflet.js"></script>
+<script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+<script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-material/angular-material.js"></script>
+<script src="bower_components/velocity/velocity.js"></script>
+<script src="bower_components/velocity/velocity.ui.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/lumx/dist/lumx.js"></script>
+<script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
 
-	<!-- build:js({.tmp,app}) scripts/scripts.js -->
-	<!-- <script src="scripts/schoolproject.js"></script> -->
-	<script src="app.js"></script>
-	<script src="schoolFactory/schoolFactory.js"></script>
-	<script src="filter/filter.js"></script>
-	<script src="map/map.js"></script>
-	<script src="list/list.js"></script>
-	<script src="about/about.js"></script>
-	<script src="school/school.js"></script>
-	<script src="statistics/statistics.js"></script>
-	<!-- endbuild -->
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<!-- <script src="scripts/schoolproject.js"></script> -->
+<script src="app.js"></script>
+<script src="schoolFactory/schoolFactory.js"></script>
+<script src="filter/filter.js"></script>
+<script src="map/map.js"></script>
+<script src="list/list.js"></script>
+<script src="about/about.js"></script>
+<script src="school/school.js"></script>
+<script src="statistics/statistics.js"></script>
+<!-- endbuild -->
 
-	<!-- Piwik -->
-	<script type="text/javascript">
-		var _paq = _paq || [];
-		_paq.push(['trackPageView']);
-		_paq.push(['enableLinkTracking']);
-		(function() {
-			var u="//ini20.de/foucault/piwik/";
-			_paq.push(['setTrackerUrl', u+'piwik.php']);
-			_paq.push(['setSiteId', 6]);
-			var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-			g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-		})();
-	</script>
-	<noscript><p><img src="//ini20.de/foucault/piwik/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript>
-	<!-- End Piwik Code -->
+<!-- Piwik -->
+<script type="text/javascript">
+	var _paq = _paq || [];
+	_paq.push(['trackPageView']);
+	_paq.push(['enableLinkTracking']);
+	(function () {
+		var u = "//ini20.de/foucault/piwik/";
+		_paq.push(['setTrackerUrl', u + 'piwik.php']);
+		_paq.push(['setSiteId', 6]);
+		var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+		g.type = 'text/javascript';
+		g.async = true;
+		g.defer = true;
+		g.src = u + 'piwik.js';
+		s.parentNode.insertBefore(g, s);
+	})();
+</script>
+<noscript><p><img src="//ini20.de/foucault/piwik/piwik.php?idsite=6" style="border:0;" alt=""/></p></noscript>
+<!-- End Piwik Code -->
 
 </body>
 </html>
