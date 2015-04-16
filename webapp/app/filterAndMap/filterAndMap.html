@@ -1,5 +1,6 @@
 <div layout="column" layout-gt-md="row">
-	<div flex="100" flex-gt-md="33" flex-gt-lg="25" layout-padding id="filterContainer">
+	<div flex-gt-md="33" flex-gt-lg="25" id="filterContainer">
+		<div id="filterPadding">
 		<div ng-controller="FilterCtrl">
 			<form>
 				<md-progress-linear md-mode="indeterminate"
@@ -129,8 +130,9 @@
 				</div>
 			</form>
 		</div>
+			</div>
 	</div>
-	<div flex="100" flex-gt-md="66" flex-gt-lg="75" ng-controller="MapCtrl"
+	<div flex-gt-md="66" flex-gt-lg="75" ng-controller="MapCtrl"
 		 ng-style="{'min-height': getMinMapHeight() + 'px'}" style="position: relative;">
 		<leaflet center="berlin" layers="layers" defaults="defaults" markers="data.markers"
 				 height="100%" width="100%" style="position: absolute"></leaflet>
