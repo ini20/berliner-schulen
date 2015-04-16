@@ -82,24 +82,26 @@
 <div ui-view="view1" autoscroll="false"></div>
 <div ui-view="view2" autoscroll="false"></div>
 
-<md-toolbar class="bgc-blue-grey-400">
-	<div class="md-toolbar-tools fs-subhead" layout="row" layout-align="center center">
-		<div class="pl+ pr+">
-			&copy; 2013-2015 <a href="http://ini20.de" title="Initiative 2.0">Initiative 2.0</a>
+
+<div class="fs-subhead bgc-blue-grey-400">
+	<div layout="column" layout-gt-md="row" layout-align="center center" class="tc-white-1">
+		<div class="p++" layout="row" layout-align="center center">
+			&copy; 2013-2015 <a href="http://ini20.de" title="Initiative 2.0" class="ml tc-white-1"> Initiative 2.0</a>
 		</div>
-		<div class="pl+ pr+">
+		<div class="p++" layout="row" layout-align="center center">
 			Daten Stand: 2015-02-21
 		</div>
-		<div class="pl+ pr+">
+		<div class="p++" layout="row" layout-align="center center">
 			<md-button href="http://www.berlin.de/sen/bildung/schulverzeichnis_und_portraets/anwendung/"
-					   title="Berliner Schulen | Berlin.de"><i class="mdi mdi-link"></i> Suchformular auf Berlin.de
+					   title="Berliner Schulen | Berlin.de"><i class="mdi mdi-link"></i>Suchformular auf Berlin.de
 			</md-button>
 		</div>
-		<div class="pl+ pr+">
+		<div class="p++" layout="row" layout-align="center center">
 			<md-button ui-sref="imprint">Impressum</md-button>
 		</div>
 	</div>
-</md-toolbar>
+
+</div>
 
 
 <!--[if lt IE 9]>
