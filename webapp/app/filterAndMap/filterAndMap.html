@@ -1,136 +1,140 @@
 <div layout="column" layout-gt-md="row">
 	<div flex-gt-md="33" flex-gt-lg="25" id="filterContainer">
 		<div id="filterPadding">
-		<div ng-controller="FilterCtrl">
-			<form>
-				<md-progress-linear md-mode="indeterminate"
-									ng-if="loading"></md-progress-linear>
+			<div ng-controller="FilterCtrl">
+				<form>
+					<md-progress-linear md-mode="indeterminate"
+										ng-if="loading"></md-progress-linear>
 
-				<div layout-md="row" layout-align-md="center center">
-				<div layout="row" flex="95" layout-align="end center" layout-fill>
-					<div flex>
-						<lx-text-field label="Schlagwort">
-							<input type="text" ng-model="searchFilter.main" ng-change="filter()">
+					<div layout-md="row" layout-align-md="center center">
+						<div layout="row" flex="95" layout-align="end center" layout-fill>
+							<div flex>
+								<lx-text-field label="Schlagwort">
+									<input type="text" ng-model="searchFilter.main" ng-change="filter()">
+								</lx-text-field>
+							</div>
+							<div>
+								<button class="btn btn--m btn--red btn--raised ml+ mt+" ng-click="resetFilter()"
+										lx-ripple>Zurücksetzen
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div layout-md="row" layout-align="space-around center">
+						<lx-text-field flex="45" label="Stra&#223;e">
+							<input type="text" ng-model="searchFilter.street" ng-change="filter()">
 						</lx-text-field>
+
+						<lx-select flex="45" ng-model="cbDistricts.selectedDistricts"
+								   change="cbDistricts.exec(newValue)"
+								   placeholder="Bezirk" choices="cbDistricts.districts"
+								   loading="{{ cbDistricts.loading }}" multiple floating-label>
+							<lx-select-selected>
+								{{ $selected.name }}
+							</lx-select-selected>
+
+							<lx-select-choices>
+								{{ $choice.name }}
+							</lx-select-choices>
+						</lx-select>
 					</div>
-					<div>
-						<button class="btn btn--m btn--red btn--raised ml+ mt+" ng-click="resetFilter()" lx-ripple>Zurücksetzen</button>
+
+					<div layout-md="row" layout-align="space-around center">
+						<lx-select flex="45" ng-model="cbSchooltypes.selectedTypes"
+								   change="cbSchooltypes.exec(newValue)"
+								   placeholder="Schulart" choices="cbSchooltypes.schooltypes"
+								   loading="{{ cbSchooltypes.loading }}" multiple floating-label>
+							<lx-select-selected>
+								{{ $selected.name }}
+							</lx-select-selected>
+
+							<lx-select-choices>
+								{{ $choice.name }}
+							</lx-select-choices>
+						</lx-select>
+
+						<lx-select flex="45" ng-model="cbLanguages.selectedLang" change="cbLanguages.exec(newValue)"
+								   placeholder="Fremdsprachen" choices="cbLanguages.languages"
+								   loading="{{ cbLanguages.loading }}" multiple floating-label>
+							<lx-select-selected>
+								{{ $selected.name }}
+							</lx-select-selected>
+
+							<lx-select-choices>
+								{{ $choice.name }}
+							</lx-select-choices>
+						</lx-select>
 					</div>
-				</div>
+
+					<div layout-md="row" layout-align="space-around center">
+						<lx-select flex="45" ng-model="cbSchoolSupporter.selectedSupporter"
+								   change="cbSchoolSupporter.exec(newValue)" placeholder="Schultr&auml;ger"
+								   choices="cbSchoolSupporter.supporter" loading="{{ cbSchoolSupporter.loading }}"
+								   multiple floating-label>
+							<lx-select-selected>
+								{{ $selected.name }}
+							</lx-select-selected>
+
+							<lx-select-choices>
+								{{ $choice.name }}
+							</lx-select-choices>
+						</lx-select>
+
+						<lx-select flex="45" ng-model="cbAccessibility.selectedAccessibilities"
+								   change="cbAccessibility.exec(newValue)" placeholder="Barrierefreiheit"
+								   choices="cbAccessibility.accessibilities" loading="{{ cbAccessibility.loading }}"
+								   multiple floating-label>
+							<lx-select-selected>
+								{{ $selected.name }}
+							</lx-select-selected>
+
+							<lx-select-choices>
+								{{ $choice.name }}
+							</lx-select-choices>
+						</lx-select>
 					</div>
 
-				<div layout-md="row" layout-align="space-around center">
-					<lx-text-field flex="45" label="Stra&#223;e">
-						<input type="text" ng-model="searchFilter.street" ng-change="filter()">
-					</lx-text-field>
+					<div layout-md="row" layout-align="space-around center">
+						<lx-select flex="45" ng-model="cbCourses.selectedCourses" change="cbCourses.exec(newValue)"
+								   placeholder="Leistungskurse" choices="cbCourses.courses"
+								   loading="{{ cbCourses.loading }}" multiple floating-label>
+							<lx-select-selected>
+								{{ $selected.name }}
+							</lx-select-selected>
 
-					<lx-select flex="45" ng-model="cbDistricts.selectedDistricts" change="cbDistricts.exec(newValue)"
-							   placeholder="Bezirk" choices="cbDistricts.districts"
-							   loading="{{ cbDistricts.loading }}" multiple floating-label>
-						<lx-select-selected>
-							{{ $selected.name }}
-						</lx-select-selected>
-
-						<lx-select-choices>
-							{{ $choice.name }}
-						</lx-select-choices>
-					</lx-select>
-				</div>
-
-				<div layout-md="row" layout-align="space-around center">
-					<lx-select flex="45" ng-model="cbSchooltypes.selectedTypes" change="cbSchooltypes.exec(newValue)"
-							   placeholder="Schulart" choices="cbSchooltypes.schooltypes"
-							   loading="{{ cbSchooltypes.loading }}" multiple floating-label>
-						<lx-select-selected>
-							{{ $selected.name }}
-						</lx-select-selected>
-
-						<lx-select-choices>
-							{{ $choice.name }}
-						</lx-select-choices>
-					</lx-select>
-
-					<lx-select flex="45" ng-model="cbLanguages.selectedLang" change="cbLanguages.exec(newValue)"
-							   placeholder="Fremdsprachen" choices="cbLanguages.languages"
-							   loading="{{ cbLanguages.loading }}" multiple floating-label>
-						<lx-select-selected>
-							{{ $selected.name }}
-						</lx-select-selected>
-
-						<lx-select-choices>
-							{{ $choice.name }}
-						</lx-select-choices>
-					</lx-select>
-				</div>
-
-				<div layout-md="row" layout-align="space-around center">
-					<lx-select flex="45" ng-model="cbSchoolSupporter.selectedSupporter"
-							   change="cbSchoolSupporter.exec(newValue)" placeholder="Schultr&auml;ger"
-							   choices="cbSchoolSupporter.supporter" loading="{{ cbSchoolSupporter.loading }}"
-							   multiple floating-label>
-						<lx-select-selected>
-							{{ $selected.name }}
-						</lx-select-selected>
-
-						<lx-select-choices>
-							{{ $choice.name }}
-						</lx-select-choices>
-					</lx-select>
-
-					<lx-select flex="45" ng-model="cbAccessibility.selectedAccessibilities"
-							   change="cbAccessibility.exec(newValue)" placeholder="Barrierefreiheit"
-							   choices="cbAccessibility.accessibilities" loading="{{ cbAccessibility.loading }}"
-							   multiple floating-label>
-						<lx-select-selected>
-							{{ $selected.name }}
-						</lx-select-selected>
-
-						<lx-select-choices>
-							{{ $choice.name }}
-						</lx-select-choices>
-					</lx-select>
-				</div>
-
-				<div layout-md="row" layout-align="space-around center">
-					<lx-select flex="45" ng-model="cbCourses.selectedCourses" change="cbCourses.exec(newValue)"
-							   placeholder="Leistungskurse" choices="cbCourses.courses"
-							   loading="{{ cbCourses.loading }}" multiple floating-label>
-						<lx-select-selected>
-							{{ $selected.name }}
-						</lx-select-selected>
-
-						<lx-select-choices>
-							{{ $choice.name }}
-						</lx-select-choices>
-					</lx-select>
-					<div flex="45" class="switch mt++">
-						<input type="checkbox" id="dualesLernen" class="switch__input" ng-model="searchFilter.dual"
-							   ng-change="filter()">
-						<label for="dualesLernen" class="switch__label">Duales Lernen</label>
+							<lx-select-choices>
+								{{ $choice.name }}
+							</lx-select-choices>
+						</lx-select>
+						<div flex="45" class="switch mt++">
+							<input type="checkbox" id="dualesLernen" class="switch__input" ng-model="searchFilter.dual"
+								   ng-change="filter()">
+							<label for="dualesLernen" class="switch__label">Duales Lernen</label>
 							<span
 								class="switch__help">Nur Schulen anzeigen, die eine Art des dualen Lernens anbieten</span>
-					</div>
-				</div>
-
-				<div layout-md="row" layout-align="space-around center">
-					<div flex="45" class="switch mt++">
-						<input type="checkbox" id="ganztagsbetrieb" class="switch__input"
-							   ng-model="searchFilter.allDayCare" ng-change="filter()">
-						<label for="ganztagsbetrieb" class="switch__label">Ganztagsbetrieb</label>
-						<span class="switch__help">Nur Schulen anzeigen, die Ganztagsbetrieb anbieten.</span>
+						</div>
 					</div>
 
+					<div layout-md="row" layout-align="space-around center">
+						<div flex="45" class="switch mt++">
+							<input type="checkbox" id="ganztagsbetrieb" class="switch__input"
+								   ng-model="searchFilter.allDayCare" ng-change="filter()">
+							<label for="ganztagsbetrieb" class="switch__label">Ganztagsbetrieb</label>
+							<span class="switch__help">Nur Schulen anzeigen, die Ganztagsbetrieb anbieten.</span>
+						</div>
 
-					<div flex="45" class="switch mt++">
-						<input type="checkbox" id="zweiterBildungsweg" class="switch__input"
-							   ng-model="searchFilter.secEdu" ng-change="filter()">
-						<label for="zweiterBildungsweg" class="switch__label">zweiter Bildungsweg</label>
-						<span class="switch__help">Schulen mit zweiten Bildungsweg</span>
+
+						<div flex="45" class="switch mt++">
+							<input type="checkbox" id="zweiterBildungsweg" class="switch__input"
+								   ng-model="searchFilter.secEdu" ng-change="filter()">
+							<label for="zweiterBildungsweg" class="switch__label">zweiter Bildungsweg</label>
+							<span class="switch__help">Schulen mit zweiten Bildungsweg</span>
+						</div>
 					</div>
-				</div>
-			</form>
-		</div>
+				</form>
 			</div>
+		</div>
 	</div>
 	<div flex-gt-md="66" flex-gt-lg="75" ng-controller="MapCtrl"
 		 ng-style="{'min-height': getMinMapHeight() + 'px'}" style="position: relative;">
