@@ -70,7 +70,11 @@ i {
 
 #filterContainer {
 	z-index: 5;
-	box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+	box-shadow: 0 1px 5px rgba(0,0,0,.3);
+}
+
+#filterPadding{
+	padding: 8px;
 	padding-left: 20px;
 	padding-right: 20px;
 }
