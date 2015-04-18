@@ -19,7 +19,7 @@ angular.module('berlinerSchulenApp')
 				secEdu: false,
 			};
 
-			$scope.showFilter = true;
+			$scope.showFilter = false;
 			$scope.loading = false;
 
 			$scope.filter = function () {
@@ -251,7 +251,7 @@ angular.module('berlinerSchulenApp')
 				$scope.showFilter = ( $scope.showFilter === true ) ? false : true;
 			};
 
-			this.setFilter = function( filter ) {
+			this.setSearchFilter = function( filter ) {
 				$scope.searchFilter = filter;
 
 				$scope.cbDistricts.selectedDistricts = filter.districts;
@@ -266,7 +266,7 @@ angular.module('berlinerSchulenApp')
 			this.runFilter = function () {
 				// First catch filter from factory and set it to
 				// old value
-				this.setFilter(schoolFactory.getFilter());
+				this.setSearchFilter(schoolFactory.getFilter());
 
 				if (schoolFactory.hasData()) {
 					// Get Select Box Choices
@@ -295,6 +295,7 @@ angular.module('berlinerSchulenApp')
 					$scope.cbSchooltypes.addCallback();
 					// else set the filter and wait. The schoolFactory will load
 					// the data and then apply the filter
+
 					schoolFactory.setFilter($scope.searchFilter);
 				}
 			};
