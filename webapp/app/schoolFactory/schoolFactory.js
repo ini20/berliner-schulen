@@ -17,14 +17,14 @@ angular.module('berlinerSchulenApp')
 					main: '',
 					street: '',
 					districts: [],
+					schooltypes: [],
 					supporter: [],
-					allDayCare: false,
-					secEdu: false,
-					dual: false,
 					languages: [],
 					accessibilities: [],
 					courses: [],
-					schooltypes: []
+					allDayCare: false,
+					dual: false,
+					secEdu: false,
 				};
 			};
 
@@ -97,6 +97,10 @@ angular.module('berlinerSchulenApp')
 				}
 
 				return schools;
+			};
+
+			schools.getFilter = function () {
+				return filter;
 			};
 
 			/**

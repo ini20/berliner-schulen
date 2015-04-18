@@ -6,7 +6,7 @@ angular.module('berlinerSchulenApp')
 
 			// Initialize Filter in Front-End
 			$scope.searchFilter = {
-				main: 'Tech',
+				main: '',
 				street: '',
 				districts: [],
 				schooltypes: [],
@@ -19,7 +19,7 @@ angular.module('berlinerSchulenApp')
 				secEdu: false,
 			};
 
-			$scope.showFilter = false;
+			$scope.showFilter = true;
 			$scope.loading = false;
 
 			$scope.filter = function () {
@@ -251,8 +251,23 @@ angular.module('berlinerSchulenApp')
 				$scope.showFilter = ( $scope.showFilter === true ) ? false : true;
 			};
 
+			this.setFilter = function( filter ) {
+				$scope.searchFilter = filter;
+
+				$scope.cbDistricts.selectedDistricts = filter.districts;
+				$scope.cbSchooltypes.selectedTypes = filter.schooltypes;
+				$scope.cbSchoolSupporter.selectedSupporter = filter.supporter;
+				$scope.cbLanguages.selectedLang = filter.languages;
+				$scope.cbAccessibility.selectedAccessibilities = filter.accessibilities;
+				$scope.cbCourses.selectedCourses = filter.courses;
+			};
+
 
 			this.runFilter = function () {
+				// First catch filter from factory and set it to
+				// old value
+				this.setFilter(schoolFactory.getFilter());
+
 				if (schoolFactory.hasData()) {
 					// Get Select Box Choices
 					var set = schoolFactory.getChoiceByName('Region');
