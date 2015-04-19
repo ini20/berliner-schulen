@@ -3,12 +3,19 @@ body {
 	min-height: 100%;
 }
 
+a {
+	color: black;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
 .center {
 	text-align: center;
 }
 
 #schoolCard {
-	width: 60%;
 	max-width: 800px;
 
 	div .card__img {
@@ -24,14 +31,18 @@ body {
 }
 
 #imprint_card {
-	width: 100%;
-	max-width: 600px;
+	//width: 100%;
+	//max-width: 600px;
 }
 
 /** ============ */
 
 a {
 	text-decoration: none;
+}
+
+.center {
+	text-align: center;
 }
 
 .img-table {
