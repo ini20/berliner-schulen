@@ -11,20 +11,21 @@ angular.module('berlinerSchulenApp')
 			var schoolCallback = [];
 			var runFilterCallback = [];
 			var selectChoices = {};
+			var firstRun = true;
 
 			schools.initFilter = function () {
 				return {
 					main: '',
 					street: '',
 					districts: [],
+					schooltypes: [],
 					supporter: [],
-					allDayCare: false,
-					secEdu: false,
-					dual: false,
 					languages: [],
 					accessibilities: [],
 					courses: [],
-					schooltypes: []
+					allDayCare: false,
+					dual: false,
+					secEdu: false,
 				};
 			};
 
@@ -40,6 +41,15 @@ angular.module('berlinerSchulenApp')
 				runFilterCallback.push(cb);
 			};
 
+
+			schools.setFirstRun = function(val) {
+				firstRun = val;
+			};
+
+			schools.isFirstRun = function() {
+				return firstRun;
+			};
+
 			/**
 			 * set new filter properties but do not apply filter
 			 * @param Obj filterProp new filter properties
@@ -50,7 +60,12 @@ angular.module('berlinerSchulenApp')
 				for (var field in filterProp) {
 					switch (field) {
 						case 'main':
-							filter.main = filterProp.main.toLowerCase();
+							if( schools.isFirstRun() ) {
+								filter.main = 'tech';
+								schools.setFirstRun( false );
+							} else {
+								filter.main = filterProp.main.toLowerCase();
+							}
 							break;
 
 						case 'street':
@@ -97,6 +112,15 @@ angular.module('berlinerSchulenApp')
 				}
 
 				return schools;
+			};
+
+			schools.getFilter = function () {
+				// Create a copy of filter otherwise the filter object in this
+				// factory and the searchFilter object in the FilterCtrl are
+				// linked and this is not wanted because the first search
+				// run should search for "tech" but the word should not be
+				// displayed in the frontend
+				return angular.copy(filter);
 			};
 
 			/**
@@ -272,6 +296,9 @@ angular.module('berlinerSchulenApp')
 					return null;
 				}
 
+				if( schools.isFirstRun() ) {
+					schools.setFirstRun(false);
+				}
 				return schools;
 			};
 
