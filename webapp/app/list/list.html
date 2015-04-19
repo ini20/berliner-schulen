@@ -53,7 +53,7 @@
 	<div class="divider divider--dark mt+ mb+"></div>
 	<div layout="row" layout-align="center center" class="m+">
 		<button class="mr btn btn--m btn--blue btn--fab bgc-blue-600" lx-ripple ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"><i class="mdi mdi-minus"></i></button>
-		<label class="fs-title" style="height: 100%;">Seite {{currentPage+1}} von {{numberOfPages()}}</label>
+		<label class="fs-title">Seite {{currentPage+1}} von {{numberOfPages()}}</label>
 		<button class="ml btn btn--m btn--blue btn--fab bgc-blue-600" lx-ripple ng-disabled="currentPage >= schools.length / pageSize - 1" ng-click="currentPage=currentPage+1"><i class="mdi mdi-plus"></i></button>
 	</div>
 </div>
