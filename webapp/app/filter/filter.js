@@ -16,7 +16,7 @@ angular.module('berlinerSchulenApp')
 				courses: [],
 				allDayCare: false,
 				dual: false,
-				secEdu: false,
+				secEdu: false
 			};
 
 			$scope.showFilter = false;
@@ -52,7 +52,7 @@ angular.module('berlinerSchulenApp')
 					courses: [],
 					allDayCare: false,
 					dual: false,
-					secEdu: false,
+					secEdu: false
 				};
 				$scope.filter();
 			};
