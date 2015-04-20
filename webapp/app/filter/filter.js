@@ -19,7 +19,6 @@ angular.module('berlinerSchulenApp')
 				secEdu: false
 			};
 
-			$scope.showFilter = false;
 			$scope.loading = false;
 
 			$scope.filter = function () {
@@ -245,10 +244,6 @@ angular.module('berlinerSchulenApp')
 
 					schoolFactory.addFilterCallback('Leistungskurse', this.populate);
 				}
-			};
-
-			$scope.toogleFilter = function () {
-				$scope.showFilter = ( $scope.showFilter === true ) ? false : true;
 			};
 
 			this.setSearchFilter = function( filter ) {
