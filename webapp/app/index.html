@@ -48,6 +48,11 @@
 				<md-button href="https://github.com/ini20/berliner-schulen/" class="mr+">
 					<i class="mdi mdi-github-circle"></i> GitHub
 				</md-button>
+				<md-button ng-controller="AboutCtrl" class="mr+" ng-click="opendDialog('about')">
+					<i class="mdi mdi-information-outline"></i> &Uuml;ber Uns
+				</md-button>
+				<!-- Load Dialog Box from Template -->
+				<ng-include src="'about/about-dialog.html'"></ng-include>
 		</div>
 	</md-toolbar>
 
