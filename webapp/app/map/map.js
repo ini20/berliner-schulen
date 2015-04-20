@@ -43,6 +43,16 @@ angular.module('berlinerSchulenApp')
 					}
 				}
 			},
+			events: {
+				map: {
+					enable: [],
+					logic: 'emit'
+				},
+				marker: {
+					enable: [],
+					logic: 'emit'
+				}
+			},
 			berlin: {
 				lat: 52.5153601,
 				lng: 13.3833154,
@@ -100,7 +110,7 @@ angular.module('berlinerSchulenApp')
 				return n === +n && n !== (n | 0);
 			}
 
-			$scope.data.markers = {};
+			var tempMarkers = {};
 
 			for (var i = 0; i < schools.length; i++) {
 
@@ -158,8 +168,9 @@ angular.module('berlinerSchulenApp')
 							marker.icon = $scope.icons.bluegrey_icon;
 							break;
 					}
-					$scope.data.markers[schools[i].bsn] = marker;
+					tempMarkers[schools[i].bsn] = marker;
 				}
+				$scope.data.markers = tempMarkers;
 			}
 		});
 		$scope.$on('destroy', updateSchools);
