@@ -4,7 +4,7 @@ body {
 }
 
 a {
-	color: black;
+	text-decoration: none;
 }
 
 a:hover {
@@ -30,15 +30,8 @@ a:hover {
 	}
 }
 
-#imprint_card {
-	//width: 100%;
-	//max-width: 600px;
-}
-
-/** ============ */
-
-a {
-	text-decoration: none;
+#eMailLink {
+	color: black;
 }
 
 .center {
