@@ -110,7 +110,7 @@ angular.module('berlinerSchulenApp')
 				return n === +n && n !== (n | 0);
 			}
 
-			var tempMarkers = {};
+			$scope.data.markers = {};
 
 			for (var i = 0; i < schools.length; i++) {
 
@@ -168,9 +168,8 @@ angular.module('berlinerSchulenApp')
 							marker.icon = $scope.icons.bluegrey_icon;
 							break;
 					}
-					tempMarkers[schools[i].bsn] = marker;
+					$scope.data.markers[schools[i].bsn] = marker;
 				}
-				$scope.data.markers = tempMarkers;
 			}
 		});
 		$scope.$on('destroy', updateSchools);
