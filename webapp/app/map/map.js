@@ -110,6 +110,7 @@ angular.module('berlinerSchulenApp')
 				return n === +n && n !== (n | 0);
 			}
 
+//bla
 			$scope.data.markers = {};
 
 			for (var i = 0; i < schools.length; i++) {
