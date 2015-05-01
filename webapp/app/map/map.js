@@ -43,6 +43,16 @@ angular.module('berlinerSchulenApp')
 					}
 				}
 			},
+			events: {
+				map: {
+					enable: [],
+					logic: 'emit'
+				},
+				marker: {
+					enable: [],
+					logic: 'emit'
+				}
+			},
 			berlin: {
 				lat: 52.5153601,
 				lng: 13.3833154,
@@ -99,7 +109,6 @@ angular.module('berlinerSchulenApp')
 			function isFloat(n) {
 				return n === +n && n !== (n | 0);
 			}
-
 			$scope.data.markers = {};
 
 			for (var i = 0; i < schools.length; i++) {
