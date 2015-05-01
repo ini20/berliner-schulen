@@ -52,6 +52,9 @@
 			<md-button href="https://github.com/ini20/berliner-schulen/" class="mr+">
 				<i class="mdi mdi-github-circle"></i> GitHub
 			</md-button>
+			<md-button ng-controller="AboutCtrl" ng-click="opendDialog('about')" class="mr+">
+				<i class="mdi mdi-information-outline"></i> &Uuml;ber Uns
+			</md-button>
 		</div>
 		<div hide-gt-md layout="row" layout-align="center center">
 			<lx-dropdown position="right" from-top>
@@ -76,8 +79,6 @@
 							<a class="dropdown-link mt" ng-click="opendDialog('about')">
 								<i class="mdi mdi-information-outline"></i> &Uuml;ber Uns
 							</a>
-							<!-- Load Dialog Box from Template -->
-							<ng-include src="'about/about-dialog.html'"></ng-include>
 						</li>
 					</ul>
 				</lx-dropdown-menu>
@@ -85,6 +86,10 @@
 			<span class="mr" hide-sm></span>
 		</div>
 	</div>
+
+	<!-- Load Dialog Box from Template -->
+	<ng-include src="'about/about-dialog.html'"></ng-include>
+
 </md-toolbar>
 
 <div ui-view="view1" autoscroll="false"></div>
