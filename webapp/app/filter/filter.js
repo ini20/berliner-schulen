@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.controller('FilterCtrl', ['$scope', '$timeout', '$mdSidenav', 'schoolFactory',
-		function ($scope, $timeout, $mdSidenav, schoolFactory) {
+	.controller('FilterCtrl', ['$scope', '$timeout', '$mdSidenav', 'schoolFactory', '$filter',
+		function ($scope, $timeout, $mdSidenav, schoolFactory, $filter) {
 
+			var orderBy = $filter('orderBy');
 			// Initialize Filter in Front-End
 			$scope.searchFilter = {
 				main: '',
@@ -73,7 +74,7 @@ angular.module('berlinerSchulenApp')
 					for (var s in set) {
 						list.push({name: set[s]});
 					}
-					$scope.cbDistricts.districts = list;
+					$scope.cbDistricts.districts = orderBy(list, 'name', false);					
 					$scope.cbDistricts.loading = false;
 				},
 
@@ -101,7 +102,7 @@ angular.module('berlinerSchulenApp')
 					for (var s in set) {
 						list.push({name: set[s]});
 					}
-					$scope.cbSchooltypes.schooltypes = list;
+					$scope.cbSchooltypes.schooltypes = orderBy(list, 'name', false);
 					$scope.cbSchooltypes.loading = false;
 				},
 
@@ -129,7 +130,7 @@ angular.module('berlinerSchulenApp')
 					for (var s in set) {
 						list.push({name: set[s]});
 					}
-					$scope.cbSchoolSupporter.supporter = list;
+					$scope.cbSchoolSupporter.supporter = orderBy(list, 'name', false);
 					$scope.cbSchoolSupporter.loading = false;
 				},
 
@@ -142,11 +143,11 @@ angular.module('berlinerSchulenApp')
 
 			$scope.cbLanguages = {
 				languages: [
-					{name: 'Griechisch'},
 					{name: 'Arabisch'},
 					{name: 'Chinesisch'},
 					{name: 'Englisch'},
 					{name: 'Französisch'},
+					{name: 'Griechisch'},
 					{name: 'Hebräisch'},
 					{name: 'Italienisch'},
 					{name: 'Japanisch'},
@@ -173,7 +174,7 @@ angular.module('berlinerSchulenApp')
 					for (var s in set) {
 						list.push({name: set[s]});
 					}
-					$scope.cbLanguages.languages = list;
+					$scope.cbLanguages.languages = orderBy(list, 'name', false);
 					$scope.cbLanguages.loading = false;
 				},
 
@@ -204,7 +205,7 @@ angular.module('berlinerSchulenApp')
 						}
 					}
 
-					$scope.cbAccessibility.accessibilities = list;
+					$scope.cbAccessibility.accessibilities = orderBy(list, 'name', false);
 					$scope.cbAccessibility.loading = false;
 				},
 
@@ -235,7 +236,7 @@ angular.module('berlinerSchulenApp')
 						}
 					}
 
-					$scope.cbCourses.courses = list;
+					$scope.cbCourses.courses = orderBy(list, 'name', false);
 					$scope.cbCourses.loading = false;
 				},
 
