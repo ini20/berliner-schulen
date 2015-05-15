@@ -1,0 +1,48 @@
+<lx-dialog class="dialog dialog--l" id="about" onclose="closingDialog()">
+	<div class="dialog__header">
+		<!--<div class="toolbar bgc-light-blue-500 pl++">-->
+			<div class="toolbar bgc-indigo-500 pl++">
+			<span class="toolbar__label tc-white fs-title">
+				Über das Projekt
+			</span>
+
+			<div class="toolbar__right">
+				<button class="btn btn--l btn--white btn--icon" lx-ripple lx-dialog-close>
+					<i class="mdi mdi-close"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="dialog__content">
+		<lx-tabs links-tc="light" links-bgc="indigo-500" indicator="amber-500" no-divider="true">
+			<lx-tab heading="Hintergrund">
+				<div class="p++">
+					<p class="mb+">Wir wissen, dass die Wahl der <em>richtigen</em> Schule sehr wichtig ist, da sie ein prägendes Fundament für den Bildungsweg eines Menschen setzt. Entsprechend schwierig ist es auch eine Schule zu finden, die den Bedürfnissen eines Schülers gerecht wird und seine Kompetenzen zum Ausdruck bringt und fördert.</p>
+
+					<p class="mb+">Diese Webseite soll Deine Suche unterstützen und Dir einen Überblick über das Angebot aller aufgelisteten Schulen in Berlin geben. Du findest private und staatliche Schulen in deiner Nähe oder wo du willst, von Grund- bis Berufsschule. Nutze einfach die Such- und Filterfunktion und finde die wichtigsten Informationen und die passende Schule für Dich oder Dein Kind.</p>
+
+					<p class="mb+">Erstellt und umgesetzt wurde diese Karte von Studenten der TU Berlin. Im Rahmen des <a href="http://ini20.de/">Projektverbunds Initiative 2.0</a> haben mehrere Teams drei Semester lang daran gearbeitet, die Berliner Schuldaten aufzuarbeiten und für alle Menschen öffentlich und einfach zugänglich zu machen.</p>
+
+					<p class="mb+">Ein herzlicher Dank geht an den Berliner Senat für <a href="http://www.berlin.de/sen/bjw/">Bildung, Jugend und Wissenschaft</a>, der uns die Daten freundlicherweise zur Verfügung gestellt hat.</p>
+				</div>
+			</lx-tab>
+
+			<lx-tab heading="Feedback">
+				<div class="p++">
+					<p class="mb+">Wenn Sie Anmerkungen zu dem Projekt haben, könne Sie uns einfach eine E-Mail schreiben. Lob und Kritik sind immer gerne gesehen:</p>
+
+					<div class="center">
+						<md-button href="mailto:team@ini20.de?Subject=[Berliner Schulen] Feedback" class="mr+ md-raised md-primary" aria-lable="E-Mail Senden">
+							<i class="mdi mdi-email"></i> Feedback Senden
+						</md-button>
+					</div>
+				</div>
+			</lx-tab>
+		</lx-tabs>
+	</div>
+
+	<div class="dialog__actions">
+		<button class="btn btn--m btn--black btn--flat" lx-ripple lx-dialog-close>Schlie&#223;en</button>
+	</div>
+</lx-dialog>
