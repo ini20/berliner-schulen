@@ -15,7 +15,9 @@ angular.module('berlinerSchulenApp')
 			defaults: {
 				// tileLayer: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
 				maxZoom: 17,
-				scrollWheelZoom: false
+				scrollWheelZoom: false,
+				zoomControl: true,
+				zoomControlPosition: 'topright'
 			},
 			layers: {
 				baselayers: {
@@ -39,6 +41,16 @@ angular.module('berlinerSchulenApp')
 						type: 'markercluster',
 						visible: true
 					}
+				}
+			},
+			events: {
+				map: {
+					enable: [],
+					logic: 'emit'
+				},
+				marker: {
+					enable: [],
+					logic: 'emit'
 				}
 			},
 			berlin: {
@@ -97,7 +109,6 @@ angular.module('berlinerSchulenApp')
 			function isFloat(n) {
 				return n === +n && n !== (n | 0);
 			}
-
 			$scope.data.markers = {};
 
 			for (var i = 0; i < schools.length; i++) {
@@ -169,7 +180,7 @@ angular.module('berlinerSchulenApp')
 		var w = angular.element($window);
 		var cachedHeight = -1;
 
-		$scope.getWindowHeight = function () {
+		$scope.getMinMapHeight = function () {
 			if (cachedHeight === -1) {
 				cachedHeight = w.height() * 0.7;
 			}
