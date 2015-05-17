@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('berlinerSchulenApp')
-	.controller('FilterCtrl', ['$scope', '$timeout', '$mdSidenav', 'schoolFactory',
-		function ($scope, $timeout, $mdSidenav, schoolFactory) {
+	.controller('FilterCtrl', ['$scope', '$timeout', '$mdSidenav', 'schoolFactory', '$filter',
+		function ($scope, $timeout, $mdSidenav, schoolFactory, $filter) {
 
+			var orderBy = $filter('orderBy');
 			// Initialize Filter in Front-End
 			$scope.searchFilter = {
-				main: 'Tech',
+				main: '',
 				street: '',
 				districts: [],
 				schooltypes: [],
@@ -16,10 +17,9 @@ angular.module('berlinerSchulenApp')
 				courses: [],
 				allDayCare: false,
 				dual: false,
-				secEdu: false,
+				secEdu: false
 			};
 
-			$scope.showFilter = false;
 			$scope.loading = false;
 
 			$scope.filter = function () {
@@ -52,7 +52,7 @@ angular.module('berlinerSchulenApp')
 					courses: [],
 					allDayCare: false,
 					dual: false,
-					secEdu: false,
+					secEdu: false
 				};
 				$scope.filter();
 			};
@@ -74,7 +74,7 @@ angular.module('berlinerSchulenApp')
 					for (var s in set) {
 						list.push({name: set[s]});
 					}
-					$scope.cbDistricts.districts = list;
+					$scope.cbDistricts.districts = orderBy(list, 'name', false);					
 					$scope.cbDistricts.loading = false;
 				},
 
@@ -102,7 +102,7 @@ angular.module('berlinerSchulenApp')
 					for (var s in set) {
 						list.push({name: set[s]});
 					}
-					$scope.cbSchooltypes.schooltypes = list;
+					$scope.cbSchooltypes.schooltypes = orderBy(list, 'name', false);
 					$scope.cbSchooltypes.loading = false;
 				},
 
@@ -130,7 +130,7 @@ angular.module('berlinerSchulenApp')
 					for (var s in set) {
 						list.push({name: set[s]});
 					}
-					$scope.cbSchoolSupporter.supporter = list;
+					$scope.cbSchoolSupporter.supporter = orderBy(list, 'name', false);
 					$scope.cbSchoolSupporter.loading = false;
 				},
 
@@ -143,11 +143,11 @@ angular.module('berlinerSchulenApp')
 
 			$scope.cbLanguages = {
 				languages: [
-					{name: 'Griechisch'},
 					{name: 'Arabisch'},
 					{name: 'Chinesisch'},
 					{name: 'Englisch'},
 					{name: 'Französisch'},
+					{name: 'Griechisch'},
 					{name: 'Hebräisch'},
 					{name: 'Italienisch'},
 					{name: 'Japanisch'},
@@ -174,7 +174,7 @@ angular.module('berlinerSchulenApp')
 					for (var s in set) {
 						list.push({name: set[s]});
 					}
-					$scope.cbLanguages.languages = list;
+					$scope.cbLanguages.languages = orderBy(list, 'name', false);
 					$scope.cbLanguages.loading = false;
 				},
 
@@ -205,7 +205,7 @@ angular.module('berlinerSchulenApp')
 						}
 					}
 
-					$scope.cbAccessibility.accessibilities = list;
+					$scope.cbAccessibility.accessibilities = orderBy(list, 'name', false);
 					$scope.cbAccessibility.loading = false;
 				},
 
@@ -236,7 +236,7 @@ angular.module('berlinerSchulenApp')
 						}
 					}
 
-					$scope.cbCourses.courses = list;
+					$scope.cbCourses.courses = orderBy(list, 'name', false);
 					$scope.cbCourses.loading = false;
 				},
 
@@ -247,12 +247,23 @@ angular.module('berlinerSchulenApp')
 				}
 			};
 
-			$scope.toogleFilter = function () {
-				$scope.showFilter = ( $scope.showFilter === true ) ? false : true;
+			this.setSearchFilter = function( filter ) {
+				$scope.searchFilter = filter;
+
+				$scope.cbDistricts.selectedDistricts = filter.districts;
+				$scope.cbSchooltypes.selectedTypes = filter.schooltypes;
+				$scope.cbSchoolSupporter.selectedSupporter = filter.supporter;
+				$scope.cbLanguages.selectedLang = filter.languages;
+				$scope.cbAccessibility.selectedAccessibilities = filter.accessibilities;
+				$scope.cbCourses.selectedCourses = filter.courses;
 			};
 
 
 			this.runFilter = function () {
+				// First catch filter from factory and set it to
+				// old value
+				this.setSearchFilter(schoolFactory.getFilter());
+
 				if (schoolFactory.hasData()) {
 					// Get Select Box Choices
 					var set = schoolFactory.getChoiceByName('Region');
@@ -280,6 +291,7 @@ angular.module('berlinerSchulenApp')
 					$scope.cbSchooltypes.addCallback();
 					// else set the filter and wait. The schoolFactory will load
 					// the data and then apply the filter
+
 					schoolFactory.setFilter($scope.searchFilter);
 				}
 			};

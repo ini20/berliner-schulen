@@ -17,14 +17,9 @@ angular.module('berlinerSchulenApp')
 			url: '/',
 			views: {
 				'view1': {
-					controller: 'FilterCtrl',
-					templateUrl: 'filter/filter.html'
+					templateUrl: 'filterAndMap/filterAndMap.html'
 				},
 				'view2': {
-					controller: 'MapCtrl',
-					templateUrl: 'map/map.html'
-				},
-				'view3': {
 					controller: 'ListCtrl',
 					templateUrl: 'list/list.html'
 				}

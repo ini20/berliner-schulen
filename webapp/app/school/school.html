@@ -1,123 +1,130 @@
-<div layout="row" layout-align="center center" flex-gutter="24" ng-if="loaded">
-	<div class="card mt+ mb+" id="schoolCard">
+<div layout="row" layout-align="center center" layout-margin ng-if="loaded">
+	<div hide-sm flex-md="10" flex-gt-md="15"></div>
+	<div class="card mb+" id="schoolCard">
 		<div>
 			<div class="card__img">
 				<leaflet center="berlin" defaults="defaults" markers="data.markers" ng-if="school.lat > 0"></leaflet>
-				<div class="center mb+ fs-display-4" ng-if="school.lat === undefined">
+				<div class="mb+ fs-display-4" ng-if="school.lat === undefined">
 					<i class="mdi mdi-map-marker-off"></i>
 				</div>
-
-				<!-- <img src="http://lorempixel.com/500/200"> -->
 			</div>
 
-			<div flex-item>
+			<div>
 				<div class="p+ center">
 					<strong class="fs-headline display-block">{{ school.Schulname }}</strong>
-					<span class="fs-subhead tc-black-2 display-block">{{ school.Schulart }} ({{ school.Schultraeger }})</span>
+					<span
+						class="fs-subhead tc-black-2 display-block">{{ school.Schulart }} ({{ school.Schultraeger }})</span>
 				</div>
 			</div>
 
-			<div flex-item flex-container="row">
-				<div flex-item flex-container="column">
+			<div layout="column" layout-gt-md="row">
+				<div flex-gt-md="50" layout="column" layout-padding>
 
-					<div class="m+">
-						<form>
-							<lx-text-field label="Schulleitung" fixed-label="true" icon="account">
-								<input type="text" ng-model="school.Schulleitung" ng-disabled="true">
-							</lx-text-field>
-
-							<lx-text-field label="Telefon" fixed-label="true" icon="phone">
-								<input type="text" ng-model="school.Telefon" ng-disabled="true">
-							</lx-text-field>
-
-							<lx-text-field label="E-Mail Adresse" fixed-label="true" icon="email">
-								<input type="email" ng-model="school.eMail" ng-disabled="true">
-							</lx-text-field>
-
-							<lx-text-field label="Adresse" fixed-label="true" icon="city">
-								<input type="text" ng-model="school.Adresse" ng-disabled="true">
-							</lx-text-field>
-						</form>
-					</div>
-
-					<div class="m+"  flex-item ng-if="school.Bauten.length > 0">
-						<span class="fs-title display-block mb">Barrierefreiheit</span>
-
-						<div class="divider divider--dark"></div>
-
-						<ul class="list" ng-repeat="acc in school.Bauten">
+					<div layout-padding>
+						<ul class="list mt+">
 							<li class="list-row list-row--has-separator">
+								<div class="list-row__primary">
+									<i class="icon icon--m icon--flat icon--grey mdi mdi-account"></i>
+								</div>
+								<div class="list-row__content">
+									<label class="display-block">{{ school.Schulleitung }}</label>
+								</div>
+							</li>
+							<li class="list-row list-row--has-separator">
+								<div class="list-row__primary">
+									<i class="icon icon--m icon--flat icon--grey mdi mdi-phone"></i>
+								</div>
+								<div class="list-row__content">
+									<label class="display-block">{{ school.Telefon }}</label>
+								</div>
+							</li>
+							<li class="list-row list-row--has-separator">
+								<div class="list-row__primary">
+									<i class="icon icon--m icon--flat icon--grey mdi mdi-email"></i>
+								</div>
+								<div class="list-row__content">
+									<a id="eMailLink" href="mailto:{{ school.eMail }}">
+										<label class="display-block">{{ school.eMail }}</label></a>
+								</div>
+							</li>
+							<li class="list-row list-row--has-separator">
+								<div class="list-row__primary">
+									<i class="icon icon--m icon--flat icon--grey mdi mdi-city"></i>
+								</div>
+								<div class="list-row__content">
+									<label class="display-block">{{ school.Adresse }}</label>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<!-- end of general info-->
+
+					<div ng-if="school.Bauten.length > 0" layout-padding>
+						<span class="fs-title display-block mt++">Barrierefreiheit</span>
+
+						<div class="divider divider--dark mb+"></div>
+						<ul class="list mt" ng-repeat="acc in school.Bauten">
+							<li class="list-row">
 								<span>{{ acc }}</span>
 							</li>
 						</ul>
+					</div>
+					<div ng-if="school.Leistungskurse.length > 0" layout-padding>
+						<span class="fs-title display-block mt++">Leistungskurse</span>
 
+						<div class="divider divider--dark mb+"></div>
+						<ul class="list" ng-repeat="course in school.Leistungskurse">
+							<li class="list-row">
+								<span>{{ course }}</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- end of first column-->
+
+				<div flex-gt-md="50" layout="column" layout-padding>
+					<div ng-if="school.Fremdsprachen.length > 0" layout-padding>
+						<span class="fs-title display-block mt++">Fremdsprachen</span>
+
+						<div class="divider divider--dark mb+"></div>
+						<ul class="list" ng-repeat="lang in school.Fremdsprachen">
+							<li class="list-row">
+								<span>{{ lang }}</span>
+							</li>
+						</ul>
+					</div>
+					<div ng-if="school.spez_Angebote.length > 0" layout-padding>
+						<span class="fs-title display-block mt++">Spezielle Angebote</span>
+
+						<div class="divider divider--dark mb+"></div>
+						<div class="list-row">{{ school.spez_Angebote }}</div>
+					</div>
+					<div ng-if="school.BemerkungenSchulzweig.length > 0" layout-padding>
+						<span class="fs-title display-block mt++">Bemerkungen zum Schulzweig</span>
+
+						<div class="divider divider--dark mb+"></div>
+						<div class="list-row">{{ school.BemerkungenSchulzweig }}</div>
 					</div>
 
 				</div>
-				<div flex-item flex-container="row">
-					<div flex-item>
-
-						<div class="m+" ng-if="school.Leistungskurse.length > 0">
-							<span class="fs-title display-block mb">Leistungskurse</span>
-
-							<div class="divider divider--dark"></div>
-
-							<ul class="list" ng-repeat="course in school.Leistungskurse">
-								<li class="list-row list-row--has-separator">
-									<span>{{ course }}</span>
-								</li>
-							</ul>
-
-						</div>
-
-						<div class="m+" ng-if="school.Fremdsprachen.length > 0">
-							<span class="fs-title display-block mb">Fremdsprachen</span>
-
-							<div class="divider divider--dark"></div>
-
-							<ul class="list" ng-repeat="lang in school.Fremdsprachen">
-								<li class="list-row list-row--has-separator">
-									<span>{{ lang }}</span>
-								</li>
-							</ul>
-
-						</div>
-
-						<div class="m+" ng-if="school.spez_Angebote.length > 0">
-							<span class="fs-title display-block mb">Spezielle Angebote</span>
-
-							<div class="divider divider--dark"></div>
-
-							<div class="list-row">{{ school.spez_Angebote }}</div>
-
-						</div>
-
-						<div class="m+" ng-if="school.BemerkungenSchulzweig.length > 0">
-							<span class="fs-title display-block mb">Bemerkungen zum Schulzweig</span>
-
-							<div class="divider divider--dark"></div>
-
-							<div class="list-row">{{ school.BemerkungenSchulzweig }}</div>
-
-						</div>
-
-					</div>
-				</div>
-
+				<!-- end of second column-->
 			</div>
+			<!-- end of row container -->
+
 			<div class="card__actions center">
 				<a class="btn btn--m btn--black btn--flat" lx-ripple
-				href="mailto:{{ school.eMail }}" ng-if="school.eMail.length > 0">E-Mail an Schule</a>
+				   href="mailto:{{ school.eMail }}" ng-if="school.eMail.length > 0">E-Mail an Schule</a>
 				<a class="btn btn--m btn--orange btn--flat" lx-ripple
-				href="{{ school.Internet }}" target="_blank" ng-if="school.Internet.length > 0">Webseite</a>
+				   href="{{ school.Internet }}" target="_blank" ng-if="school.Internet.length > 0">Webseite</a>
 			</div>
 		</div>
 	</div>
+	<div hide-sm flex-md="10" flex-gt-md="15"></div>
 </div>
 
 <div id="feedback"></div>
 
-<div layout="row" layout-align="center center" flex-gutter="24">
+<div layout="row" layout-align="center center" layout-padding>
 	<div class="card mt+ mb++ p++" ng-if="err">
 		<div class="center mb+ fs-display-4 ">
 			<i class="mdi mdi-emoticon-sad"></i>

@@ -4,6 +4,8 @@ var http = require('http');
 
 var httpRequests = 0;
 var schools = [];
+var INPUT_FILE = "Schuldaten2015.csv";
+var OUTPUT_FILE = 'data.json';
 
 var indexOf = function (schoolarray, bsn) {
 	for (var a = 0; a < schoolarray.length; a++) {
@@ -61,7 +63,7 @@ var searchAddress = function(school)
 var writeToJSONFile = function(schools){
 	console.log("Writing to file");
 	var jsonSchools = JSON.stringify(schools);
-	fs.writeFile('data.json', jsonSchools, 'utf8');
+	fs.writeFile(OUTPUT_FILE, jsonSchools, 'utf8');
 };
 
 var searchAddresses = function(counter)
@@ -84,7 +86,7 @@ var searchAddresses = function(counter)
 	}
 };
 
-fs.readFile("Schuldaten2015-02.csv", 'utf-8', function(err, data){
+fs.readFile(INPUT_FILE, 'utf-8', function(err, data){
 	if(err)
 	{
 		console.log("Error reading the specified File");
