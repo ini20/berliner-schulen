@@ -8,10 +8,15 @@
  * Controller of the schooldataApp
  */
 angular.module('berlinerSchulenApp')
-	.controller('AboutCtrl', ['$scope', function ($scope) {
-		$scope.awesomeThings = [
-			'HTML5 Boilerplate',
-			'AngularJS',
-			'Karma'
-		];
+	.controller('AboutCtrl', [
+		'$scope', 'LxDialogService', 'LxNotificationService',
+		function ($scope, LxDialogService, LxNotificationService) {
+
+		$scope.opendDialog = function(dialogId) {
+			LxDialogService.open(dialogId);
+		};
+
+		$scope.closingDialog = function() {
+			LxNotificationService.info('Dialog closed!');
+		};
 	}]);

@@ -1,17 +1,23 @@
-<!doctype html><!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]--><!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]--><!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]--><!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]--> <head> <meta charset="utf-8"> <title>Berliner Schulen</title> <meta name="description" content=""> <meta name="viewport" content="width=device-width"> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel="stylesheet" href="styles/vendor.css"> <link rel="stylesheet" href="styles/main.css">  <body ng-app="berlinerSchulenApp" layout="column" layout-algin="space-around center" autoscroll="true"> <!--[if lt IE 7]>
-		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]--> <!-- Add your site or application content here --> <md-toolbar> <div class="md-toolbar-tools"> <span class="ml++"><a href="#/"><i class="mdi mdi-school"></i> Berliner Schulen</a></span> <!-- fill up the space between left and right area --> <span flex></span> <md-button ui-sref="index" class="mr+"> <i class="mdi mdi-home"></i> Home </md-button> <!-- <md-button ui-sref="statistics" class="mr+">
-					<i class="mdi mdi-chart-bar"></i> Statistiken
-				</md-button> --> <md-button href="https://github.com/ini20/berliner-schulen/" class="mr+"> <i class="mdi mdi-github-circle"></i> GitHub </md-button> </div> </md-toolbar> <div ui-view="view1" autoscroll="false"></div> <div ui-view="view2" autoscroll="false"></div> <div ui-view="view3" autoscroll="false"></div> <md-toolbar class="bgc-blue-grey-400"> <div class="md-toolbar-tools fs-subhead" layout="row" layout-align="center center"> <div class="pl+ pr+"> &copy; 2013-2015 <a href="http://ini20.de" title="Initiative 2.0">Initiative 2.0</a> </div> <div class="pl+ pr+"> Daten Stand: 2015-02-21 </div> <div class="pl+ pr+"> <md-button href="http://www.berlin.de/sen/bildung/schulverzeichnis_und_portraets/anwendung/" title="Berliner Schulen | Berlin.de"><i class="mdi mdi-link"></i> Suchformular auf Berlin.de</md-button> </div> <div class="pl+ pr+"> <md-button ui-sref="imprint">Impressum</md-button> </div> </div> </md-toolbar> <!--[if lt IE 9]>
-	<script src="bower_components/es5-shim/es5-shim.js"></script>
-	<script src="bower_components/json3/lib/json3.min.js"></script>
-	<![endif]--> <script src="scripts/vendor.js"></script> <script src="scripts/scripts.js"></script> <!-- Piwik --> <script type="text/javascript">var _paq = _paq || [];
-		_paq.push(['trackPageView']);
-		_paq.push(['enableLinkTracking']);
-		(function() {
-			var u="//ini20.de/foucault/piwik/";
-			_paq.push(['setTrackerUrl', u+'piwik.php']);
-			_paq.push(['setSiteId', 6]);
-			var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-			g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-		})();</script> <noscript><p><img src="//ini20.de/foucault/piwik/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript> <!-- End Piwik Code -->  
+<!doctype html><!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]--><!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]--><!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]--><!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]--> <head> <meta charset="utf-8"> <title>Berliner Schulen</title> <meta name="description" content=""> <meta name="viewport" content="width=device-width"> <!-- Place favicon.ico and apple-touch-icon.png in the root directory --> <link rel="stylesheet" href="styles/vendor.css"> <link rel="stylesheet" href="styles/main.css">  <body ng-app="berlinerSchulenApp" layout="column" layout-algin="space-around center" autoscroll="true"> <!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+	your browser</a> to improve your experience.</p>
+<![endif]--> <!-- Add your site or application content here --> <md-toolbar> <div class="md-toolbar-tools"> <span class="ml++" hide-sm hide-gt-md></span><span><a href="#/"><i class="mdi mdi-school"></i><label class="ml">Berliner Schulen</label></a></span> <!-- fill up the space between left and right area --> <span flex></span> <div hide-sm hide-md layout="row"> <md-button ui-sref="index" class="mr+"> <i class="mdi mdi-home"></i> Home </md-button> <md-button href="https://github.com/ini20/berliner-schulen/" class="mr+"> <i class="mdi mdi-github-circle"></i> GitHub </md-button> <md-button ng-controller="AboutCtrl" ng-click="opendDialog('about')" class="mr+"> <i class="mdi mdi-information-outline"></i> &Uuml;ber Uns </md-button> </div> <div hide-gt-md layout="row" layout-align="center center"> <lx-dropdown position="right" from-top> <button class="btn btn--l btn--white btn--icon" lx-ripple lx-dropdown-toggle> <i class="mdi mdi-menu"></i> </button> <lx-dropdown-menu layout-padding> <ul> <li> <a class="dropdown-link mb" ui-sref="index"> <i class="mdi mdi-home"></i> Home </a> </li> <li class="dropdown-divider"></li> <li> <a class="dropdown-link mt" href="https://github.com/ini20/berliner-schulen/"> <i class="mdi mdi-github-circle"></i> GitHub </a> </li> <li class="dropdown-divider"></li> <li ng-controller="AboutCtrl"> <a class="dropdown-link mt" ng-click="opendDialog('about')"> <i class="mdi mdi-information-outline"></i> &Uuml;ber Uns </a> </li> </ul> </lx-dropdown-menu> </lx-dropdown> <span class="mr" hide-sm></span> </div> </div> <!-- Load Dialog Box from Template --> <ng-include src="'about/about-dialog.html'"></ng-include> </md-toolbar> <div ui-view="view1" autoscroll="false"></div> <div ui-view="view2" autoscroll="false"></div> <div class="fs-subhead bgc-blue-grey-400"> <div layout="column" layout-gt-md="row" layout-align="center center" class="tc-white-1"> <div class="m++" layout="row" layout-align="center center"> &copy; 2013-2015 <md-button href="http://ini20.de" title="Initiative 2.0" class="ml tc-white-1"> Initiative 2.0</md-button> </div> <div class="m++" layout="row" layout-align="center center"> Daten Stand: 2015-02-21 </div> <div class="m++" layout="row" layout-align="center center"> <md-button href="http://www.berlin.de/sen/bildung/schulverzeichnis_und_portraets/anwendung/" title="Berliner Schulen | Berlin.de"><i class="mdi mdi-link"></i>Suchformular auf Berlin.de </md-button> </div> <div class="m++" layout="row" layout-align="center center"> <md-button ui-sref="imprint">Impressum</md-button> </div> </div> </div> <!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.min.js"></script>
+<![endif]--> <script src="scripts/vendor.js"></script> <script src="scripts/scripts.js"></script> <!-- Piwik --> <script type="text/javascript">var _paq = _paq || [];
+	_paq.push(['trackPageView']);
+	_paq.push(['enableLinkTracking']);
+	(function () {
+		var u = "//ini20.de/foucault/piwik/";
+		_paq.push(['setTrackerUrl', u + 'piwik.php']);
+		_paq.push(['setSiteId', 6]);
+		var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+		g.type = 'text/javascript';
+		g.async = true;
+		g.defer = true;
+		g.src = u + 'piwik.js';
+		s.parentNode.insertBefore(g, s);
+	})();</script> <noscript><p><img src="//ini20.de/foucault/piwik/piwik.php?idsite=6" style="border:0;" alt=""/></p></noscript> <!-- End Piwik Code -->  
