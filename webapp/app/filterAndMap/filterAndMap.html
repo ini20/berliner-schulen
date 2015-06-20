@@ -138,8 +138,9 @@
 	</div>
 	<div flex-gt-md="66" flex-gt-lg="75" ng-controller="MapCtrl"
 		 ng-style="{'min-height': getMinMapHeight() + 'px'}" style="position: relative;">
-		<leaflet center="berlin" layers="layers" defaults="defaults" markers="data.markers" watch-markers="false"
-				 event-broadcast="events"
-				 height="100%" width="100%" style="position: absolute"></leaflet>
+		<leaflet center="berlin" layers="layers" defaults="defaults"
+				markers="data.markers" watch-markers="true"
+				event-broadcast="events"
+				height="100%" width="100%" style="position: absolute"></leaflet>
 	</div>
 </div>

@@ -74,7 +74,7 @@ angular.module('berlinerSchulenApp')
 					for (var s in set) {
 						list.push({name: set[s]});
 					}
-					$scope.cbDistricts.districts = orderBy(list, 'name', false);					
+					$scope.cbDistricts.districts = orderBy(list, 'name', false);
 					$scope.cbDistricts.loading = false;
 				},
 
