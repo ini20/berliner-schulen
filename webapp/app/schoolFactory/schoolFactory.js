@@ -61,7 +61,7 @@ angular.module('berlinerSchulenApp')
 					switch (field) {
 						case 'main':
 							if( schools.isFirstRun() ) {
-								filter.main = 'tech';
+								filter.main = '';
 								schools.setFirstRun( false );
 							} else {
 								filter.main = filterProp.main.toLowerCase();
